@@ -3,6 +3,8 @@ import { shuffle as deckShuffle } from "lodash";
 export class Queue<T> {
     private data: T[] = [];
 
+    constructor() {}
+
     public log() {
         console.log(this.data)
     }

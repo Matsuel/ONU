@@ -1,5 +1,4 @@
 import Cards from "./interface/cards";
-import isCardPlayable from "./isCardPlayable";
 import { LinkedList } from "./structs/linkedArray";
 import { Queue } from "./structs/queue";
 
@@ -17,6 +16,17 @@ function playCard(player: LinkedList<Cards>, pit: Queue<Cards>, index: number) {
 function drawCard(player: LinkedList<Cards>, deck: Queue<Cards>) {
     const card = deck.dequeue();
     player.append(card);
+    console.log(`${player.getName()} drew ${card.color} ${card.number} ${card.special}`)
 }
 
-export { playCard, drawCard }
+function isCardPlayable(card1: Cards, card2: Cards): boolean {
+    const isSameColor = card1.color === card2.color;
+    const isJoker = card1.special === 'joker';
+    const isDrawFour = card1.special === 'drawFour';
+    const isSameNumber = card1.number !== undefined && card1.number === card2.number;
+    const isSameSpecial = card1.special !== undefined && card1.special === card2.special;
+
+    return isSameColor || isJoker || isDrawFour || isSameNumber || isSameSpecial;
+}
+
+export { playCard, drawCard, isCardPlayable }
