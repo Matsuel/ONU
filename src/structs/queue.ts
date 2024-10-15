@@ -24,7 +24,19 @@ export class Queue<T> {
     }
 
     public peek(): T {
-        return this.data[0];
+        if (!this.isEmpty()) {
+            return this.data[0];
+        } else {
+            throw new Error(`${this.constructor.name} is empty.`);
+        }
+    }
+
+    public peekLast(): T {
+        if (!this.isEmpty()) {
+            return this.data[this.getSize() - 1];
+        } else {
+            throw new Error(`${this.constructor.name} is empty.`);
+        }
     }
 
     public fillDeck(): void {

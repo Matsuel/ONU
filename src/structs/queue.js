@@ -22,7 +22,20 @@ var Queue = /** @class */ (function () {
         return this.data.length;
     };
     Queue.prototype.peek = function () {
-        return this.data[0];
+        if (!this.isEmpty()) {
+            return this.data[0];
+        }
+        else {
+            throw new Error("".concat(this.constructor.name, " is empty."));
+        }
+    };
+    Queue.prototype.peekLast = function () {
+        if (!this.isEmpty()) {
+            return this.data[this.getSize() - 1];
+        }
+        else {
+            throw new Error("".concat(this.constructor.name, " is empty."));
+        }
     };
     Queue.prototype.fillDeck = function () {
         var colors = ['red', 'green', 'blue', 'yellow'];

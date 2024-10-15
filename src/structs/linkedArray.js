@@ -12,11 +12,15 @@ var LinkedNode = /** @class */ (function () {
     return LinkedNode;
 }());
 var LinkedList = /** @class */ (function () {
-    function LinkedList(headElement) {
+    function LinkedList(name) {
         this.head = null;
         this.len = 0;
-        this.head = headElement || null;
+        this.name = name;
+        this.head = null;
     }
+    LinkedList.prototype.getName = function () {
+        return this.name;
+    };
     LinkedList.prototype.append = function (elem) {
         var node = new LinkedNode(elem);
         var current;
@@ -48,15 +52,23 @@ var LinkedList = /** @class */ (function () {
                 previous.next = current.next;
             }
         }
+        if (current === null) {
+            throw new Error("".concat(this.constructor.name, " can't remove node at ").concat(index, ", doesn't exist."));
+        }
         this.len--;
         return current.getElement();
     };
     LinkedList.prototype.getHead = function () {
-        return this.head;
+        if (this.head !== null) {
+            return this.head;
+        }
+        else {
+            throw new Error("".concat(this.constructor.name, " has no head."));
+        }
     };
     LinkedList.prototype.getNode = function (index) {
         this.boundsCheck(index);
-        var current = this.head;
+        var current = this.getHead();
         for (var i = 0; i < index; i++) {
             current = current.next;
         }
@@ -64,8 +76,7 @@ var LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.boundsCheck = function (index) {
         if (index < 0 || index >= this.len || this.head === null) {
-            console.error("tried to get node; out of bounds.");
-            return null;
+            throw new Error("".concat(this.constructor.name, " out of bounds."));
         }
     };
     LinkedList.prototype.traverse = function () {
@@ -83,10 +94,7 @@ var LinkedList = /** @class */ (function () {
         return this.len;
     };
     LinkedList.prototype.checkWin = function () {
-        if (this.len === 0) {
-            return true;
-        }
-        return false;
+        return this.getSize() === 0;
     };
     return LinkedList;
 }());

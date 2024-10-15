@@ -15,9 +15,15 @@ class LinkedNode<T> {
 export class LinkedList<T> {
     private head: LinkedNode<T> | null = null;
     private len: number = 0;
+    private name: string;
 
-    constructor(headElement?: LinkedNode<T>) {
-        this.head = headElement || null;
+    constructor(name: string) {
+        this.name = name;
+        this.head = null;
+    }
+
+    public getName(): string {
+        return this.name;
     }
 
     public append(elem: T): void {
@@ -36,7 +42,7 @@ export class LinkedList<T> {
         this.len++;
     }
 
-    public removeNode(index: number): T | null {
+    public removeNode(index: number): T {
         this.boundsCheck(index);
 
         let current = this.head;
@@ -55,18 +61,26 @@ export class LinkedList<T> {
             }
         }
 
+        if (current === null) {
+            throw new Error(`${this.constructor.name} can't remove node at ${index}, doesn't exist.`)
+        }
+
         this.len--;
-        return current!.getElement();
+        return current.getElement();
     }
 
-    public getHead(): LinkedNode<T> | null {
-        return this.head;
+    public getHead(): LinkedNode<T> {
+        if (this.head !== null) {
+            return this.head;
+        } else {
+            throw new Error(`${this.constructor.name} has no head.`)
+        }
     }
 
-    public getNode(index: number): LinkedNode<T> | null {
+    public getNode(index: number): LinkedNode<T> {
         this.boundsCheck(index);
 
-        let current = this.head;
+        let current = this.getHead();
         for (let i = 0; i < index; i++) {
             current = current!.next as LinkedNode<T>;
         }
@@ -74,10 +88,9 @@ export class LinkedList<T> {
         return current;
     }
 
-    public boundsCheck(index: number) {
+    public boundsCheck(index: number): void {
         if (index < 0 || index >= this.len || this.head === null) {
-            console.error("tried to get node; out of bounds.");
-            return null;
+            throw new Error(`${this.constructor.name} out of bounds.`)
         }
     }
 
@@ -99,10 +112,6 @@ export class LinkedList<T> {
     }
 
     public checkWin() {
-        if (this.len === 0) {
-            return true;
-        } 
-
-        return false;
+        return this.getSize() === 0;
     }
 }
