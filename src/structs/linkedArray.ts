@@ -30,10 +30,10 @@ export class LinkedList<T> {
         const node = new LinkedNode(elem);
         let current: LinkedNode<T>;
 
-        if (this.getHead() === null) {
+        if (this.head === null) {
             this.head = node;
         } else {
-            current = this.getHead();
+            current = this.head;
             while (current.next) {
                 current = current.next;
             }
@@ -44,7 +44,7 @@ export class LinkedList<T> {
 
     public removeNode(index: number): T {
         this.boundsCheck(index);
-        let current = this.getHead()
+        let current = this.getHead();
         let previous: LinkedNode<T> | null = null;
 
         if (index === 0) {

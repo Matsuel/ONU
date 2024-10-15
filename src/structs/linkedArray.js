@@ -38,7 +38,7 @@ var LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.removeNode = function (index) {
         this.boundsCheck(index);
-        var current = this.head;
+        var current = this.getHead();
         var previous = null;
         if (index === 0) {
             this.head = current.next;
@@ -75,7 +75,7 @@ var LinkedList = /** @class */ (function () {
         return current;
     };
     LinkedList.prototype.boundsCheck = function (index) {
-        if (index < 0 || index >= this.len || this.head === null) {
+        if (index < 0 || index >= this.len || this.getHead() === null) {
             throw new Error("".concat(this.constructor.name, " out of bounds."));
         }
     };

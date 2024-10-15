@@ -1,5 +1,5 @@
 import Cards from "./interface/cards";
-import playCard from "./playCard";
+import { playCard, drawCard } from "./playCard";
 import { LinkedList } from "./structs/linkedArray";
 import { Queue } from "./structs/queue";
 
@@ -16,7 +16,13 @@ for (let i = 0; i < 7; i++) {
     player1.append(deck.dequeue());
 }
 
-console.log(player1.getNode(0));
-console.log(pit.peekLast());
-playCard(player1, pit, 0);
-console.log(pit.peekLast());
+// console.log(player1.getNode(0));
+// console.log(pit.peekLast());
+// playCard(player1, pit, 0);
+// console.log(pit.peekLast());
+
+console.log(player1.traverse());
+console.log(deck.getSize());
+drawCard(player1, deck);
+console.log(deck.getSize());
+console.log(player1.traverse());
