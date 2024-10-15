@@ -30,10 +30,10 @@ export class LinkedList<T> {
         const node = new LinkedNode(elem);
         let current: LinkedNode<T>;
 
-        if (this.head === null) {
+        if (this.getHead() === null) {
             this.head = node;
         } else {
-            current = this.head;
+            current = this.getHead();
             while (current.next) {
                 current = current.next;
             }
@@ -44,16 +44,15 @@ export class LinkedList<T> {
 
     public removeNode(index: number): T {
         this.boundsCheck(index);
-
-        let current = this.head;
+        let current = this.getHead()
         let previous: LinkedNode<T> | null = null;
 
         if (index === 0) {
-            this.head = current!.next;
+            this.head = current.next;
         } else {
             for (let i = 0; i < index; i++) {
                 previous = current;
-                current = current!.next as LinkedNode<T>;
+                current = current.next as LinkedNode<T>;
             }
 
             if (previous && current) {
@@ -82,14 +81,14 @@ export class LinkedList<T> {
 
         let current = this.getHead();
         for (let i = 0; i < index; i++) {
-            current = current!.next as LinkedNode<T>;
+            current = current.next as LinkedNode<T>;
         }
 
         return current;
     }
 
     public boundsCheck(index: number): void {
-        if (index < 0 || index >= this.len || this.head === null) {
+        if (index < 0 || index >= this.len || this.getHead() === null) {
             throw new Error(`${this.constructor.name} out of bounds.`)
         }
     }
@@ -111,7 +110,7 @@ export class LinkedList<T> {
         return this.len;
     }
 
-    public checkWin() {
+    public checkWin(): boolean {
         return this.getSize() === 0;
     }
 }
