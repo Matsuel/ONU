@@ -7,7 +7,7 @@ import { Stack } from "../structs/stack";
 describe('Actions', () => {
     const deck = new LinkedList<Cards>();
     const pit = new Stack<Cards>();
-    const player: Player[] = [];
+    const player: Player = { name: 'Alexandre', cards: [] };
 
     test('drawCard: should return an error if deck is empty', () => {
         expect(() => drawCard(player, deck)).toThrow('Cant draw a card from an empty deck.');
@@ -19,7 +19,7 @@ describe('Actions', () => {
         deck.append(card)
 
         expect(drawCard(player, deck)).toBe(true);
-        expect(player[0]).toBe(card);
+        expect(player.cards[0]).toBe(card);
         expect(deck.getSize()).toBe(0);
     });
 
@@ -62,17 +62,17 @@ describe('Actions', () => {
         let card3: Cards = { number: 5, color: 'red'};
 
         pit.push(card1);
-        player.push(card2);
+        player.cards.push(card2);
 
         expect(playCard(player, pit, 0)).toBe(true);
 
-        expect(player.length).toBe(0);
+        expect(player.cards.length).toBe(0);
         expect(pit.getSize()).toBe(2);
         expect(pit.peek()).toEqual(card2)
 
         expect(() => playCard(player, pit, 0)).toThrow('Invalid card index');
 
-        player.push(card3);
+        player.cards.push(card3);
 
         expect(playCard(player, pit, 0)).toBe(false);
     });
