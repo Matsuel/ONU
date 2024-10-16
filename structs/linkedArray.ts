@@ -1,3 +1,5 @@
+import { shuffle as deckShuffle } from "lodash";
+
 class LinkedNode<T> {
     private elem: T;
     public next: LinkedNode<T> | null;
@@ -15,15 +17,10 @@ class LinkedNode<T> {
 export class LinkedList<T> {
     private head: LinkedNode<T> | null = null;
     private len: number = 0;
-    private name: string;
 
-    constructor(name: string) {
-        this.name = name;
+    constructor() {
         this.head = null;
-    }
-
-    public getName(): string {
-        return this.name;
+        this.fillDeck();
     }
 
     public append(elem: T): void {
@@ -42,75 +39,81 @@ export class LinkedList<T> {
         this.len++;
     }
 
-    public removeNode(index: number): T {
-        this.boundsCheck(index);
-        let current = this.getHead();
-        let previous: LinkedNode<T> | null = null;
-
-        if (index === 0) {
-            this.head = current.next;
-        } else {
-            for (let i = 0; i < index; i++) {
-                previous = current;
-                current = current.next as LinkedNode<T>;
-            }
-
-            if (previous && current) {
-                previous.next = current.next;
-            }
-        }
-
-        if (current === null) {
-            throw new Error(`${this.constructor.name} can't remove node at ${index}, doesn't exist.`)
-        }
-
-        this.len--;
-        return current.getElement();
-    }
-
-    public getHead(): LinkedNode<T> {
+    public getHead(): T {
         if (this.head !== null) {
-            return this.head;
+            return this.head.getElement();
         } else {
-            throw new Error(`${this.constructor.name} has no head.`)
-        }
-    }
-
-    public getNode(index: number): LinkedNode<T> {
-        this.boundsCheck(index);
-
-        let current = this.getHead();
-        for (let i = 0; i < index; i++) {
-            current = current.next as LinkedNode<T>;
-        }
-
-        return current;
-    }
-
-    public boundsCheck(index: number): void {
-        if (index < 0 || index >= this.len || this.getHead() === null) {
-            throw new Error(`${this.constructor.name} out of bounds.`)
+            throw new Error(`${this.constructor.name} has no head.`);
         }
     }
 
     public traverse(): T[] {
         const array: T[] = [];
         if (!this.head) {
-          return array;
+            return array;
         }
-    
+
         const addToArray = (node: LinkedNode<T>): T[] => {
-          array.push(node.getElement());
-          return node.next ? addToArray(node.next) : array;
+            array.push(node.getElement());
+            return node.next ? addToArray(node.next) : array;
         };
         return addToArray(this.head);
-      }
+    }
 
     public getSize(): number {
         return this.len;
     }
 
-    public checkWin(): boolean {
+    public isEmpty(): boolean {
         return this.getSize() === 0;
+    }
+
+    public removeHead(): T {
+        if (this.isEmpty() || this.head === null) {
+            throw new Error(`LinkedList is empty.`);
+        }
+
+        const removedHead = this.head;
+        this.head = this.head.next;
+        this.len--;
+        return removedHead.getElement();
+    }
+
+
+    public fillDeck(): void {
+        const colors = ['red', 'green', 'blue', 'yellow'];
+        const coloredSpecialCards = ['drawTwo', 'skipTurn', 'reverse'];
+        const specialCards = ['drawFour', 'joker'];
+
+        let newDeck = [];
+
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < colors.length; j++) {
+                newDeck.push({ color: colors[j], number: i } as T);
+
+                if (i !== 0) {
+                    newDeck.push({ color: colors[j], number: i } as T);
+                }
+            }
+        }
+
+        for (let i = 0; i < coloredSpecialCards.length; i++) {
+            for (let j = 0; j < colors.length; j++) {
+                newDeck.push({ color: colors[j], special: coloredSpecialCards[i] } as T);
+                newDeck.push({ color: colors[j], special: coloredSpecialCards[i] } as T);
+            }
+        }
+
+        for (let i = 0; i < specialCards.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                newDeck.push({ special: specialCards[i] } as T);
+            }
+        }
+
+        newDeck = deckShuffle(newDeck);
+
+        newDeck.forEach(element => {
+            this.append(element);
+        });
     }
 }

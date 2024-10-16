@@ -1,28 +1,15 @@
-import { playCard, drawCard } from "./cardsFunction";
 import Cards from "./interface/cards";
 import { LinkedList } from "./structs/linkedArray";
-import { Queue } from "./structs/queue";
+import { Stack } from "./structs/stack";
 
-const deck = new Queue<Cards>();
-deck.fillDeck();
-deck.shuffle();
+const deck = new LinkedList<Cards>();
 
-const pit = new Queue<Cards>();
-pit.enqueue(deck.dequeue());
+const pit = new Stack<Cards>(deck);
 
-const player1 = new LinkedList<Cards>('player1');
+const player1: Cards[] = [];
 
 for (let i = 0; i < 7; i++) {
-    player1.append(deck.dequeue());
+    player1.push(deck.removeHead());
 }
 
-console.log(player1.getNode(0));
-console.log(pit.peekLast());
-playCard(player1, pit, 0);
-console.log(pit.peekLast());
-
-console.log(player1.traverse());
-console.log(deck.getSize());
-drawCard(player1, deck);
-console.log(deck.getSize());
-console.log(player1.traverse());
+console.log(pit.peek());
