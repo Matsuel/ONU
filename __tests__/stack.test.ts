@@ -1,4 +1,3 @@
-import exp from "constants";
 import { Stack } from "../structs/stack";
 
 describe('Stack', () => {

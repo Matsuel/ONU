@@ -17,7 +17,6 @@ var LinkedList = /** @class */ (function () {
         this.head = null;
         this.len = 0;
         this.head = null;
-        this.fillDeck();
     }
     LinkedList.prototype.append = function (elem) {
         var node = new LinkedNode(elem);

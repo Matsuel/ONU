@@ -2,10 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Stack = void 0;
 var Stack = /** @class */ (function () {
-    function Stack(deck) {
+    function Stack() {
         this.stack = [];
         this.len = 0;
-        this.push(deck.removeHead());
     }
     Stack.prototype.push = function (elem) {
         this.stack.push(elem);

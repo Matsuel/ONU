@@ -1,21 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.playCard = playCard;
 exports.drawCard = drawCard;
 exports.isCardPlayable = isCardPlayable;
+exports.playCard = playCard;
+exports.isWinner = isWinner;
 function playCard(player, pit, index) {
-    var card = player.getNode(index).getElement();
-    var pitCard = pit.peekLast();
-    if (isCardPlayable(card, pitCard)) {
-        player.removeNode(index);
-        pit.enqueue(card);
-        console.log("".concat(player.getName(), " played ").concat(card.color, " ").concat(card.number, " ").concat(card.special));
+    if (index < 0 || index >= player.cards.length) {
+        throw new Error('Invalid card index.');
     }
+    if (!isCardPlayable(pit.peek(), player.cards[index])) {
+        return false;
+    }
+    pit.push(player.cards[index]);
+    player.cards.splice(index);
+    return true;
 }
 function drawCard(player, deck) {
-    var card = deck.dequeue();
-    player.append(card);
-    console.log("".concat(player.getName(), " drew ").concat(card.color, " ").concat(card.number, " ").concat(card.special));
+    if (deck.isEmpty()) {
+        throw new Error('Cant draw a card from an empty deck.');
+    }
+    else {
+        player.cards.push(deck.removeHead());
+        return true;
+    }
 }
 function isCardPlayable(card1, card2) {
     var isSameColor = card1.color === card2.color;
@@ -24,4 +31,7 @@ function isCardPlayable(card1, card2) {
     var isSameNumber = card1.number !== undefined && card1.number === card2.number;
     var isSameSpecial = card1.special !== undefined && card1.special === card2.special;
     return isSameColor || isJoker || isDrawFour || isSameNumber || isSameSpecial;
+}
+function isWinner(player) {
+    return player.cards.length === 0;
 }

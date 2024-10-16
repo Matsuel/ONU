@@ -1,12 +1,6 @@
-import { LinkedList } from "./linkedArray";
-
 export class Stack<T> {
     private stack: T[] = [];
     private len: number = 0;
-
-    constructor(deck: LinkedList<T>) {
-        this.push(deck.removeHead());
-    }
 
     public push(elem: T): void {
         this.stack.push(elem);

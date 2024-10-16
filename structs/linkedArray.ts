@@ -20,7 +20,6 @@ export class LinkedList<T> {
 
     constructor() {
         this.head = null;
-        this.fillDeck();
     }
 
     public append(elem: T): void {
