@@ -4,7 +4,7 @@ describe('Stack', () => {
     let stack: Stack<number>;
 
     beforeEach(() => {
-        stack = new Stack<number>();
+        stack = new Stack<number>([]);
     });
 
     test('should push elements to the stack', () => {
