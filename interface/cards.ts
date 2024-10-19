@@ -1,5 +1,5 @@
 export default interface Cards {
-    color?: 'red' | 'green' | 'blue' | 'yellow',
+    color?: 'r' | 'g' | 'b' | 'y',
     number?: number,
-    special?: 'drawTwo' | 'skipTurn' | 'reverse' | 'drawFour' | 'joker',
+    special?: 'plus2' | 'skip' | 'rev' | 'plus4' | 'changecolor',
 }

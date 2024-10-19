@@ -69,9 +69,9 @@ var LinkedList = /** @class */ (function () {
     };
     LinkedList.prototype.fillDeck = function () {
         var _this = this;
-        var colors = ['red', 'green', 'blue', 'yellow'];
-        var coloredSpecialCards = ['drawTwo', 'skipTurn', 'reverse'];
-        var specialCards = ['drawFour', 'joker'];
+        var colors = ['r', 'g', 'b', 'y'];
+        var coloredSpecialCards = ['plus2', 'skip', 'rev'];
+        var specialCards = ['plus4', 'changecolor'];
         var newDeck = [];
         for (var i = 0; i < 10; i++) {
             for (var j = 0; j < colors.length; j++) {

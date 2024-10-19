@@ -1,12 +1,16 @@
+import "@/styles/globals.css";
+
 import { LinkedList } from "../../structs/linkedArray";
 import { Stack } from "../../structs/stack";
 import Cards from "../../interface/cards";
 import Player from "../../interface/player";
 import { useEffect, useState } from "react";
+import CardDisplay from "./components/card-display/CardDisplay";
 
 export default function App() {
     const [player1, setPlayer1] = useState<Player | null>(null);
     const [player2, setPlayer2] = useState<Player | null>(null);
+    const [players, setPlayers] = useState<Player[]>([]);
 
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
     const [pit, setPit] = useState<Stack<Cards> | null>(null);
@@ -20,7 +24,7 @@ export default function App() {
         newPit.push(firstCard);
 
         const p1: Player = { name: 'Alexandre', cards: [{}] };
-        const p2: Player = { name: 'Alexandre', cards: [{}] };
+        const p2: Player = { name: 'Matsuel', cards: [{}] };
 
         for (let i = 0; i < 7; i++) {
             p1.cards.push(newDeck.removeHead());
@@ -29,26 +33,34 @@ export default function App() {
 
         setPit(newPit);
         setDeck(newDeck);
+
         setPlayer1(p1);
         setPlayer2(p2);
+
+        setPlayers([...players, p1, p2])
     }, []);
 
     return (
-        <pre>
-            {JSON.stringify(player1, null, 4)}
-            <br />
-            <br />
-            <br />
-            {JSON.stringify(player2, null, 4)}
-            <br />
-            <br />
-            <br />
-            Deck size: {deck?.getSize() || 0}
-            <br />
-            <br />
-            <br />
-            Pit size: {pit?.getSize() || 0}
-        </pre>
+        <div className="flex">
+            {players.map((player) => (
+                <div>
+                    <p>{player.name}</p>
+                    {player.cards.map((card) => (
+                        <CardDisplay
+                            card={card}
+                        />
+                    ))}
+                </div>
+            ))}
+
+            <div className="flex flex-col">
+                <CardDisplay
+                    card={pit?.peek()}
+                />
+
+                Deck size: {deck?.getSize() || 0}
+            </div>
+        </div>
     );
 }
 

@@ -80,9 +80,9 @@ export class LinkedList<T> {
 
 
     public fillDeck(): void {
-        const colors = ['red', 'green', 'blue', 'yellow'];
-        const coloredSpecialCards = ['drawTwo', 'skipTurn', 'reverse'];
-        const specialCards = ['drawFour', 'joker'];
+        const colors = ['r', 'g', 'b', 'y'];
+        const coloredSpecialCards = ['plus2', 'skip', 'rev'];
+        const specialCards = ['plus4', 'changecolor'];
 
         let newDeck = [];
 
