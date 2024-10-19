@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Stack = void 0;
 var Stack = /** @class */ (function () {
-    function Stack() {
+    function Stack(arr) {
         this.stack = [];
         this.len = 0;
+        this.stack = arr;
+        this.len = arr.length;
     }
     Stack.prototype.push = function (elem) {
         this.stack.push(elem);
@@ -32,6 +34,9 @@ var Stack = /** @class */ (function () {
         else {
             return this.stack[this.getSize() - 1];
         }
+    };
+    Stack.prototype.getItems = function () {
+        return this.stack;
     };
     return Stack;
 }());

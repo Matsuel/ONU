@@ -2,18 +2,13 @@ import Cards from "../../../../interface/cards"
 import Player from "../../../../interface/player";
 
 interface CardDisplayProps {
-    card: Cards | undefined,
+    card: Cards,
 }
 
 const CardDisplay = ({ card }: CardDisplayProps) => {
-    const playCard = () => {
-        console.log(`card played ${JSON.stringify(card)}`);
-    }
-
     return (
-        <button 
+        <div 
             className="opacity-40 hover:opacity-100 transition-all"
-            onClick={playCard}
         >
             {card && card.special ? (
                 <div>
@@ -42,7 +37,7 @@ const CardDisplay = ({ card }: CardDisplayProps) => {
                     )}
                 </div>
             )}
-        </button>
+        </div>
     )
 }
 

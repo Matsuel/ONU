@@ -2,6 +2,11 @@ export class Stack<T> {
     private stack: T[] = [];
     private len: number = 0;
 
+    constructor(arr: T[]) {
+        this.stack = arr;
+        this.len = arr.length;
+    }
+
     public push(elem: T): void {
         this.stack.push(elem);
         this.len++;
@@ -30,5 +35,9 @@ export class Stack<T> {
         } else {
             return this.stack[this.getSize() - 1];
         }
+    }
+
+    public getItems(): T[] {
+        return this.stack;
     }
 }
