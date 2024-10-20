@@ -7,9 +7,7 @@ interface CardDisplayProps {
 
 const CardDisplay = ({ card }: CardDisplayProps) => {
     return (
-        <div 
-            className="opacity-40 hover:opacity-100 transition-all"
-        >
+        <div>
             {card && card.special ? (
                 <div>
                     {card.color ? (

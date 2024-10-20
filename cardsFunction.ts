@@ -1,16 +1,14 @@
 import Cards from "./interface/cards";
 import Player from "./interface/player";
-import { LinkedList } from "./structs/linkedArray";
 
-function drawCard(player: Player, deck: LinkedList<Cards>): boolean {
-    if (deck.isEmpty()) {
-        return false;
-    } else {
-        player.cards.push(deck.removeHead());
-        return true;
-    }
-}
-
+/**
+ * Checks if card1 is playable on card2
+ *
+ * @param card1 - The played card from a player
+ * @param card2 - The pit's card
+ *
+ * @returns True if card is playable otherwise False
+ **/
 function isCardPlayable(card1: Cards, card2: Cards): boolean {
     const isJoker = card1.special === 'changecolor' || card1.special === 'plus4';
     
@@ -21,8 +19,13 @@ function isCardPlayable(card1: Cards, card2: Cards): boolean {
     return isJoker || isSameColor || isSameNumber || isSameSpecial;
 }
 
+/**
+ * Checks if player has won
+ *
+ * @returns True if player has won otherwise False
+ **/
 function isWinner(player: Player): boolean {
     return player.cards.length === 0;
 }
 
-export { drawCard, isCardPlayable, isWinner }
+export { isCardPlayable, isWinner }

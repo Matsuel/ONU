@@ -9,6 +9,9 @@ class LinkedNode<T> {
         this.next = null;
     }
 
+    /** 
+     * @returns LinkedNode element
+     **/
     public getElement(): T {
         return this.elem;
     }
