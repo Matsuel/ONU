@@ -3,7 +3,7 @@ import { Stack } from "../../../../structs/stack"
 import CardDisplay from "../card-display/CardDisplay"
 
 interface PitProps {
-    pit: Stack<Cards> | null,
+    pit: Stack<Cards | null>,
 }
 
 const Pit = ({ pit }: PitProps) => {

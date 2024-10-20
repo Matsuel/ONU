@@ -1,6 +1,6 @@
 import Player from "../../../../interface/player";
 import CardDisplay from "../card-display/CardDisplay";
-import { playCard } from "../../../../cardsFunction";
+import { isCardPlayable, playCard } from "../../../../cardsFunction";
 import { Dispatch, SetStateAction } from "react";
 import Cards from "../../../../interface/cards";
 import { Stack } from "../../../../structs/stack";
@@ -23,12 +23,13 @@ const Players = ({ players, playerTurn, pit, setPit, setPlayerTurn, setPlayers }
             {players.map((player, index) => (
                 <div
                     key={index}
-                    className={`${players[playerTurn].uuid === player.uuid ? '' : 'opacity-40 cursor-default'}`}
+                    className={`${players[playerTurn].uuid === player.uuid ? '' : 'opacity-30 cursor-default'}`}
                 >
                     <p>{player.name}</p>
                     {player.cards.map((card, cardIndex) => (
                         <button
                             key={cardIndex}
+                            className={`${isCardPlayable(card, pit!.peek()) ? '' : 'opacity-30'}`}
                             onClick={() => {
                                 playCard(player, cardIndex, pit, setPit, players, playerTurn, setPlayerTurn, setPlayers);
                             }}

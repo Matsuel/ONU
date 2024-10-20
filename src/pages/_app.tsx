@@ -28,6 +28,7 @@ export default function App() {
 
         const newPit = new Stack<Cards>([]);
         const firstCard = newDeck.removeHead(); newPit.push(firstCard);
+
         const p1: Player = { name: 'Alexandre', cards: [], uuid: uuidv4() };
         const p2: Player = { name: 'Matsuel', cards: [], uuid: uuidv4() };
         const p3: Player = { name: 'Lukas', cards: [], uuid: uuidv4() };
