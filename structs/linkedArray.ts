@@ -1,5 +1,3 @@
-import { shuffle as deckShuffle } from "lodash";
-
 /**
  * A node in a linked list containing an element and a reference to the next node.
  */
@@ -127,7 +125,7 @@ export class LinkedList<T> {
         const coloredSpecialCards = ['plus2', 'skip', 'rev'];
         const specialCards = ['plus4', 'changecolor'];
 
-        let newDeck = [];
+        let newDeck: T[] = [];
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < colors.length; j++) {
@@ -152,7 +150,12 @@ export class LinkedList<T> {
             }
         }
 
-        newDeck = deckShuffle(newDeck);
+        for (let i = newDeck.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const temp = newDeck[i];
+            newDeck[i] = newDeck[j];
+            newDeck[j] = temp;
+        }
 
         newDeck.forEach(element => {
             this.append(element);

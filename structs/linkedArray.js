@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LinkedList = void 0;
-var lodash_1 = require("lodash");
 /**
  * A node in a linked list containing an element and a reference to the next node.
  */
@@ -137,7 +136,12 @@ var LinkedList = /** @class */ (function () {
                 newDeck.push({ special: specialCards[i] });
             }
         }
-        newDeck = (0, lodash_1.shuffle)(newDeck);
+        for (var i = newDeck.length - 1; i >= 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = newDeck[i];
+            newDeck[i] = newDeck[j];
+            newDeck[j] = temp;
+        }
         newDeck.forEach(function (element) {
             _this.append(element);
         });
