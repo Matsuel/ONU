@@ -68,19 +68,18 @@ var LinkedList = /** @class */ (function () {
         }
     };
     /**
-     * Traverses the linked list and returns all elements in an array.
-     * @returns An array of elements in the list.
+     * Returns an array of all elements in the linked list.
+     *
+     * @returns An array of elements.
      */
     LinkedList.prototype.traverse = function () {
         var array = [];
-        if (!this.head) {
-            return array;
+        var current = this.head;
+        while (current) {
+            array.push(current.getElement());
+            current = current.next;
         }
-        var addToArray = function (node) {
-            array.push(node.getElement());
-            return node.next ? addToArray(node.next) : array;
-        };
-        return addToArray(this.head);
+        return array;
     };
     /**
      * Returns the number of elements in the linked list.

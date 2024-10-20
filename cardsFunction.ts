@@ -155,6 +155,4 @@ const playCard = (
     nextPlayerTurn(playerTurn, players, setPlayerTurn);
 };
 
-
-
 export { isCardPlayable, drawCard, nextPlayerTurn, playCard }

@@ -73,20 +73,18 @@ export class LinkedList<T> {
     }
 
     /**
-     * Traverses the linked list and returns all elements in an array.
-     * @returns An array of elements in the list.
+     * Returns an array of all elements in the linked list.
+     * 
+     * @returns An array of elements.
      */
     public traverse(): T[] {
         const array: T[] = [];
-        if (!this.head) {
-            return array;
+        let current = this.head;
+        while (current) {
+            array.push(current.getElement());
+            current = current.next;
         }
-
-        const addToArray = (node: LinkedNode<T>): T[] => {
-            array.push(node.getElement());
-            return node.next ? addToArray(node.next) : array;
-        };
-        return addToArray(this.head);
+        return array;
     }
 
     /**
