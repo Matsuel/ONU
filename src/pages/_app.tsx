@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 import { LinkedList } from "../../structs/linkedArray";
 import { Stack } from "../../structs/stack";
@@ -9,7 +9,6 @@ import Player from "../../interface/player";
 import { useEffect, useState } from "react";
 import CardDisplay from "./components/card-display/CardDisplay";
 import { isCardPlayable } from "../../cardsFunction";
-import { has } from "lodash";
 
 export default function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -17,9 +16,10 @@ export default function App() {
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
     const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
-    /** 
-    * Init deck, pit and players. deck is a LinkedList, pit is a stack and players are array all of them of type Cards
-    * **/
+    /**
+     * Initializes the deck, pit, and players on component mount.
+     * Deck is a LinkedList, pit is a Stack, and players are an array of Player objects.
+     */
     useEffect(() => {
         const newDeck = new LinkedList<Cards>();
         newDeck.fillDeck();
@@ -29,10 +29,10 @@ export default function App() {
         newPit.push(firstCard);
 
         const p1: Player = { name: 'Alexandre', cards: [], uuid: uuidv4() };
-        const p2: Player = { name: 'Matsuel', cards: [], uuid: uuidv4()  };
+        const p2: Player = { name: 'Matsuel', cards: [], uuid: uuidv4() };
         const p3: Player = { name: 'Lukas', cards: [], uuid: uuidv4() };
 
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 7; i++) {
             p1.cards.push(newDeck.removeHead());
             p2.cards.push(newDeck.removeHead());
             p3.cards.push(newDeck.removeHead());
@@ -44,12 +44,12 @@ export default function App() {
     }, []);
 
     /**
-     * Play a card from player's hand to pit
+     * Plays a card from the player's hand to the pit.
      *
-     * @param player - The player which plays the card
-     * @param cardIndex - The index of the played card
-     **/
-    const playCard = (player : Player, cardIndex: number) => {
+     * @param player - The player who plays the card.
+     * @param cardIndex - The index of the played card in the player's hand.
+     */
+    const playCard = (player: Player, cardIndex: number) => {
         if (!pit) {
             throw new Error("Pit is null.");
         }
@@ -64,7 +64,7 @@ export default function App() {
         if (!isCardPlayable(cardPlayed, topCard)) {
             console.log(`${cardPlayed} not playable`);
             return;
-        } 
+        }
 
         console.log('Card is playable');
 
@@ -75,30 +75,29 @@ export default function App() {
             if (player.uuid === p.uuid) {
                 return {
                     ...p,
-                    cards: player.cards.filter(c => c !== cardPlayed) 
-                }
+                    cards: player.cards.filter(c => c !== cardPlayed)
+                };
             }
             return p;
         });
         setPlayers(updatedPlayers);
 
         hasPlayerWon(player);
-
         nextPlayerTurn();
     };
 
     /**
-     * Draw a card from deck to player's hand
+     * Draws a card from the deck to the player's hand.
      *
-     * @param player - The player which draws the card
-     **/ 
+     * @param player - The player who draws the card.
+     */
     const drawCard = (player: Player) => {
         if (deck?.getSize() === 0) {
             console.error('Deck is empty, can’t draw a card from it.');
             return;
         }
-        
-        const drawnCard = deck?.removeHead(); 
+
+        const drawnCard = deck?.removeHead();
 
         if (!drawnCard) {
             return;
@@ -108,34 +107,32 @@ export default function App() {
             if (p.uuid === player.uuid) {
                 return {
                     ...p,
-                    cards: [...p.cards, drawnCard] 
+                    cards: [...p.cards, drawnCard]
                 };
             }
-            return p; 
+            return p;
         });
-        setPlayers(updatedPlayers); 
-
+        setPlayers(updatedPlayers);
         nextPlayerTurn();
     };
 
     /**
-     * Returns true if it's player's turn
+     * Checks if it is the specified player's turn.
      *
-     * @param player - Checked player
-     *
-     * @returns True if player's turn otherwise False
+     * @param player - The player to check.
+     * @returns True if it is the player's turn; otherwise, false.
      */
     const isPlayerTurn = (player: Player) => {
         if (player.uuid !== players[playerTurn].uuid) {
             console.log("Not your turn.");
             return false;
-        }  else {
+        } else {
             return true;
         }
-    }
+    };
 
     /**
-     * Set turn to next player
+     * Advances the turn to the next player.
      */
     const nextPlayerTurn = () => {
         if (playerTurn !== players.length - 1) {
@@ -143,37 +140,40 @@ export default function App() {
         } else {
             setPlayerTurn(0);
         }
-    }
+    };
 
     /**
-     * Checks if the player has won, if yes removes it from players 
-     **/
+     * Checks if the specified player has won the game.
+     * If the player has no cards left, they are removed from the players' list.
+     *
+     * @param player - The player to check for a win.
+     */
     const hasPlayerWon = (player: Player) => {
         console.log(player);
 
-        if (player.cards.length === 1) {
-            alert(`${player.name} has won !`)
+        if (player.cards.length === 0) {
+            alert(`${player.name} has won!`);
             setPlayers(prev => prev.filter(p => p.uuid !== player.uuid));
         }
-    }
+    };
 
     return (
         <div className="flex flex-col">
             {players.map((player, index) => (
-                <div 
+                <div
                     key={index}
                     className={`${players[playerTurn].uuid === player.uuid ? '' : 'opacity-40 cursor-default'}`}
                 >
                     <p>{player.name}</p>
                     {player.cards.map((card, cardIndex) => (
-                        <button 
+                        <button
                             key={cardIndex}
                             onClick={() => {
                                 playCard(player, cardIndex);
                             }}
-                        > 
+                        >
                             <CardDisplay
-                                key={cardIndex} 
+                                key={cardIndex}
                                 card={card}
                             />
                         </button>
@@ -181,12 +181,12 @@ export default function App() {
                 </div>
             ))}
 
-            <button 
+            <button
                 className="flex flex-col"
                 onClick={() => drawCard(players[playerTurn])}
             >
-                <img 
-                    src="/Cards/back.png" 
+                <img
+                    src="/Cards/back.png"
                     alt="pit"
                     className="w-24"
                 />
@@ -203,8 +203,9 @@ export default function App() {
             </div>
 
             <div>
-                { players[playerTurn]?.name }
+                {players[playerTurn]?.name}
             </div>
         </div>
     );
 }
+

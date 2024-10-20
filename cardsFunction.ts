@@ -1,5 +1,4 @@
 import Cards from "./interface/cards";
-import Player from "./interface/player";
 
 /**
  * Checks if card1 is playable on card2
@@ -18,14 +17,4 @@ function isCardPlayable(card1: Cards, card2: Cards): boolean {
 
     return isJoker || isSameColor || isSameNumber || isSameSpecial;
 }
-
-/**
- * Checks if player has won
- *
- * @returns True if player has won otherwise False
- **/
-function isWinner(player: Player): boolean {
-    return player.cards.length === 0;
-}
-
-export { isCardPlayable, isWinner }
+export { isCardPlayable}

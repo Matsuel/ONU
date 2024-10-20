@@ -1,5 +1,4 @@
 import Cards from "../../../../interface/cards"
-import Player from "../../../../interface/player";
 
 interface CardDisplayProps {
     card: Cards,
