@@ -146,18 +146,15 @@ export default function App() {
     }
 
     /**
-     * Checks if the player has won, if yes removes it from players !! checks for length === 1 not === 0 because it is used before player is set in playCard !!
-     *
-     * @returns True if has won otherwise false
+     * Checks if the player has won, if yes removes it from players 
      **/
     const hasPlayerWon = (player: Player) => {
+        console.log(player);
+
         if (player.cards.length === 1) {
             alert(`${player.name} has won !`)
             setPlayers(prev => prev.filter(p => p.uuid !== player.uuid));
-            return true;
         }
-
-        return false
     }
 
     return (
@@ -165,7 +162,7 @@ export default function App() {
             {players.map((player, index) => (
                 <div 
                     key={index}
-                    className={`${players[playerTurn].uuid === player.uuid ? '' : 'opacity-40'}`}
+                    className={`${players[playerTurn].uuid === player.uuid ? '' : 'opacity-40 cursor-default'}`}
                 >
                     <p>{player.name}</p>
                     {player.cards.map((card, cardIndex) => (
