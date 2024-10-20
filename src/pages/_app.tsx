@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import CardDisplay from "./components/card-display/CardDisplay";
 import Deck from "./components/deck/Deck";
 import Players from "./components/players/Player";
+import Pit from "./components/pit/Pit";
 
 export default function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -26,9 +27,7 @@ export default function App() {
         newDeck.fillDeck();
 
         const newPit = new Stack<Cards>([]);
-        const firstCard = newDeck.removeHead();
-        newPit.push(firstCard);
-
+        const firstCard = newDeck.removeHead(); newPit.push(firstCard);
         const p1: Player = { name: 'Alexandre', cards: [], uuid: uuidv4() };
         const p2: Player = { name: 'Matsuel', cards: [], uuid: uuidv4() };
         const p3: Player = { name: 'Lukas', cards: [], uuid: uuidv4() };
@@ -63,14 +62,9 @@ export default function App() {
                 setPlayerTurn={setPlayerTurn}
             />
 
-            <div>
-                {pit && (
-                    <CardDisplay
-                        card={pit?.peek()}
-                    />
-                )}
-                Pit size: {pit?.getSize() || 0}
-            </div>
+            <Pit
+                pit={pit}
+            />
         </div>
     );
 }
