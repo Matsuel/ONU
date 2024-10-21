@@ -73,5 +73,9 @@ export class Stack<T> {
     public getItems(): T[] {
         return this.stack;
     }
+
+    public editColorChangeNumber(updatedCard: T) {
+        this.stack[0] = updatedCard;
+    }
 }
 

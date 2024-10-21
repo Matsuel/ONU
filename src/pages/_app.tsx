@@ -10,11 +10,12 @@ import { useEffect, useState } from "react";
 import Deck from "./components/deck/Deck";
 import Players from "./components/players/Player";
 import Pit from "./components/pit/Pit";
-import { getPitsCardsToDeck } from "../../cardsFunction";
 
 export default function App() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [playerTurn, setPlayerTurn] = useState(0);
+    const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
+
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
     const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
@@ -54,6 +55,9 @@ export default function App() {
                 setPit={setPit}
                 setPlayerTurn={setPlayerTurn}
                 setPlayers={setPlayers}
+                deck={deck}
+                isTurnDirectionClockwise={isTurnDirectionClockwise}
+                setIsTurnDirectionClockwise={setIsTurnDirectionClockwise}
             />
 
             <Deck

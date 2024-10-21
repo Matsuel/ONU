@@ -22,7 +22,6 @@ const Deck = ({
     playerTurn, 
     players, 
     setPlayers, 
-    setPlayerTurn,
     pit,
     setPit,
     setDeck} : DeckProps) => {
@@ -32,7 +31,7 @@ const Deck = ({
             <button
                 className="flex flex-col"
                 onClick={() => {
-                        drawCard(players[playerTurn], deck!, players, setPlayers, playerTurn, setPlayerTurn);
+                        drawCard(deck, players, setPlayers, playerTurn);
 
                         if (deck?.getSize() === 1) {
                             getPitsCardsToDeck(pit, deck, setPit, setDeck);
