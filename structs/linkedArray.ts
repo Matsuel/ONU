@@ -136,7 +136,7 @@ export class LinkedList<T> {
                 }
             }
         }
-
+        
         for (let i = 0; i < coloredSpecialCards.length; i++) {
             for (let j = 0; j < colors.length; j++) {
                 newDeck.push({ color: colors[j], special: coloredSpecialCards[i] } as T);

@@ -155,4 +155,44 @@ const playCard = (
     nextPlayerTurn(playerTurn, players, setPlayerTurn);
 };
 
-export { isCardPlayable, drawCard, nextPlayerTurn, playCard }
+/**
+ * Append the cards to deck from pit until pit is len 1
+ *
+ * @param - Pit that will be emptied
+ * @param - Deck that will be filled
+ * @param - setPit set the pit after removing cards from it
+ * @param - setDeck set the deck after refilling it
+ **/
+const getPitsCardsToDeck = (
+    pit: Stack<Cards> | null, 
+    deck: LinkedList<Cards> | null,
+    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
+    setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>) => {
+
+    if (!pit) {
+        console.error("Pit is null");
+        return;
+    }
+
+    if (!deck) {
+        console.error("Deck is null");
+        return;
+    }
+
+    if (pit.getSize() === 1) {
+        console.error("Can't get cards from pit of len 1");
+        return;
+    }
+
+    const updatedDeck = new LinkedList<Cards>;
+
+    while (pit.getSize() > 1) {
+        const removedCard = pit.shift();
+        updatedDeck.append(removedCard);
+    }
+
+    setPit(new Stack<Cards>([updatedDeck.removeHead()]));
+    setDeck(updatedDeck);
+}
+
+export { isCardPlayable, drawCard, nextPlayerTurn, playCard, getPitsCardsToDeck }

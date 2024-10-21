@@ -35,7 +35,7 @@ var Stack = /** @class */ (function () {
      * @returns The top element of the stack.
      * @throws Error if the stack is empty.
      */
-    Stack.prototype.pop = function () {
+    Stack.prototype.shift = function () {
         if (this.isEmpty()) {
             throw new Error('Stack is empty.');
         }

@@ -36,7 +36,7 @@ export class Stack<T> {
      * @returns The top element of the stack.
      * @throws Error if the stack is empty.
      */
-    public pop(): T {
+    public shift(): T {
         if (this.isEmpty()) {
             throw new Error('Stack is empty.');
         } else {

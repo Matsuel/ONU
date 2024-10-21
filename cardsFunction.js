@@ -20,8 +20,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.playCard = exports.nextPlayerTurn = exports.drawCard = void 0;
+exports.getPitsCardsToDeck = exports.playCard = exports.nextPlayerTurn = exports.drawCard = void 0;
 exports.isCardPlayable = isCardPlayable;
+var linkedArray_1 = require("./structs/linkedArray");
 var stack_1 = require("./structs/stack");
 /**
  * Checks if card1 is playable on card2
@@ -135,3 +136,25 @@ var playCard = function (player, cardIndex, pit, setPit, players, playerTurn, se
     nextPlayerTurn(playerTurn, players, setPlayerTurn);
 };
 exports.playCard = playCard;
+var getPitsCardsToDeck = function (pit, deck, setPit, setDeck) {
+    if (!pit) {
+        console.error("Pit is null");
+        return;
+    }
+    if (!deck) {
+        console.error("Deck is null");
+        return;
+    }
+    if (pit.getSize() === 1) {
+        console.error("Can't get cards from pit of len 1");
+        return;
+    }
+    var updatedDeck = new linkedArray_1.LinkedList;
+    while (pit.getSize() > 1) {
+        var removedCard = pit.shift();
+        updatedDeck.append(removedCard);
+    }
+    setPit(new stack_1.Stack([updatedDeck.removeHead()]));
+    setDeck(updatedDeck);
+};
+exports.getPitsCardsToDeck = getPitsCardsToDeck;

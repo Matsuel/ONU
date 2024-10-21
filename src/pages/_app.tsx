@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import Deck from "./components/deck/Deck";
 import Players from "./components/players/Player";
 import Pit from "./components/pit/Pit";
+import { getPitsCardsToDeck } from "../../cardsFunction";
 
 export default function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -61,6 +62,9 @@ export default function App() {
                 players={players}
                 setPlayers={setPlayers}
                 setPlayerTurn={setPlayerTurn}
+                pit={pit}
+                setPit={setPit}
+                setDeck={setDeck}
             />
 
             <Pit
