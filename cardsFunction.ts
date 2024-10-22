@@ -63,6 +63,8 @@ const drawCard = (
     players: Player[],
     setPlayers: Dispatch<SetStateAction<Player[]>>,
     playerTurn: number,
+    setPlayerTurn: Dispatch<SetStateAction<number>>,
+    isTurnDirectionClockwise: boolean,
     nmbCard: number = 1) => {
 
     if (!deck) {
@@ -99,6 +101,7 @@ const drawCard = (
     });
     
     setPlayers(updatedPlayers);
+    setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
 };
 
 /**
@@ -208,7 +211,20 @@ const getPitsCardsToDeck = (
     setDeck(updatedDeck);
 }
 
-const useSpecialCardEffect = (
+/**
+ * plays a special card from player's hand to pit
+ *
+ * @param card - The played card from a player
+ * @param playerTurn - The index of the current playing player
+ * @param setPlayerTurn - Set the index of the current playing player
+ * @param players - An array of all the playrers of type Player
+ * @param deck - The card in which the player will draw the cards
+ * @param setPlayers - same as deck
+ * @param setIsTurnDirectionClockwise - Set is isTurnDirectionClockwise to true or false
+ * @param isTurnDirectionClockwise - Checks if the next player will be on left or right
+ * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
+ **/
+const useSpecialCardEffect = async (
     card: Cards, 
     playerTurn: number, 
     setPlayerTurn: Dispatch<SetStateAction<number>>,
@@ -217,21 +233,19 @@ const useSpecialCardEffect = (
     setPlayers: Dispatch<SetStateAction<Player[]>>,
     setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>,
     isTurnDirectionClockwise: boolean,
-    colorChangeRef: MutableRefObject<HTMLElement | null>,
-    pit: Stack<Cards>,
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>> ) => {
+    colorChangeRef: MutableRefObject<HTMLElement | null>) => {
     switch (card.special) {
         case "skip":
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
             break;
         case "plus2":
-            drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), 2);
-            setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
+            drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), setPlayerTurn, isTurnDirectionClockwise, 2);
+            setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
             break;
         case "plus4":
-            drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), 4);
             displayColorsChoice(colorChangeRef);
-            setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
+            setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
+            drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), setPlayerTurn, isTurnDirectionClockwise, 4);
             break;
         case "rev":
             setIsTurnDirectionClockwise(!isTurnDirectionClockwise);

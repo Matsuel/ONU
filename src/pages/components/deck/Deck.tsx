@@ -14,6 +14,7 @@ interface DeckProps {
     pit: Stack<Cards> | null,
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
+    isTurnDirectionClockwise: boolean
 
 }
 
@@ -24,14 +25,16 @@ const Deck = ({
     setPlayers, 
     pit,
     setPit,
-    setDeck} : DeckProps) => {
+    setDeck,
+    setPlayerTurn,
+    isTurnDirectionClockwise} : DeckProps) => {
 
     return (
         <div>
             <button
                 className="flex flex-col"
                 onClick={() => {
-                        drawCard(deck, players, setPlayers, playerTurn);
+                        drawCard(deck, players, setPlayers, playerTurn, setPlayerTurn, isTurnDirectionClockwise);
 
                         if (deck?.getSize() === 1) {
                             getPitsCardsToDeck(pit, setPit, setDeck);

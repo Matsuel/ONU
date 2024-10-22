@@ -20,6 +20,8 @@ export default function App() {
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
     const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
+    const [waitingForColorChange, setWaitingForColorChange] = useState(false);
+
     const colors = ['red', 'yellow', 'blue', 'green'];
     const colorChangeRef = useRef(null);
 
@@ -52,7 +54,7 @@ export default function App() {
     }, []);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col bg-black w-screen min-h-screen text-white">
             <Players
                 players={players}
                 playerTurn={playerTurn}
@@ -75,6 +77,7 @@ export default function App() {
                 pit={pit}
                 setPit={setPit}
                 setDeck={setDeck}
+                isTurnDirectionClockwise={isTurnDirectionClockwise}
             />
 
             <Pit
@@ -88,6 +91,7 @@ export default function App() {
                         style={{ background: colors[index] }}
                         key={index}
                         onClick={() => {
+                            setWaitingForColorChange(true);
                             index === 0 ? changeColor('r', pit, setPit, colorChangeRef) : 
                             index === 1 ? changeColor('y', pit, setPit, colorChangeRef) : 
                             index === 2 ? changeColor('b', pit, setPit, colorChangeRef) : 

@@ -16,7 +16,7 @@ interface PlayersProps {
     deck: LinkedList<Cards> | null,
     isTurnDirectionClockwise: boolean,
     setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>,
-    colorChangeRef: MutableRefObject<null>;
+    colorChangeRef: MutableRefObject<null>,
 }
 
 const Players = ({ 
@@ -29,7 +29,7 @@ const Players = ({
     deck, 
     isTurnDirectionClockwise, 
     setIsTurnDirectionClockwise,
-    colorChangeRef} : PlayersProps) => {
+    colorChangeRef }: PlayersProps) => {
 
     const playCardOnClick = (
         cardIndex: number, 
@@ -53,7 +53,7 @@ const Players = ({
         }
 
         if (!isPlayerTurn(player, players, playerTurn)) {
-            console.error(`${player.name} can't play not your turn`);
+            console.error(`${player.name}: can't play, not your turn`);
             return false;
         }
 
