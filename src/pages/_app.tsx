@@ -88,12 +88,14 @@ export default function App() {
                         style={{ background: colors[index] }}
                         key={index}
                         onClick={() => {
-
+                            index === 0 ? changeColor('r', pit, setPit, colorChangeRef) : 
+                            index === 1 ? changeColor('y', pit, setPit, colorChangeRef) : 
+                            index === 2 ? changeColor('b', pit, setPit, colorChangeRef) : 
+                            index === 3 ? changeColor('g', pit, setPit, colorChangeRef) : ''
                         }}
                     ></button>
                 ))}
             </div>
-
         </div>
     );
 }

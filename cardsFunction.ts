@@ -217,7 +217,9 @@ const useSpecialCardEffect = (
     setPlayers: Dispatch<SetStateAction<Player[]>>,
     setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>,
     isTurnDirectionClockwise: boolean,
-    colorChangeRef: MutableRefObject<HTMLElement | null> ) => {
+    colorChangeRef: MutableRefObject<HTMLElement | null>,
+    pit: Stack<Cards>,
+    setPit: Dispatch<SetStateAction<Stack<Cards> | null>> ) => {
     switch (card.special) {
         case "skip":
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
@@ -260,28 +262,26 @@ const displayColorsChoice = (colorChangeRef: MutableRefObject<HTMLElement | null
  * @param pit - Pit that will be emptied
  * @param setPit - setPit to update the pit after editing the top card from it
  * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
- * @param callback - function to call after the color change is complete
  **/
 const changeColor = (
     newColor: 'r' | 'y' | 'b' | 'g',
     pit: Stack<Cards> | null, 
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>, 
-    colorChangeRef: MutableRefObject<HTMLElement | null>,
-    callback: () => void
-) => {
+    colorChangeRef: MutableRefObject<HTMLElement | null>) => {
+
     if (!pit) {
         console.error("Pit is null");
         return;
     }
 
+    const updatedCard = pit.peek();
     pit.shift();
-
-    const newCard: Cards = { special: 'changecolor', color: newColor }
-    const updatedPit = new Stack<Cards>([newCard, ...pit.getItems()]);
+    
+    const newCard: Cards = { special: updatedCard.special, color: newColor, changecolor: true }
+    const updatedPit = new Stack<Cards>([...pit.getItems(), newCard]);
 
     setPit(updatedPit);
     displayColorsChoice(colorChangeRef);
-    callback(); // Call the callback after changing the color
 }
 
 export { isCardPlayable, drawCard, playCard, getPitsCardsToDeck, useSpecialCardEffect, changeColor, isPlayerTurn, getNextPlayerIndex }

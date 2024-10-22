@@ -7,6 +7,14 @@ interface CardDisplayProps {
 const CardDisplay = ({ card }: CardDisplayProps) => {
     return (
         <div>
+            {card && card.changecolor && (
+                <img 
+                    src={`/Cards/${card.special}.png`} 
+                    alt="special card"
+                    className="w-24"
+                />
+            )}
+
             {card && card.special ? (
                 <div>
                     {card.color ? (

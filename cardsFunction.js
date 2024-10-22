@@ -196,9 +196,7 @@ var useSpecialCardEffect = function (card, playerTurn, setPlayerTurn, players, d
         case "plus4":
             drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), 4);
             displayColorsChoice(colorChangeRef);
-            changeColor('b', pit, setPit, colorChangeRef, function () {
-                setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
-            });
+            setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
             break;
         case "rev":
             setIsTurnDirectionClockwise(!isTurnDirectionClockwise);
@@ -227,18 +225,17 @@ var displayColorsChoice = function (colorChangeRef) {
  * @param pit - Pit that will be emptied
  * @param setPit - setPit to update the pit after editing the top card from it
  * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
- * @param callback - function to call after the color change is complete
  **/
-var changeColor = function (newColor, pit, setPit, colorChangeRef, callback) {
+var changeColor = function (newColor, pit, setPit, colorChangeRef) {
     if (!pit) {
         console.error("Pit is null");
         return;
     }
+    var updatedCard = pit.peek();
     pit.shift();
-    var newCard = { special: 'changecolor', color: newColor };
-    var updatedPit = new stack_1.Stack(__spreadArray([newCard], pit.getItems(), true));
+    var newCard = { special: updatedCard.special, color: newColor, changecolor: true };
+    var updatedPit = new stack_1.Stack(__spreadArray(__spreadArray([], pit.getItems(), true), [newCard], false));
     setPit(updatedPit);
     displayColorsChoice(colorChangeRef);
-    callback(); // Call the callback after changing the color
 };
 exports.changeColor = changeColor;

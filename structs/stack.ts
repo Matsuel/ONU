@@ -41,7 +41,7 @@ export class Stack<T> {
             throw new Error('Stack is empty.');
         } else {
             this.len--;
-            return this.stack.shift()!;
+            return this.stack.shift() as T;
         }
     }
 
