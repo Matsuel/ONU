@@ -35,6 +35,19 @@ const Players = ({
     nmbCardsToDraw,
     setNmbCardsToDraw}: PlayersProps) => {
 
+    /**
+     * @param cardIndex - the index of the card played
+     * @param card - the card played by the player
+     * @param player - the last playing player
+     * @param setPit - set the pit (Stack<Cards>)
+     * @param players - array of all the players
+     * @param playerTurn - index of the current playing player
+     * @param setPlayerTurn - set the index of the current playing player
+     * @param setPlayers - set the array of players
+     * @param isTurnDirectionClockwise - checks if next player will be left or right
+     * @param setNmbCardsToDraw - set nmb of cards that the player will draw
+     * @param nmbCardsToDraw - nmb of cards that the player will draw
+     **/
     const playCardOnClick = (
         cardIndex: number, 
         card: Cards, 
