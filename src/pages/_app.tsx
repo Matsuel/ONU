@@ -20,7 +20,7 @@ export default function App() {
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
     const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
-    const [waitingForColorChange, setWaitingForColorChange] = useState(false);
+    const [nmbCardsToDraw, setNmbCardsToDraw] = useState(0);
 
     const colors = ['red', 'yellow', 'blue', 'green'];
     const colorChangeRef = useRef(null);
@@ -66,6 +66,8 @@ export default function App() {
                 isTurnDirectionClockwise={isTurnDirectionClockwise}
                 setIsTurnDirectionClockwise={setIsTurnDirectionClockwise}
                 colorChangeRef={colorChangeRef}
+                nmbCardsToDraw={nmbCardsToDraw}
+                setNmbCardsToDraw={setNmbCardsToDraw}
             />
 
             <Deck
@@ -78,6 +80,8 @@ export default function App() {
                 setPit={setPit}
                 setDeck={setDeck}
                 isTurnDirectionClockwise={isTurnDirectionClockwise}
+                setNmbCardsToDraw={setNmbCardsToDraw}
+                nmbCardsToDraw={nmbCardsToDraw}
             />
 
             <Pit
@@ -91,7 +95,6 @@ export default function App() {
                         style={{ background: colors[index] }}
                         key={index}
                         onClick={() => {
-                            setWaitingForColorChange(true);
                             index === 0 ? changeColor('r', pit, setPit, colorChangeRef) : 
                             index === 1 ? changeColor('y', pit, setPit, colorChangeRef) : 
                             index === 2 ? changeColor('b', pit, setPit, colorChangeRef) : 

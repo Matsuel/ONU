@@ -13,6 +13,12 @@ import { Stack } from "./structs/stack";
  * @returns True if card is playable otherwise False
  **/
 function isCardPlayable(card1: Cards, card2: Cards): boolean {
+    if (card2.special === 'plus2' && !card2.isOverOneHandOld) {
+        return card1.special === 'plus2' || card1.special == 'plus4';
+    } else if (card2.special === 'plus4' && !card2.isOverOneHandOld) {
+        return card1.special === 'plus4';
+    }
+
     const isJoker = card1.special === 'changecolor' || card1.special === 'plus4';
     
     const isSameColor = card1.color !== undefined && card2.color !== undefined && card1.color === card2.color;
@@ -53,33 +59,50 @@ const getNextPlayerIndex = (
 /**
  * Draws a card from the deck to the player's hand.
  * @param deck - The card in which the player will draw the cards
+ * @param setPit - setPit set the pit after removing cards from it
+ * @param pit - Pit that will be emptied
+ * @param setPlayers - same as deck
  * @param players - Array of players
- * @param setPlayerTurn - Set the index of the current playing player
  * @param playerTurn - The index of the current playing player
- * @param nmbCard - Number of cards added to the player's hand
+ * @param setPlayerTurn - Set the index of the current playing player
+ * @param isTurnDirectionClockwise - Checks if the next playr will be left or right
+ * @param nmbCardsToDraw - The number of cards to draw for player
+ * @param setNmbCardsToDraw - set the number of cards to draw (1 after function)
  */
 const drawCard = (
     deck: LinkedList<Cards> | null, 
-    players: Player[],
+    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
+    pit: Stack<Cards> | null,
     setPlayers: Dispatch<SetStateAction<Player[]>>,
+    players: Player[],
     playerTurn: number,
     setPlayerTurn: Dispatch<SetStateAction<number>>,
     isTurnDirectionClockwise: boolean,
-    nmbCard: number = 1) => {
+    nmbCardsToDraw: number,
+    setNmbCardsToDraw: Dispatch<SetStateAction<number>> ) => {
 
     if (!deck) {
         console.error('Deck is null');
         return;
     }
 
-    if (deck.getSize() === 0 || deck.getSize() < nmbCard) {
+    if (!pit) {
+        console.error('Pit is null');
+        return;
+    }
+
+    if (deck.getSize() === 0 || deck.getSize() < nmbCardsToDraw) {
         console.error('Deck is empty, can’t draw a card from it.');
         return;
     }
 
     const drawnCards: Cards[] = [];
 
-    for (let i = 0; i < nmbCard; i++) {
+    if (nmbCardsToDraw === 0) {
+        nmbCardsToDraw = 1;
+    }
+
+    for (let i = 0; i < nmbCardsToDraw; i++) {
         const drawnCard = deck.removeHead();
 
         if (!drawnCard) {
@@ -99,8 +122,19 @@ const drawCard = (
         }
         return p;
     });
-    
+
+    let updateTopCard = pit.peek();
+
+    if (!updateTopCard.isOverOneHandOld) {
+        pit.shift();
+        updateTopCard.isOverOneHandOld = true;
+        const updatedPit: Stack<Cards> = new Stack([...pit.getItems(), updateTopCard]);
+
+        setPit(updatedPit);
+    }
+
     setPlayers(updatedPlayers);
+    setNmbCardsToDraw(0);
     setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
 };
 
@@ -108,6 +142,9 @@ const drawCard = (
  * Checks if it is the specified player's turn.
  *
  * @param player - The player to check.
+ * @param players - Array of player
+ * @param playerTurn index of the playing player
+ *
  * @returns True if it is the player's turn; otherwise, false.
  */
 const isPlayerTurn = (player: Player, players: Player[], playerTurn: number) => {
@@ -139,7 +176,7 @@ const hasPlayerWon = (player: Player, setPlayers: Dispatch<SetStateAction<Player
  * @param cardIndex - The index of the played card in the player's hand.
  * @param pit - Pit that will be emptied
  * @param setPit - setPit set the pit after removing cards from it
- * @param setPlayerTurn - Set the current playing player
+ * @param player - The player to check for a win
  * @param setPlayers - same as deck
  *
  * @returns returns true if the card has been played otherwise returns false
@@ -150,7 +187,7 @@ const playCard = (
     pit: Stack<Cards>,
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     players: Player[],
-    setPlayers: Dispatch<SetStateAction<Player[]>> ): boolean => {
+    setPlayers: Dispatch<SetStateAction<Player[]>> ) => {
 
     const cardPlayed = player.cards[cardIndex];
 
@@ -218,34 +255,34 @@ const getPitsCardsToDeck = (
  * @param playerTurn - The index of the current playing player
  * @param setPlayerTurn - Set the index of the current playing player
  * @param players - An array of all the playrers of type Player
- * @param deck - The card in which the player will draw the cards
- * @param setPlayers - same as deck
  * @param setIsTurnDirectionClockwise - Set is isTurnDirectionClockwise to true or false
  * @param isTurnDirectionClockwise - Checks if the next player will be on left or right
  * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
+ * @param nmbCardToDraw - nmb of cards to draw 
+ * @param setNmbCardsToDraw - set the number of cards to one at the end of function
  **/
 const useSpecialCardEffect = async (
     card: Cards, 
     playerTurn: number, 
     setPlayerTurn: Dispatch<SetStateAction<number>>,
     players: Player[],
-    deck: LinkedList<Cards>,
-    setPlayers: Dispatch<SetStateAction<Player[]>>,
     setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>,
     isTurnDirectionClockwise: boolean,
-    colorChangeRef: MutableRefObject<HTMLElement | null>) => {
+    colorChangeRef: MutableRefObject<HTMLElement | null>,
+    nmbCardsToDraw: number,
+    setNmbCardsToDraw: Dispatch<SetStateAction<number>>) => {
     switch (card.special) {
         case "skip":
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
             break;
         case "plus2":
-            drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), setPlayerTurn, isTurnDirectionClockwise, 2);
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
+            setNmbCardsToDraw(nmbCardsToDraw + 2);
             break;
         case "plus4":
             displayColorsChoice(colorChangeRef);
+            setNmbCardsToDraw(nmbCardsToDraw + 4);
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
-            drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), setPlayerTurn, isTurnDirectionClockwise, 4);
             break;
         case "rev":
             setIsTurnDirectionClockwise(!isTurnDirectionClockwise);

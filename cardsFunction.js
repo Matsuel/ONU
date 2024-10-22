@@ -69,6 +69,12 @@ var stack_1 = require("./structs/stack");
  * @returns True if card is playable otherwise False
  **/
 function isCardPlayable(card1, card2) {
+    if (card2.special === 'plus2' && !card2.isOverOneHandOld) {
+        return card1.special === 'plus2' || card1.special == 'plus4';
+    }
+    else if (card2.special === 'plus4' && !card2.isOverOneHandOld) {
+        return card1.special === 'plus4';
+    }
     var isJoker = card1.special === 'changecolor' || card1.special === 'plus4';
     var isSameColor = card1.color !== undefined && card2.color !== undefined && card1.color === card2.color;
     var isSameNumber = card1.number !== undefined && card2.number !== undefined && card1.number === card2.number;
@@ -104,23 +110,34 @@ exports.getNextPlayerIndex = getNextPlayerIndex;
 /**
  * Draws a card from the deck to the player's hand.
  * @param deck - The card in which the player will draw the cards
+ * @param setPit - setPit set the pit after removing cards from it
+ * @param pit - Pit that will be emptied
+ * @param setPlayers - same as deck
  * @param players - Array of players
- * @param setPlayerTurn - Set the index of the current playing player
  * @param playerTurn - The index of the current playing player
- * @param nmbCard - Number of cards added to the player's hand
+ * @param setPlayerTurn - Set the index of the current playing player
+ * @param isTurnDirectionClockwise - Checks if the next playr will be left or right
+ * @param nmbCardsToDraw - The number of cards to draw for player
+ * @param setNmbCardsToDraw - set the number of cards to draw (1 after function)
  */
-var drawCard = function (deck, players, setPlayers, playerTurn, setPlayerTurn, isTurnDirectionClockwise, nmbCard) {
-    if (nmbCard === void 0) { nmbCard = 1; }
+var drawCard = function (deck, setPit, pit, setPlayers, players, playerTurn, setPlayerTurn, isTurnDirectionClockwise, nmbCardsToDraw, setNmbCardsToDraw) {
     if (!deck) {
         console.error('Deck is null');
         return;
     }
-    if (deck.getSize() === 0 || deck.getSize() < nmbCard) {
+    if (!pit) {
+        console.error('Pit is null');
+        return;
+    }
+    if (deck.getSize() === 0 || deck.getSize() < nmbCardsToDraw) {
         console.error('Deck is empty, can’t draw a card from it.');
         return;
     }
     var drawnCards = [];
-    for (var i = 0; i < nmbCard; i++) {
+    if (nmbCardsToDraw === 0) {
+        nmbCardsToDraw = 1;
+    }
+    for (var i = 0; i < nmbCardsToDraw; i++) {
         var drawnCard = deck.removeHead();
         if (!drawnCard) {
             console.error("Cannot get head of deck");
@@ -134,7 +151,15 @@ var drawCard = function (deck, players, setPlayers, playerTurn, setPlayerTurn, i
         }
         return p;
     });
+    var updateTopCard = pit.peek();
+    if (!updateTopCard.isOverOneHandOld) {
+        pit.shift();
+        updateTopCard.isOverOneHandOld = true;
+        var updatedPit = new stack_1.Stack(__spreadArray(__spreadArray([], pit.getItems(), true), [updateTopCard], false));
+        setPit(updatedPit);
+    }
     setPlayers(updatedPlayers);
+    setNmbCardsToDraw(0);
     setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
 };
 exports.drawCard = drawCard;
@@ -142,6 +167,9 @@ exports.drawCard = drawCard;
  * Checks if it is the specified player's turn.
  *
  * @param player - The player to check.
+ * @param players - Array of player
+ * @param playerTurn index of the playing player
+ *
  * @returns True if it is the player's turn; otherwise, false.
  */
 var isPlayerTurn = function (player, players, playerTurn) {
@@ -172,7 +200,7 @@ var hasPlayerWon = function (player, setPlayers) {
  * @param cardIndex - The index of the played card in the player's hand.
  * @param pit - Pit that will be emptied
  * @param setPit - setPit set the pit after removing cards from it
- * @param setPlayerTurn - Set the current playing player
+ * @param player - The player to check for a win
  * @param setPlayers - same as deck
  *
  * @returns returns true if the card has been played otherwise returns false
@@ -228,26 +256,26 @@ exports.getPitsCardsToDeck = getPitsCardsToDeck;
  * @param playerTurn - The index of the current playing player
  * @param setPlayerTurn - Set the index of the current playing player
  * @param players - An array of all the playrers of type Player
- * @param deck - The card in which the player will draw the cards
- * @param setPlayers - same as deck
  * @param setIsTurnDirectionClockwise - Set is isTurnDirectionClockwise to true or false
  * @param isTurnDirectionClockwise - Checks if the next player will be on left or right
  * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
+ * @param nmbCardToDraw - nmb of cards to draw
+ * @param setNmbCardsToDraw - set the number of cards to one at the end of function
  **/
-var useSpecialCardEffect = function (card, playerTurn, setPlayerTurn, players, deck, setPlayers, setIsTurnDirectionClockwise, isTurnDirectionClockwise, colorChangeRef) { return __awaiter(void 0, void 0, void 0, function () {
+var useSpecialCardEffect = function (card, playerTurn, setPlayerTurn, players, setIsTurnDirectionClockwise, isTurnDirectionClockwise, colorChangeRef, nmbCardsToDraw, setNmbCardsToDraw) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (card.special) {
             case "skip":
                 setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
                 break;
             case "plus2":
-                drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), setPlayerTurn, isTurnDirectionClockwise, 2);
                 setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
+                setNmbCardsToDraw(nmbCardsToDraw + 2);
                 break;
             case "plus4":
                 displayColorsChoice(colorChangeRef);
+                setNmbCardsToDraw(nmbCardsToDraw + 4);
                 setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
-                drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), setPlayerTurn, isTurnDirectionClockwise, 4);
                 break;
             case "rev":
                 setIsTurnDirectionClockwise(!isTurnDirectionClockwise);

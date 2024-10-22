@@ -3,4 +3,5 @@ export default interface Cards {
     number?: number,
     special?: 'plus2' | 'skip' | 'rev' | 'plus4' | 'changecolor',
     changecolor? : boolean,
+    isOverOneHandOld?: boolean,
 }

@@ -17,6 +17,8 @@ interface PlayersProps {
     isTurnDirectionClockwise: boolean,
     setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>,
     colorChangeRef: MutableRefObject<null>,
+    nmbCardsToDraw: number,
+    setNmbCardsToDraw: Dispatch<SetStateAction<number>>,
 }
 
 const Players = ({ 
@@ -29,7 +31,9 @@ const Players = ({
     deck, 
     isTurnDirectionClockwise, 
     setIsTurnDirectionClockwise,
-    colorChangeRef }: PlayersProps) => {
+    colorChangeRef,
+    nmbCardsToDraw,
+    setNmbCardsToDraw}: PlayersProps) => {
 
     const playCardOnClick = (
         cardIndex: number, 
@@ -40,7 +44,9 @@ const Players = ({
         playerTurn: number,
         setPlayerTurn: Dispatch<SetStateAction<number>>,
         setPlayers: Dispatch<SetStateAction<Player[]>>,
-        isTurnDirectionClockwise: boolean ) => {
+        isTurnDirectionClockwise: boolean,
+        setNmbCardsToDraw: Dispatch<SetStateAction<number>>,
+        nmbCardsToDraw: number) => {
 
         if (!pit) {
             console.error('Pit cannot be null');
@@ -69,14 +75,14 @@ const Players = ({
                 playerTurn, 
                 setPlayerTurn, 
                 players, 
-                deck, 
-                setPlayers, 
                 setIsTurnDirectionClockwise, 
                 isTurnDirectionClockwise,
                 colorChangeRef,
+                nmbCardsToDraw,
+                setNmbCardsToDraw
             );
         } else {
-            playCard(player, cardIndex, pit, setPit, players, setPlayers)
+            playCard(player, cardIndex, pit, setPit, players, setPlayers);
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
         }
     }
@@ -108,7 +114,9 @@ const Players = ({
                                 playerTurn, 
                                 setPlayerTurn, 
                                 setPlayers, 
-                                isTurnDirectionClockwise
+                                isTurnDirectionClockwise,
+                                setNmbCardsToDraw,
+                                nmbCardsToDraw
                             )}
                         >
                             <CardDisplay

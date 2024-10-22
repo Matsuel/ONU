@@ -13,7 +13,9 @@ const Pit = ({ pit }: PitProps) => {
                     <CardDisplay
                         card={pit?.peek()}
                     />
+
                 )}
+                {JSON.stringify(pit?.peek(), null, 2)}
                 Pit size: {pit?.getSize() || 0}
             </div>
     )
