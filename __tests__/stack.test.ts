@@ -19,13 +19,13 @@ describe('Stack', () => {
         stack.push(1);
         stack.push(2);
         stack.push(3);
-        stack.pop();
+        stack.shift();
         expect(stack.getSize()).toBe(2);
         expect(stack.peek()).toBe(3);
     })
 
     test('pop should throw error if no elements in stack', () => {
-        expect(() => stack.pop()).toThrow('Stack is empty.');
+        expect(() => stack.shift()).toThrow('Stack is empty.');
     })
 
     test('should return last element', () => {

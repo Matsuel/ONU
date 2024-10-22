@@ -71,9 +71,6 @@ var Stack = /** @class */ (function () {
     Stack.prototype.getItems = function () {
         return this.stack;
     };
-    Stack.prototype.editColorChangeNumber = function (updatedCard) {
-        this.stack[0] = updatedCard;
-    };
     return Stack;
 }());
 exports.Stack = Stack;

@@ -20,7 +20,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useSpecialCardEffect = exports.getPitsCardsToDeck = exports.playCard = exports.drawCard = void 0;
+exports.getNextPlayerIndex = exports.isPlayerTurn = exports.changeColor = exports.useSpecialCardEffect = exports.getPitsCardsToDeck = exports.playCard = exports.drawCard = void 0;
 exports.isCardPlayable = isCardPlayable;
 var linkedArray_1 = require("./structs/linkedArray");
 var stack_1 = require("./structs/stack");
@@ -34,7 +34,7 @@ var stack_1 = require("./structs/stack");
  **/
 function isCardPlayable(card1, card2) {
     var isJoker = card1.special === 'changecolor' || card1.special === 'plus4';
-    var isSameColor = card1.color !== undefined && card1.color === card2.color;
+    var isSameColor = card1.color !== undefined && card2.color !== undefined && card1.color === card2.color;
     var isSameNumber = card1.number !== undefined && card2.number !== undefined && card1.number === card2.number;
     var isSameSpecial = card1.special !== undefined && card2.special !== undefined && card1.special === card2.special;
     return isJoker || isSameColor || isSameNumber || isSameSpecial;
@@ -47,8 +47,6 @@ function isCardPlayable(card1, card2) {
  * @param isTurnDirectionClockwise  - checks the turn direction
  */
 var getNextPlayerIndex = function (players, playerTurn, nmbSkip, isTurnDirectionClockwise) {
-    if (nmbSkip === void 0) { nmbSkip = 1; }
-    if (isTurnDirectionClockwise === void 0) { isTurnDirectionClockwise = true; }
     if (isTurnDirectionClockwise) {
         if (playerTurn + nmbSkip > players.length - 1) {
             return playerTurn + nmbSkip - players.length;
@@ -66,17 +64,19 @@ var getNextPlayerIndex = function (players, playerTurn, nmbSkip, isTurnDirection
         }
     }
 };
+exports.getNextPlayerIndex = getNextPlayerIndex;
 /**
  * Draws a card from the deck to the player's hand.
  * @param deck - The card in which the player will draw the cards
  * @param players - Array of players
- * @param playerTurn - The index of the current playing player
  * @param setPlayerTurn - Set the index of the current playing player
+ * @param playerTurn - The index of the current playing player
  * @param nmbCard - Number of cards added to the player's hand
  */
 var drawCard = function (deck, players, setPlayers, playerTurn, nmbCard) {
     if (nmbCard === void 0) { nmbCard = 1; }
     if (!deck) {
+        console.error('Deck is null');
         return;
     }
     if (deck.getSize() === 0 || deck.getSize() < nmbCard) {
@@ -109,13 +109,13 @@ exports.drawCard = drawCard;
  */
 var isPlayerTurn = function (player, players, playerTurn) {
     if (player.uuid !== players[playerTurn].uuid) {
-        console.log("Not your turn.");
         return false;
     }
     else {
         return true;
     }
 };
+exports.isPlayerTurn = isPlayerTurn;
 /**
  * Checks if the specified player has won the game.
  * If the player has no cards left, they are removed from the players' list.
@@ -124,7 +124,6 @@ var isPlayerTurn = function (player, players, playerTurn) {
  * @param setPlayers - Set the list of players
  */
 var hasPlayerWon = function (player, setPlayers) {
-    console.log(player);
     if (player.cards.length === 0) {
         alert("".concat(player.name, " has won!"));
         setPlayers(function (prev) { return prev.filter(function (p) { return p.uuid !== player.uuid; }); });
@@ -136,28 +135,13 @@ var hasPlayerWon = function (player, setPlayers) {
  * @param cardIndex - The index of the played card in the player's hand.
  * @param pit - Pit that will be emptied
  * @param setPit - setPit set the pit after removing cards from it
- * @param players - Array of all the players
- * @param playerTurn - The current playing player
  * @param setPlayerTurn - Set the current playing player
  * @param setPlayers - same as deck
- * @param isTurnDirectionClockwise  - checks the turn direction
  *
  * @returns returns true if the card has been played otherwise returns false
  */
-var playCard = function (player, cardIndex, pit, setPit, players, playerTurn, setPlayerTurn, setPlayers, isTurnDirectionClockwise) {
-    if (!pit) {
-        throw new Error("Pit is null.");
-    }
-    if (!isPlayerTurn(player, players, playerTurn)) {
-        return false;
-    }
-    var topCard = pit.peek();
+var playCard = function (player, cardIndex, pit, setPit, players, setPlayers) {
     var cardPlayed = player.cards[cardIndex];
-    if (!isCardPlayable(cardPlayed, topCard)) {
-        console.log("".concat(cardPlayed, " not playable"));
-        return false;
-    }
-    console.log('Card is playable');
     var newPit = new stack_1.Stack(__spreadArray(__spreadArray([], pit.getItems(), true), [cardPlayed], false));
     setPit(newPit);
     var updatedPlayers = players.map(function (p) {
@@ -168,7 +152,6 @@ var playCard = function (player, cardIndex, pit, setPit, players, playerTurn, se
     });
     setPlayers(updatedPlayers);
     hasPlayerWon(player, setPlayers);
-    setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
     return true;
 };
 exports.playCard = playCard;
@@ -176,17 +159,16 @@ exports.playCard = playCard;
  * Append the cards to deck from pit until pit is len 1
  *
  * @param pit - Pit that will be emptied
- * @param deck - Deck that will be filled
  * @param setPit - setPit set the pit after removing cards from it
  * @param setDeck - setDeck set the deck after refilling it
  **/
-var getPitsCardsToDeck = function (pit, deck, setPit, setDeck) {
+var getPitsCardsToDeck = function (pit, setPit, setDeck) {
     if (!pit) {
         console.error("Pit is null");
         return;
     }
-    if (!deck) {
-        console.error("Deck is null");
+    if (!setPit) {
+        console.error("Pit is null");
         return;
     }
     if (pit.getSize() === 1) {
@@ -202,31 +184,7 @@ var getPitsCardsToDeck = function (pit, deck, setPit, setDeck) {
     setDeck(updatedDeck);
 };
 exports.getPitsCardsToDeck = getPitsCardsToDeck;
-/**
- * @param card - Card whom special effect will be used
- * @param playerTurn - The current playing player
- * @param setPlayerTurn - Set the current playing player
- * @param deck - the Deck, use to draw cards in special effect
- * @param setPlayers - same as deck
- * @param isTurnDirectionClockwise  - checks the turn direction
- * @param setIsTurnDirectionClockwise - set the turn direction
- * @param colorChangeRef - ref of the div that contains the colors to pick if player played plus4 or colorchange
- * @param pit - Pit that will be emptied
- * @param setPit - setPit set the pit after removing cards from it
- **/
 var useSpecialCardEffect = function (card, playerTurn, setPlayerTurn, players, deck, setPlayers, setIsTurnDirectionClockwise, isTurnDirectionClockwise, colorChangeRef, pit, setPit) {
-    if (!deck) {
-        console.error("Deck is null");
-        return;
-    }
-    if (!pit) {
-        console.error("Pit is null");
-        return;
-    }
-    if (!card.special) {
-        console.log("Card must be special for its effect to be played");
-        return;
-    }
     switch (card.special) {
         case "skip":
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
@@ -237,31 +195,50 @@ var useSpecialCardEffect = function (card, playerTurn, setPlayerTurn, players, d
             break;
         case "plus4":
             drawCard(deck, players, setPlayers, getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise), 4);
-            changeColor(colorChangeRef, pit, setPit);
-            setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
+            displayColorsChoice(colorChangeRef);
+            changeColor('b', pit, setPit, colorChangeRef, function () {
+                setPlayerTurn(getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise));
+            });
             break;
         case "rev":
             setIsTurnDirectionClockwise(!isTurnDirectionClockwise);
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, !isTurnDirectionClockwise));
             break;
         case "changecolor":
-            changeColor(colorChangeRef, pit, setPit);
+            displayColorsChoice(colorChangeRef);
+            setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
+            break;
     }
 };
 exports.useSpecialCardEffect = useSpecialCardEffect;
 /**
- * @param colorChangeRef - ref of the div that contains the colors to pick if player played plus4 or colorchange
- * @param pit - Pit that will be emptied
- * @param setPit - setPit set the pit after removing cards from it
+ * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
  **/
-var changeColor = function (colorChangeRef, pit, setPit) {
+var displayColorsChoice = function (colorChangeRef) {
     if (colorChangeRef.current === null) {
+        console.error("colorChangeRef is null");
         return;
     }
     colorChangeRef.current.classList.toggle("hidden");
-    colorChangeRef.current.classList.toggle("grid");
-    var updatedCard = pit.peek();
-    updatedCard.color = 'r';
-    pit.editColorChangeNumber(updatedCard);
-    setPit(pit);
+    colorChangeRef.current.classList.toggle("flex");
 };
+/**
+ * @param newColor - chosen color on a joker or plus4
+ * @param pit - Pit that will be emptied
+ * @param setPit - setPit to update the pit after editing the top card from it
+ * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
+ * @param callback - function to call after the color change is complete
+ **/
+var changeColor = function (newColor, pit, setPit, colorChangeRef, callback) {
+    if (!pit) {
+        console.error("Pit is null");
+        return;
+    }
+    pit.shift();
+    var newCard = { special: 'changecolor', color: newColor };
+    var updatedPit = new stack_1.Stack(__spreadArray([newCard], pit.getItems(), true));
+    setPit(updatedPit);
+    displayColorsChoice(colorChangeRef);
+    callback(); // Call the callback after changing the color
+};
+exports.changeColor = changeColor;

@@ -6,10 +6,11 @@ import { LinkedList } from "../../structs/linkedArray";
 import { Stack } from "../../structs/stack";
 import Cards from "../../interface/cards";
 import Player from "../../interface/player";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Deck from "./components/deck/Deck";
 import Players from "./components/players/Player";
 import Pit from "./components/pit/Pit";
+import { changeColor } from "../../cardsFunction";
 
 export default function App() {
     const [players, setPlayers] = useState<Player[]>([]);
@@ -19,7 +20,11 @@ export default function App() {
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
     const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
+    const colors = ['red', 'yellow', 'blue', 'green'];
+    const colorChangeRef = useRef(null);
+
     /**
+     *
      * Initializes the deck, pit, and players on component mount.
      * Deck is a LinkedList, pit is a Stack, and players are an array of Player objects.
      */
@@ -58,6 +63,7 @@ export default function App() {
                 deck={deck}
                 isTurnDirectionClockwise={isTurnDirectionClockwise}
                 setIsTurnDirectionClockwise={setIsTurnDirectionClockwise}
+                colorChangeRef={colorChangeRef}
             />
 
             <Deck
@@ -74,6 +80,20 @@ export default function App() {
             <Pit
                 pit={pit}
             />
+
+            <div className="hidden" ref={colorChangeRef}>
+                {Array.from({ length: 4 }).map((_, index) => (
+                    <button 
+                        className="w-32 h-32 hover:border-4 border-white transition-all rounded-2xl"
+                        style={{ background: colors[index] }}
+                        key={index}
+                        onClick={() => {
+
+                        }}
+                    ></button>
+                ))}
+            </div>
+
         </div>
     );
 }

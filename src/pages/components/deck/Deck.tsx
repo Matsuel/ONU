@@ -34,14 +34,14 @@ const Deck = ({
                         drawCard(deck, players, setPlayers, playerTurn);
 
                         if (deck?.getSize() === 1) {
-                            getPitsCardsToDeck(pit, deck, setPit, setDeck);
+                            getPitsCardsToDeck(pit, setPit, setDeck);
                         }
                 }}
             >
                 <img
                     src="/Cards/back.png"
                     alt="pit"
-                    className="w-24"
+                    className="w-24 hover:border-4 border-white transition-all rounded-xl"
                 />
             </button>
             Deck size: {deck?.getSize() || 0}
