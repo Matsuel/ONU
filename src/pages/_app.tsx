@@ -42,7 +42,7 @@ export default function App() {
         const p2: Player = { name: 'Matsuel', cards: [], uuid: uuidv4() };
         const p3: Player = { name: 'Lukas', cards: [], uuid: uuidv4() };
 
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 2; i++) {
             p1.cards.push(newDeck.removeHead());
             p2.cards.push(newDeck.removeHead());
             p3.cards.push(newDeck.removeHead());

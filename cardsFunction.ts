@@ -164,7 +164,7 @@ const isPlayerTurn = (player: Player, players: Player[], playerTurn: number) => 
  * @param setPlayers - Set the list of players
  */
 const hasPlayerWon = (player: Player, setPlayers: Dispatch<SetStateAction<Player[]>>) => {
-    if (player.cards.length === 0) {
+    if (player.cards.length === 1) {
         alert(`${player.name} has won!`);
         setPlayers(prev => prev.filter(p => p.uuid !== player.uuid));
     }
@@ -203,6 +203,8 @@ const playCard = (
         }
         return p;
     });
+    
+    console.log(players);
 
     setPlayers(updatedPlayers);
     hasPlayerWon(player, setPlayers);

@@ -189,7 +189,7 @@ exports.isPlayerTurn = isPlayerTurn;
  * @param setPlayers - Set the list of players
  */
 var hasPlayerWon = function (player, setPlayers) {
-    if (player.cards.length === 0) {
+    if (player.cards.length === 1) {
         alert("".concat(player.name, " has won!"));
         setPlayers(function (prev) { return prev.filter(function (p) { return p.uuid !== player.uuid; }); });
     }
@@ -215,6 +215,7 @@ var playCard = function (player, cardIndex, pit, setPit, players, setPlayers) {
         }
         return p;
     });
+    console.log(players);
     setPlayers(updatedPlayers);
     hasPlayerWon(player, setPlayers);
     return true;
