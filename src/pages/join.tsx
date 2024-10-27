@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { socket } from "./_app";
 import { useRouter } from "next/router";
+import { emitJoinGame, onJoinGame, onStartGame } from "@/utils/socketEvents";
 
 export default function Join() {
 
@@ -9,13 +10,8 @@ export default function Join() {
     const [message, setMessage] = useState('');
     const router = useRouter();
 
-    const joinGame = () => {
-        socket.emit('join', { uuid: uuid, username: username });
-    }
-
     useEffect(() => {
-        socket.on('join', async (msg) => {
-            console.log('message: ' + msg);
+        onJoinGame((msg) => {
             if (msg.status) {
                 setMessage(msg.uuid);
                 setUuid(msg.uuid);
@@ -24,10 +20,9 @@ export default function Join() {
             }
         })
 
-        socket.on('start', (msg) => {
-            console.log('message kk: ' + msg);
+        onStartGame((msg) => {
             if (msg.status) {
-                router.push({ pathname: '/game'});
+                router.push({ pathname: '/game' });
             } else {
                 console.log('Game not found');
             }
@@ -39,7 +34,7 @@ export default function Join() {
             <h1>Join</h1>
             <input type="text" placeholder="Nom d'utilisateur" onChange={(e) => setUsername(e.target.value)} />
             <input type="text" placeholder="Game uuid" onChange={(e) => setUuid(e.target.value)} />
-            <button onClick={joinGame}>Join</button>
+            <button onClick={() => emitJoinGame(uuid, username)}>Join</button>
             <p>uuid: {message}</p>
         </div>
     )

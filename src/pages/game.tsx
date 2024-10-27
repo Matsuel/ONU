@@ -53,13 +53,6 @@ export default function Game() {
         setPlayers([p1, p2, p3]);
     }, []);
 
-    useEffect(() => {
-        socket.emit('message', 'Hello from client');
-        socket.on('message', (msg) => {
-            console.log('message: ' + msg);
-        });
-    }, []);
-
     return (
         <div className="flex flex-col bg-black w-screen min-h-screen text-white">
             <Players

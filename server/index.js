@@ -63,7 +63,7 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
         const game = games.find(g => g.uuid === uuid);
         console.log(game);
         if (game) {
-            game.players.forEach((player, index) => {
+            game.players.forEach((player) => {
                 player.socket.emit('start', { status: true, message: 'Game started' });
             });
         }
