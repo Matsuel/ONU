@@ -56,10 +56,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNextPlayerIndex = exports.isPlayerTurn = exports.changeColor = exports.useSpecialCardEffect = exports.getPitsCardsToDeck = exports.playCard = exports.drawCard = void 0;
+exports.getNextPlayerIndex = exports.isPlayerTurn = exports.changeColor = exports.specialCardEffect = exports.getPitsCardsToDeck = exports.playCard = exports.drawCard = void 0;
 exports.isCardPlayable = isCardPlayable;
 var linkedArray_1 = require("./structs/linkedArray");
-var stack_1 = require("./structs/stack");
 /**
  * Checks if card1 is playable on card2
  *
@@ -151,12 +150,12 @@ var drawCard = function (deck, setPit, pit, setPlayers, players, playerTurn, set
         }
         return p;
     });
-    var updateTopCard = pit.peek();
+    var updateTopCard = pit.getHead();
     if (!updateTopCard.isOverOneHandOld) {
-        pit.shift();
+        pit.removeHead();
         updateTopCard.isOverOneHandOld = true;
-        var updatedPit = new stack_1.Stack(__spreadArray(__spreadArray([], pit.getItems(), true), [updateTopCard], false));
-        setPit(updatedPit);
+        pit.push(updateTopCard);
+        setPit(pit);
     }
     setPlayers(updatedPlayers);
     setNmbCardsToDraw(0);
@@ -207,8 +206,8 @@ var hasPlayerWon = function (player, setPlayers) {
  */
 var playCard = function (player, cardIndex, pit, setPit, players, setPlayers) {
     var cardPlayed = player.cards[cardIndex];
-    var newPit = new stack_1.Stack(__spreadArray(__spreadArray([], pit.getItems(), true), [cardPlayed], false));
-    setPit(newPit);
+    pit.push(cardPlayed);
+    setPit(pit);
     var updatedPlayers = players.map(function (p) {
         if (player.uuid === p.uuid) {
             return __assign(__assign({}, p), { cards: player.cards.filter(function (c) { return c !== cardPlayed; }) });
@@ -243,10 +242,10 @@ var getPitsCardsToDeck = function (pit, setPit, setDeck) {
     }
     var updatedDeck = new linkedArray_1.LinkedList;
     while (pit.getSize() > 1) {
-        var removedCard = pit.shift();
+        var removedCard = pit.removeTail();
         updatedDeck.append(removedCard);
     }
-    setPit(new stack_1.Stack([updatedDeck.removeHead()]));
+    setPit(pit);
     setDeck(updatedDeck);
 };
 exports.getPitsCardsToDeck = getPitsCardsToDeck;
@@ -263,7 +262,7 @@ exports.getPitsCardsToDeck = getPitsCardsToDeck;
  * @param nmbCardToDraw - nmb of cards to draw
  * @param setNmbCardsToDraw - set the number of cards to one at the end of function
  **/
-var useSpecialCardEffect = function (card, playerTurn, setPlayerTurn, players, setIsTurnDirectionClockwise, isTurnDirectionClockwise, colorChangeRef, nmbCardsToDraw, setNmbCardsToDraw) { return __awaiter(void 0, void 0, void 0, function () {
+var specialCardEffect = function (card, playerTurn, setPlayerTurn, players, setIsTurnDirectionClockwise, isTurnDirectionClockwise, colorChangeRef, nmbCardsToDraw, setNmbCardsToDraw) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (card.special) {
             case "skip":
@@ -290,7 +289,7 @@ var useSpecialCardEffect = function (card, playerTurn, setPlayerTurn, players, s
         return [2 /*return*/];
     });
 }); };
-exports.useSpecialCardEffect = useSpecialCardEffect;
+exports.specialCardEffect = specialCardEffect;
 /**
  * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
  **/
@@ -313,11 +312,11 @@ var changeColor = function (newColor, pit, setPit, colorChangeRef) {
         console.error("Pit is null");
         return;
     }
-    var updatedCard = pit.peek();
-    pit.shift();
+    var updatedCard = pit.getHead();
+    pit.removeHead();
     var newCard = { special: updatedCard.special, color: newColor, changecolor: true };
-    var updatedPit = new stack_1.Stack(__spreadArray(__spreadArray([], pit.getItems(), true), [newCard], false));
-    setPit(updatedPit);
+    pit.push(newCard);
+    setPit(pit);
     displayColorsChoice(colorChangeRef);
 };
 exports.changeColor = changeColor;

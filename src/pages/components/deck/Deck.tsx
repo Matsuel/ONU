@@ -3,7 +3,7 @@ import Cards from "../../../../interface/cards";
 import Player from "../../../../interface/player";
 import { LinkedList } from "../../../../structs/linkedArray";
 import { drawCard, getPitsCardsToDeck } from "../../../../cardsFunction";
-import { Stack } from "../../../../structs/stack";
+import Image from "next/image";
 
 interface DeckProps {
     deck: LinkedList<Cards> | null,
@@ -11,8 +11,8 @@ interface DeckProps {
     players: Player[],
     setPlayers: Dispatch<SetStateAction<Player[]>>,
     setPlayerTurn: Dispatch<SetStateAction<number>>,
-    pit: Stack<Cards> | null,
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
+    pit: LinkedList<Cards> | null,
+    setPit: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
     setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
     isTurnDirectionClockwise: boolean,
     nmbCardsToDraw: number,
@@ -44,10 +44,12 @@ const Deck = ({
                         }
                 }}
             >
-                <img
+                <Image
                     src="/Cards/back.png"
                     alt="pit"
-                    className="w-24 hover:border-4 border-white transition-all rounded-xl"
+                    className="hover:border-4 border-white transition-all rounded-xl"
+                    width={100}
+                    height={100}
                 />
             </button>
             Deck size: {deck?.getSize() || 0}

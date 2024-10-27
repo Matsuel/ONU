@@ -2,7 +2,6 @@ import Cards from "./interface/cards";
 import { LinkedList } from "./structs/linkedArray";
 import Player from "./interface/player";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { Stack } from "./structs/stack";
 
 /**
  * Checks if card1 is playable on card2
@@ -71,8 +70,8 @@ const getNextPlayerIndex = (
  */
 const drawCard = (
     deck: LinkedList<Cards> | null, 
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
-    pit: Stack<Cards> | null,
+    setPit: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
+    pit: LinkedList<Cards> | null,
     setPlayers: Dispatch<SetStateAction<Player[]>>,
     players: Player[],
     playerTurn: number,
@@ -123,14 +122,14 @@ const drawCard = (
         return p;
     });
 
-    let updateTopCard = pit.peek();
+    const updateTopCard = pit.getHead();
 
     if (!updateTopCard.isOverOneHandOld) {
-        pit.shift();
+        pit.removeHead();
         updateTopCard.isOverOneHandOld = true;
-        const updatedPit: Stack<Cards> = new Stack([...pit.getItems(), updateTopCard]);
+        pit.push(updateTopCard);
 
-        setPit(updatedPit);
+        setPit(pit);
     }
 
     setPlayers(updatedPlayers);
@@ -184,15 +183,15 @@ const hasPlayerWon = (player: Player, setPlayers: Dispatch<SetStateAction<Player
 const playCard = (
     player: Player, 
     cardIndex: number, 
-    pit: Stack<Cards>,
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
+    pit: LinkedList<Cards>,
+    setPit: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
     players: Player[],
     setPlayers: Dispatch<SetStateAction<Player[]>> ) => {
 
     const cardPlayed = player.cards[cardIndex];
 
-    const newPit = new Stack<Cards>([...pit.getItems(), cardPlayed]);
-    setPit(newPit);
+    pit.push(cardPlayed);
+    setPit(pit);
 
     const updatedPlayers = players.map(p => {
         if (player.uuid === p.uuid) {
@@ -220,8 +219,8 @@ const playCard = (
  * @param setDeck - setDeck set the deck after refilling it
  **/
 const getPitsCardsToDeck = (
-    pit: Stack<Cards> | null, 
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
+    pit: LinkedList<Cards> | null, 
+    setPit: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
     setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>) => {
 
     if (!pit) {
@@ -242,11 +241,11 @@ const getPitsCardsToDeck = (
     const updatedDeck = new LinkedList<Cards>;
 
     while (pit.getSize() > 1) {
-        const removedCard = pit.shift();
+        const removedCard = pit.removeTail();
         updatedDeck.append(removedCard);
     }
 
-    setPit(new Stack<Cards>([updatedDeck.removeHead()]));
+    setPit(pit);
     setDeck(updatedDeck);
 }
 
@@ -263,7 +262,7 @@ const getPitsCardsToDeck = (
  * @param nmbCardToDraw - nmb of cards to draw 
  * @param setNmbCardsToDraw - set the number of cards to one at the end of function
  **/
-const useSpecialCardEffect = async (
+const specialCardEffect = async (
     card: Cards, 
     playerTurn: number, 
     setPlayerTurn: Dispatch<SetStateAction<number>>,
@@ -318,8 +317,8 @@ const displayColorsChoice = (colorChangeRef: MutableRefObject<HTMLElement | null
  **/
 const changeColor = (
     newColor: 'r' | 'y' | 'b' | 'g',
-    pit: Stack<Cards> | null, 
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>, 
+    pit: LinkedList<Cards> | null, 
+    setPit: Dispatch<SetStateAction<LinkedList<Cards> | null>>, 
     colorChangeRef: MutableRefObject<HTMLElement | null>) => {
 
     if (!pit) {
@@ -327,14 +326,14 @@ const changeColor = (
         return;
     }
 
-    const updatedCard = pit.peek();
-    pit.shift();
+    const updatedCard = pit.getHead();
+    pit.removeHead();
     
     const newCard: Cards = { special: updatedCard.special, color: newColor, changecolor: true }
-    const updatedPit = new Stack<Cards>([...pit.getItems(), newCard]);
+    pit.push(newCard);
 
-    setPit(updatedPit);
+    setPit(pit);
     displayColorsChoice(colorChangeRef);
 }
 
-export { isCardPlayable, drawCard, playCard, getPitsCardsToDeck, useSpecialCardEffect, changeColor, isPlayerTurn, getNextPlayerIndex }
+export { isCardPlayable, drawCard, playCard, getPitsCardsToDeck, specialCardEffect, changeColor, isPlayerTurn, getNextPlayerIndex }

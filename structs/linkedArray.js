@@ -31,8 +31,10 @@ var LinkedList = /** @class */ (function () {
      */
     function LinkedList() {
         this.head = null;
+        this.tail = null; // Pointer to the tail node
         this.len = 0;
         this.head = null;
+        this.tail = null;
     }
     /**
      * Appends an element to the end of the linked list.
@@ -40,17 +42,13 @@ var LinkedList = /** @class */ (function () {
      */
     LinkedList.prototype.append = function (elem) {
         var node = new LinkedNode(elem);
-        var current;
-        if (this.head === null) {
-            this.head = node;
+        if (this.tail) {
+            this.tail.next = node; // Link the current tail to the new node
         }
         else {
-            current = this.head;
-            while (current.next) {
-                current = current.next;
-            }
-            current.next = node;
+            this.head = node; // If list is empty, set head to the new node
         }
+        this.tail = node; // Update tail to the new node
         this.len++;
     };
     /**
@@ -67,8 +65,35 @@ var LinkedList = /** @class */ (function () {
         }
     };
     /**
+     * Removes and returns the tail element of the linked list.
+     * @returns The removed tail element.
+     * @throws Error if the list is empty.
+     */
+    LinkedList.prototype.removeTail = function () {
+        if (this.isEmpty()) {
+            throw new Error("LinkedList is empty.");
+        }
+        if (this.head === this.tail) {
+            var removedTail_1 = this.tail;
+            this.head = null;
+            this.tail = null;
+            this.len--;
+            return removedTail_1.getElement();
+        }
+        var current = this.head;
+        while (current && current.next !== this.tail) {
+            current = current.next;
+        }
+        var removedTail = this.tail;
+        this.tail = current; // Update tail to the second last node
+        if (this.tail) {
+            this.tail.next = null; // Remove link to the removed node
+        }
+        this.len--;
+        return removedTail.getElement();
+    };
+    /**
      * Returns an array of all elements in the linked list.
-     *
      * @returns An array of elements.
      */
     LinkedList.prototype.traverse = function () {
@@ -106,7 +131,23 @@ var LinkedList = /** @class */ (function () {
         var removedHead = this.head;
         this.head = this.head.next;
         this.len--;
+        if (this.isEmpty()) {
+            this.tail = null; // If list becomes empty, reset tail
+        }
         return removedHead.getElement();
+    };
+    /**
+     * Adds an element to the beginning of the linked list.
+     * @param elem The element to be added to the front of the list.
+     */
+    LinkedList.prototype.push = function (elem) {
+        var newNode = new LinkedNode(elem);
+        newNode.next = this.head;
+        this.head = newNode;
+        this.len++;
+        if (this.len === 1) {
+            this.tail = newNode; // Update tail if this is the first element
+        }
     };
     /**
      * Fills the linked list with a shuffled deck of cards.

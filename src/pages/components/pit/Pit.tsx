@@ -1,9 +1,9 @@
 import Cards from "../../../../interface/cards"
-import { Stack } from "../../../../structs/stack"
+import { LinkedList } from "../../../../structs/linkedArray";
 import CardDisplay from "../card-display/CardDisplay"
 
 interface PitProps {
-    pit: Stack<Cards> | null,
+    pit: LinkedList<Cards> | null,
 }
 
 const Pit = ({ pit }: PitProps) => {
@@ -11,11 +11,11 @@ const Pit = ({ pit }: PitProps) => {
             <div>
                 {pit && (
                     <CardDisplay
-                        card={pit?.peek()}
+                        card={pit?.getHead()}
                     />
 
                 )}
-                {JSON.stringify(pit?.peek(), null, 2)}
+                {JSON.stringify(pit?.getHead(), null, 2)}
                 Pit size: {pit?.getSize() || 0}
             </div>
     )

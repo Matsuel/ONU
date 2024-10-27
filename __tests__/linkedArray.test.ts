@@ -7,18 +7,20 @@ describe('LinkedList', () => {
         list = new LinkedList<number>();
     });
 
-    test('should append elements to the list', () => {
-        list.append(1);
-        list.append(2);
-        list.append(3);
+    test('should push element to the beginning of the list', () => {
+        list.push(3);
+        expect(list.getSize()).toBe(1);
+        expect(list.traverse()).toEqual([3]);
+        list.push(2);
+        list.push(1);
         expect(list.getSize()).toBe(3);
         expect(list.traverse()).toEqual([1, 2, 3]);
     });
 
     test('should return the head of the list', () => {
-        list.append(1);
-        list.append(2);
-        expect(list.getHead()).toBe(1);
+        list.push(1);
+        list.push(2);
+        expect(list.getHead()).toBe(2);
     });
 
     test('should throw an error when getting the head of an empty list', () => {
@@ -27,15 +29,15 @@ describe('LinkedList', () => {
 
     test('should return the correct size of the list', () => {
         expect(list.getSize()).toBe(0);
-        list.append(1);
-        list.append(2);
+        list.push(1);
+        list.push(2);
         expect(list.getSize()).toBe(2);
     });
 
     test('should traverse the list', () => {
-        list.append(1);
-        list.append(2);
-        list.append(3);
+        list.push(3);
+        list.push(2);
+        list.push(1);
         expect(list.traverse()).toEqual([1, 2, 3]);
     });
 
@@ -44,14 +46,27 @@ describe('LinkedList', () => {
     });
 
     test('should remove the first element of the list', () => {
-        list.append(1);
-        list.append(2);
-        list.append(3);
+        list.push(3);
+        list.push(2);
+        list.push(1);
         const node = list.removeHead();
         expect(list.getSize()).toBe(2);
         expect(node).toBe(1);
         expect(list.traverse()).toEqual([2, 3]);
     });
+
+    test('should remove the tail from the list', () => {
+        list.push(3);
+        list.push(2);
+        list.push(1);
+        list.removeTail();
+        expect(list.getSize()).toBe(2);
+        expect(list.traverse()).toEqual([2, 3]);
+    })
+
+    test('should throw an error when removing the tail of an empty list', () => {
+        expect(() => list.removeTail()).toThrow('LinkedList is empty.');
+    })
 
     test('should throw an error when removing the head of an empty list', () => {
         expect(() => list.removeHead()).toThrow('LinkedList is empty.');

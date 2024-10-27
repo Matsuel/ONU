@@ -1,16 +1,15 @@
 import Player from "../../../../interface/player";
 import CardDisplay from "../card-display/CardDisplay";
-import { isCardPlayable, playCard, useSpecialCardEffect, isPlayerTurn, getNextPlayerIndex } from "../../../../cardsFunction";
+import { isCardPlayable, playCard, specialCardEffect, isPlayerTurn, getNextPlayerIndex } from "../../../../cardsFunction";
 import { Dispatch, MutableRefObject, SetStateAction} from "react";
 import Cards from "../../../../interface/cards";
-import { Stack } from "../../../../structs/stack";
 import { LinkedList } from "../../../../structs/linkedArray";
 
 interface PlayersProps {
     players: Player[],
     playerTurn: number, 
-    pit: Stack<Cards> | null,
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
+    pit: LinkedList<Cards> | null,
+    setPit: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
     setPlayerTurn: Dispatch<SetStateAction<number>>,
     setPlayers: Dispatch<SetStateAction<Player[]>>,
     deck: LinkedList<Cards> | null,
@@ -52,7 +51,7 @@ const Players = ({
         cardIndex: number, 
         card: Cards, 
         player: Player,
-        setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
+        setPit: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
         players: Player[],
         playerTurn: number,
         setPlayerTurn: Dispatch<SetStateAction<number>>,
@@ -76,14 +75,14 @@ const Players = ({
             return false;
         }
 
-        if (!isCardPlayable(card, pit.peek())) {
-            console.error(`${JSON.stringify(card)} not playable on ${JSON.stringify(pit.peek())}`);
+        if (!isCardPlayable(card, pit.getHead())) {
+            console.error(`${JSON.stringify(card)} not playable on ${JSON.stringify(pit.getHead())}`);
             return false;
         }
 
         if (card.special !== undefined) {
             playCard(player, cardIndex, pit, setPit, players, setPlayers);
-            useSpecialCardEffect(
+            specialCardEffect(
                 card, 
                 playerTurn, 
                 setPlayerTurn, 
@@ -103,7 +102,7 @@ const Players = ({
     return (
         <div>
             <p className="text-red-700 text-2xl">
-                {players[playerTurn]?.name}'s turn
+                {players[playerTurn]?.name}s turn
             </p>
 
             {players.map((player, index) => (
@@ -115,7 +114,7 @@ const Players = ({
                         <button
                             key={cardIndex}
                             className={
-                                `cursor-not-allowed ${isCardPlayable(card, pit!.peek()) && players[playerTurn].uuid === player.uuid ? 
+                                `cursor-not-allowed ${isCardPlayable(card, pit!.getHead()) && players[playerTurn].uuid === player.uuid ? 
                                     'cursor-pointer hover:border-4 border-white transition-all rounded-xl' : 
                                     'opacity-30 cursor-not-allowed'}`}
                             onClick={() => playCardOnClick(

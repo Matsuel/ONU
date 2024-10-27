@@ -28,6 +28,7 @@ class LinkedNode<T> {
  */
 export class LinkedList<T> {
     private head: LinkedNode<T> | null = null;
+    private tail: LinkedNode<T> | null = null; // Pointer to the tail node
     private len: number = 0;
 
     /**
@@ -35,6 +36,7 @@ export class LinkedList<T> {
      */
     constructor() {
         this.head = null;
+        this.tail = null;
     }
 
     /**
@@ -43,17 +45,12 @@ export class LinkedList<T> {
      */
     public append(elem: T): void {
         const node = new LinkedNode(elem);
-        let current: LinkedNode<T>;
-
-        if (this.head === null) {
-            this.head = node;
+        if (this.tail) {
+            this.tail.next = node; // Link the current tail to the new node
         } else {
-            current = this.head;
-            while (current.next) {
-                current = current.next;
-            }
-            current.next = node;
+            this.head = node; // If list is empty, set head to the new node
         }
+        this.tail = node; // Update tail to the new node
         this.len++;
     }
 
@@ -71,8 +68,39 @@ export class LinkedList<T> {
     }
 
     /**
+     * Removes and returns the tail element of the linked list.
+     * @returns The removed tail element.
+     * @throws Error if the list is empty.
+     */
+    public removeTail(): T {
+        if (this.isEmpty()) {
+            throw new Error(`LinkedList is empty.`);
+        }
+
+        if (this.head === this.tail) {
+            const removedTail = this.tail!;
+            this.head = null;
+            this.tail = null;
+            this.len--;
+            return removedTail.getElement();
+        }
+
+        let current = this.head;
+        while (current && current.next !== this.tail) {
+            current = current.next;
+        }
+
+        const removedTail = this.tail!;
+        this.tail = current; // Update tail to the second last node
+        if (this.tail) {
+            this.tail.next = null; // Remove link to the removed node
+        }
+        this.len--;
+        return removedTail.getElement();
+    }
+
+    /**
      * Returns an array of all elements in the linked list.
-     * 
      * @returns An array of elements.
      */
     public traverse(): T[] {
@@ -114,7 +142,25 @@ export class LinkedList<T> {
         const removedHead = this.head;
         this.head = this.head.next;
         this.len--;
+        if (this.isEmpty()) {
+            this.tail = null; // If list becomes empty, reset tail
+        }
         return removedHead.getElement();
+    }
+
+    /**
+     * Adds an element to the beginning of the linked list.
+     * @param elem The element to be added to the front of the list.
+     */
+    public push(elem: T): void {
+        const newNode = new LinkedNode(elem);
+        newNode.next = this.head; 
+        this.head = newNode;     
+        this.len++;             
+
+        if (this.len === 1) {
+            this.tail = newNode; // Update tail if this is the first element
+        }
     }
 
     /**
@@ -125,12 +171,11 @@ export class LinkedList<T> {
         const coloredSpecialCards = ['plus2', 'skip', 'rev'];
         const specialCards = ['plus4', 'changecolor'];
 
-        let newDeck: T[] = [];
+        const newDeck: T[] = [];
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < colors.length; j++) {
                 newDeck.push({ color: colors[j], number: i } as T);
-
                 if (i !== 0) {
                     newDeck.push({ color: colors[j], number: i } as T);
                 }

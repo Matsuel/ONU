@@ -3,7 +3,6 @@ import "@/styles/globals.css";
 import { v4 as uuidv4 } from "uuid";
 
 import { LinkedList } from "../../structs/linkedArray";
-import { Stack } from "../../structs/stack";
 import Cards from "../../interface/cards";
 import Player from "../../interface/player";
 import { useEffect, useState, useRef } from "react";
@@ -18,7 +17,7 @@ export default function App() {
     const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
 
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
-    const [pit, setPit] = useState<Stack<Cards> | null>(null);
+    const [pit, setPit] = useState<LinkedList<Cards> | null>(null);
 
     const [nmbCardsToDraw, setNmbCardsToDraw] = useState(0);
 
@@ -34,7 +33,7 @@ export default function App() {
         const newDeck = new LinkedList<Cards>();
         newDeck.fillDeck();
 
-        const newPit = new Stack<Cards>([]);
+        const newPit = new LinkedList<Cards>();
         const firstCard = newDeck.removeHead(); 
         newPit.push(firstCard);
 
@@ -42,7 +41,7 @@ export default function App() {
         const p2: Player = { name: 'Matsuel', cards: [], uuid: uuidv4() };
         const p3: Player = { name: 'Lukas', cards: [], uuid: uuidv4() };
 
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 7; i++) {
             p1.cards.push(newDeck.removeHead());
             p2.cards.push(newDeck.removeHead());
             p3.cards.push(newDeck.removeHead());
@@ -95,10 +94,20 @@ export default function App() {
                         style={{ background: colors[index] }}
                         key={index}
                         onClick={() => {
-                            index === 0 ? changeColor('r', pit, setPit, colorChangeRef) : 
-                            index === 1 ? changeColor('y', pit, setPit, colorChangeRef) : 
-                            index === 2 ? changeColor('b', pit, setPit, colorChangeRef) : 
-                            index === 3 ? changeColor('g', pit, setPit, colorChangeRef) : ''
+                            switch (index) {
+                                case 0:
+                                    changeColor('r', pit, setPit, colorChangeRef);
+                                    break;
+                                case 1:
+                                    changeColor('y', pit, setPit, colorChangeRef);
+                                    break;
+                                case 2:
+                                    changeColor('b', pit, setPit, colorChangeRef);
+                                    break;
+                                case 3:
+                                    changeColor('g', pit, setPit, colorChangeRef);
+                                    break;
+                            }
                         }}
                     ></button>
                 ))}
