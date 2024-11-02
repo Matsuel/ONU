@@ -57,26 +57,19 @@ export default function Game() {
     useEffect(() => {
         socket.emit('getGame');
 
-        const handleGetGame = (game: { game: { pit: Stack<Cards>, deck: LinkedList<Cards>, players: Player[] } }) => {
-            setPit(game.game.pit as Stack<Cards>);
-            setDeck(game.game.deck as LinkedList<Cards>);
-            setPlayers(game.game.players as Player[]);
-            setLoading(false);
-        };
-
         socket.removeAllListeners('getGame');
         socket.on('getGame', (data) => {
             console.log('getGame', data.game);
             console.log('getGame', data.game.pit.len);
-            setPit(new Stack(data.game.pit));
-            setDeck(data.game.deck as LinkedList<Cards>);
+            setPit(new Stack(data.game.pit.stack));
+            setDeck(new LinkedList(data.game.deck));
             setPlayers(data.game.players as Player[]);
             setLoading(false);
             console.log('getGame', pit);
         });
 
         return () => {
-            socket.off('getGame', handleGetGame); // Nettoyage lors du démontage du composant
+            socket.off('getGame');
         };
     }, []);
 

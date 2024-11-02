@@ -69,6 +69,7 @@ var stack_1 = require("./structs/stack");
  * @returns True if card is playable otherwise False
  **/
 function isCardPlayable(card1, card2) {
+    console.log(card1, card2);
     if (card2.special === 'plus2' && !card2.isOverOneHandOld) {
         return card1.special === 'plus2' || card1.special == 'plus4';
     }

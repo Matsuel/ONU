@@ -13,6 +13,7 @@ import { Stack } from "./structs/stack";
  * @returns True if card is playable otherwise False
  **/
 function isCardPlayable(card1: Cards, card2: Cards): boolean {
+    console.log(card1, card2);
     if (card2.special === 'plus2' && !card2.isOverOneHandOld) {
         return card1.special === 'plus2' || card1.special == 'plus4';
     } else if (card2.special === 'plus4' && !card2.isOverOneHandOld) {

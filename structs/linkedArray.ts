@@ -31,10 +31,15 @@ export class LinkedList<T> {
     private len: number = 0;
 
     /**
-     * Initializes an empty linked list.
+     * Initializes a linked list. Optionally accepts an array of elements to populate the list.
+     * @param elements An optional array of elements to initialize the list with.
      */
-    constructor() {
+    constructor(elements?: T[]) {
         this.head = null;
+
+        if (elements && elements.length > 0) {
+            elements.forEach(elem => this.append(elem));
+        }
     }
 
     /**
@@ -162,4 +167,3 @@ export class LinkedList<T> {
         });
     }
 }
-
