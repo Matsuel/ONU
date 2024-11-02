@@ -1,7 +1,7 @@
 import Player from "../../../../interface/player";
 import CardDisplay from "../card-display/CardDisplay";
 import { isCardPlayable, playCard, useSpecialCardEffect, isPlayerTurn, getNextPlayerIndex } from "../../../../cardsFunction";
-import { Dispatch, MutableRefObject, SetStateAction} from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useEffect} from "react";
 import Cards from "../../../../interface/cards";
 import { Stack } from "../../../../structs/stack";
 import { LinkedList } from "../../../../structs/linkedArray";
@@ -99,6 +99,13 @@ const Players = ({
             setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
         }
     }
+
+    useEffect(() => {
+        console.log(players, 'players');
+        console.log(playerTurn, 'playerTurn');
+        console.log(pit, 'pit');
+        console.log(deck, 'deck');
+    }, []);
 
     return (
         <div>

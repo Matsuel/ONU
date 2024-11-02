@@ -4,6 +4,8 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import crypto from 'crypto';
 import { Socket } from 'socket.io';
+import { Stack } from './stack';
+import { LinkedList } from './linkedArray';
 
 const app = express();
 app.use(cors());
@@ -30,6 +32,8 @@ interface Player {
 }
 
 interface Game {
+    pit: Stack<Cards>,
+    deck: LinkedList<Cards>,
     players: Player[];
     uuid: string;
 }
@@ -41,7 +45,15 @@ io.on('connection', async (socket) => {
     socket.on('create', async (data) => {
         console.log('create');
         const { username } = data;
+        const deck = new LinkedList<Cards>();
+        deck.fillDeck();
+
+        const pit = new Stack<Cards>([]);
+        const firstCard = deck.removeHead();
+        pit.push(firstCard);
         const game = {
+            pit: pit,
+            deck: deck,
             players: [{ uuid: socket.id, name: username, cards: [], socket: socket }],
             uuid: crypto.randomUUID()
         };
@@ -72,8 +84,15 @@ io.on('connection', async (socket) => {
         const { uuid } = data;
         console.log('start', uuid);
         const game = games.find(g => g.uuid === uuid);
-        console.log(game);
         if (game) {
+            // distribuer les cartes
+            for (let i = 0; i < 7; i++) {
+                game.players.forEach((player) => {
+                    player.cards.push(game.deck.removeHead());
+                });
+            }
+
+            // informer les joueurs que la partie va commencer
             game.players.forEach((player) => {
                 player.socket.emit('start', { status: true, message: 'Game started' });
             });
@@ -81,6 +100,22 @@ io.on('connection', async (socket) => {
             socket.emit('start', { status: false, message: 'Game not found' });
         }
     });
+
+    socket.on('getGame', async () => {
+        const game = games.find(g => g.players.find(p => p.uuid === socket.id));
+        if (game) {
+            const simplifiedGame = {
+                ...game,
+                players: game.players.map(({ uuid, name, cards }) => ({
+                    uuid,
+                    name,
+                    cards
+                })),
+            };
+            socket.emit('getGame', { game: simplifiedGame });
+        }
+    });
+
 });
 
 server.listen(8000, () => {

@@ -17,6 +17,8 @@ const express_1 = __importDefault(require("express"));
 const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
 const crypto_1 = __importDefault(require("crypto"));
+const stack_1 = require("./stack");
+const linkedArray_1 = require("./linkedArray");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 const server = (0, http_1.createServer)(app);
@@ -31,7 +33,14 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
     socket.on('create', (data) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('create');
         const { username } = data;
+        const deck = new linkedArray_1.LinkedList();
+        deck.fillDeck();
+        const pit = new stack_1.Stack([]);
+        const firstCard = deck.removeHead();
+        pit.push(firstCard);
         const game = {
+            pit: pit,
+            deck: deck,
             players: [{ uuid: socket.id, name: username, cards: [], socket: socket }],
             uuid: crypto_1.default.randomUUID()
         };
@@ -61,14 +70,31 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
         const { uuid } = data;
         console.log('start', uuid);
         const game = games.find(g => g.uuid === uuid);
-        console.log(game);
         if (game) {
+            // distribuer les cartes
+            for (let i = 0; i < 7; i++) {
+                game.players.forEach((player) => {
+                    player.cards.push(game.deck.removeHead());
+                });
+            }
+            // informer les joueurs que la partie va commencer
             game.players.forEach((player) => {
                 player.socket.emit('start', { status: true, message: 'Game started' });
             });
         }
         else {
             socket.emit('start', { status: false, message: 'Game not found' });
+        }
+    }));
+    socket.on('getGame', () => __awaiter(void 0, void 0, void 0, function* () {
+        const game = games.find(g => g.players.find(p => p.uuid === socket.id));
+        if (game) {
+            const simplifiedGame = Object.assign(Object.assign({}, game), { players: game.players.map(({ uuid, name, cards }) => ({
+                    uuid,
+                    name,
+                    cards
+                })) });
+            socket.emit('getGame', { game: simplifiedGame });
         }
     }));
 }));
