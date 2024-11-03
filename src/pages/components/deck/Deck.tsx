@@ -50,7 +50,7 @@ const Deck = ({
                     className="w-24 hover:border-4 border-white transition-all rounded-xl"
                 />
             </button>
-            Deck size: {deck?.getSize() || 0}
+            Deck size: {deck?.getSize()}
         </div>
     )
 }

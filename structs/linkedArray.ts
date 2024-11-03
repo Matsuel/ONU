@@ -35,8 +35,6 @@ export class LinkedList<T> {
      * @param elements An optional array of elements to initialize the list with.
      */
     constructor(elements?: T[]) {
-        this.head = null;
-
         if (elements && elements.length > 0) {
             elements.forEach(elem => this.append(elem));
         }
@@ -60,6 +58,24 @@ export class LinkedList<T> {
             current.next = node;
         }
         this.len++;
+    }
+
+    /**
+     * Converts a JSON object to a linked list.
+     * @param json The JSON object representing a linked list.
+     */
+    public fromJSON(json: { head: { elem: T; next: any } | null; len: number }): void {
+        this.head = null; // Clear any existing elements in the list
+        this.len = 0;
+
+        let current = json.head;
+        while (current !== null) {
+            this.append(current.elem);
+            current = current.next;
+        }
+
+        // Set the length based on the provided JSON
+        this.len = json.len;
     }
 
     /**
@@ -120,50 +136,5 @@ export class LinkedList<T> {
         this.head = this.head.next;
         this.len--;
         return removedHead.getElement();
-    }
-
-    /**
-     * Fills the linked list with a shuffled deck of cards.
-     */
-    public fillDeck(): void {
-        const colors = ['r', 'g', 'b', 'y'];
-        const coloredSpecialCards = ['plus2', 'skip', 'rev'];
-        const specialCards = ['plus4', 'changecolor'];
-
-        let newDeck: T[] = [];
-
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < colors.length; j++) {
-                newDeck.push({ color: colors[j], number: i } as T);
-
-                if (i !== 0) {
-                    newDeck.push({ color: colors[j], number: i } as T);
-                }
-            }
-        }
-        
-        for (let i = 0; i < coloredSpecialCards.length; i++) {
-            for (let j = 0; j < colors.length; j++) {
-                newDeck.push({ color: colors[j], special: coloredSpecialCards[i] } as T);
-                newDeck.push({ color: colors[j], special: coloredSpecialCards[i] } as T);
-            }
-        }
-
-        for (let i = 0; i < specialCards.length; i++) {
-            for (let j = 0; j < 4; j++) {
-                newDeck.push({ special: specialCards[i] } as T);
-            }
-        }
-
-        for (let i = newDeck.length - 1; i >= 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            const temp = newDeck[i];
-            newDeck[i] = newDeck[j];
-            newDeck[j] = temp;
-        }
-
-        newDeck.forEach(element => {
-            this.append(element);
-        });
     }
 }
