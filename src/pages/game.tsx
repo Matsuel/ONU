@@ -59,16 +59,12 @@ export default function Game() {
 
         socket.removeAllListeners('getGame');
         socket.on('getGame', (data) => {
-            console.log('getGame', data.game);
-            console.log('getGame', data.game.pit.len);
-
             const newDeck = new LinkedList<Cards>();
             newDeck.fromJSON(data.game.deck);
             setPit(new Stack(data.game.pit.stack));
             setDeck(newDeck);
             setPlayers(data.game.players as Player[]);
             setLoading(false);
-            console.log('getGame', pit);
         });
 
         return () => {
