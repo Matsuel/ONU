@@ -25,6 +25,14 @@ export default function Game() {
     const colors = ['red', 'yellow', 'blue', 'green'];
     const colorChangeRef = useRef(null);
 
+    // TODO:
+    // - Choisir sur le serveur le joueur qui commence
+    // - Empecher les autres joueurs de jouer si ce n'est pas leur tour
+    // - Dès qu'une carte est jouée, envoyée la nouvelle partie au serveur
+    // - Envoyer la nouvelle partie à tous les joueurs à chaque fois qu'une carte est jouée
+    // - Déplacer les fonctions de jeu dans un fichier à part sur le serveur
+    // - Mettre les interfaces sur le serveur
+
     useEffect(() => {
         if (id) socket.emit('getGame', { id: id[0] });
     }, [id]);

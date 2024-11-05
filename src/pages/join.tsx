@@ -21,8 +21,9 @@ export default function Join() {
         })
 
         onStartGame((msg) => {
-            if (msg.status) {
-                router.push({ pathname: `/game/${uuid}` });
+            if (msg.uuid) {
+                console.log(msg.uuid);
+                router.push({ pathname: `/game/${msg.uuid}` });
             } else {
                 console.log('Game not found');
             }
