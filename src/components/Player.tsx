@@ -1,14 +1,14 @@
 import Player from "../../interface/player";
 import CardDisplay from "./CardDisplay";
 import { isCardPlayable, playCard, useSpecialCardEffect, isPlayerTurn, getNextPlayerIndex } from "../../cardsFunction";
-import { Dispatch, MutableRefObject, SetStateAction, useEffect} from "react";
+import { Dispatch, MutableRefObject, SetStateAction, useEffect } from "react";
 import Cards from "../../interface/cards";
 import { Stack } from "../../structs/stack";
 import { LinkedList } from "../../structs/linkedArray";
 
 interface PlayersProps {
     players: Player[],
-    playerTurn: number, 
+    playerTurn: number,
     pit: Stack<Cards> | null,
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     setPlayerTurn: Dispatch<SetStateAction<number>>,
@@ -21,19 +21,19 @@ interface PlayersProps {
     setNmbCardsToDraw: Dispatch<SetStateAction<number>>,
 }
 
-const Players = ({ 
-    players, 
-    playerTurn, 
-    pit, 
-    setPit, 
-    setPlayerTurn, 
-    setPlayers, 
-    deck, 
-    isTurnDirectionClockwise, 
+const Players = ({
+    players,
+    playerTurn,
+    pit,
+    setPit,
+    setPlayerTurn,
+    setPlayers,
+    deck,
+    isTurnDirectionClockwise,
     setIsTurnDirectionClockwise,
     colorChangeRef,
     nmbCardsToDraw,
-    setNmbCardsToDraw}: PlayersProps) => {
+    setNmbCardsToDraw }: PlayersProps) => {
 
     /**
      * @param cardIndex - the index of the card played
@@ -49,8 +49,8 @@ const Players = ({
      * @param nmbCardsToDraw - nmb of cards that the player will draw
      **/
     const playCardOnClick = (
-        cardIndex: number, 
-        card: Cards, 
+        cardIndex: number,
+        card: Cards,
         player: Player,
         setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
         players: Player[],
@@ -84,11 +84,11 @@ const Players = ({
         if (card.special !== undefined) {
             playCard(player, cardIndex, pit, setPit, players, setPlayers);
             useSpecialCardEffect(
-                card, 
-                playerTurn, 
-                setPlayerTurn, 
-                players, 
-                setIsTurnDirectionClockwise, 
+                card,
+                playerTurn,
+                setPlayerTurn,
+                players,
+                setIsTurnDirectionClockwise,
                 isTurnDirectionClockwise,
                 colorChangeRef,
                 nmbCardsToDraw,
@@ -115,18 +115,18 @@ const Players = ({
                         <button
                             key={cardIndex}
                             className={
-                                `cursor-not-allowed ${isCardPlayable(card, pit!.peek()) && players[playerTurn].uuid === player.uuid ? 
-                                    'cursor-pointer hover:border-4 border-white transition-all rounded-xl' : 
+                                `cursor-not-allowed ${isCardPlayable(card, pit!.peek()) && players[playerTurn].uuid === player.uuid ?
+                                    'cursor-pointer hover:border-4 border-white transition-all rounded-xl' :
                                     'opacity-30 cursor-not-allowed'}`}
                             onClick={() => playCardOnClick(
-                                cardIndex, 
-                                card, 
-                                player, 
-                                setPit, 
-                                players, 
-                                playerTurn, 
-                                setPlayerTurn, 
-                                setPlayers, 
+                                cardIndex,
+                                card,
+                                player,
+                                setPit,
+                                players,
+                                playerTurn,
+                                setPlayerTurn,
+                                setPlayers,
                                 isTurnDirectionClockwise,
                                 setNmbCardsToDraw,
                                 nmbCardsToDraw

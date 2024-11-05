@@ -47,11 +47,6 @@ export default function Create() {
                     </button>
                 </div>
             }
-            {/* <p>uuid: {uuid}</p>
-            <button onClick={copyToClipboard}>Copier le code de la partie</button>
-            <button onClick={startGame}>
-                Commencer la partie
-            </button> */}
         </div>
     )
 }

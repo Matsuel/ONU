@@ -8,16 +8,16 @@ interface PitProps {
 
 const Pit = ({ pit }: PitProps) => {
     return (
-            <div>
-                {pit && (
-                    <CardDisplay
-                        card={pit?.peek()}
-                    />
+        <div>
+            {pit && (
+                <CardDisplay
+                    card={pit?.peek()}
+                />
 
-                )}
-                {JSON.stringify(pit?.peek(), null, 2)}
-                Pit size: {pit?.getSize() || 0}
-            </div>
+            )}
+            {JSON.stringify(pit?.peek(), null, 2)}
+            Pit size: {pit?.getSize() || 0}
+        </div>
     )
 }
 

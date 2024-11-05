@@ -20,7 +20,7 @@ function isCardPlayable(card1: Cards, card2: Cards): boolean {
     }
 
     const isJoker = card1.special === 'changecolor' || card1.special === 'plus4';
-    
+
     const isSameColor = card1.color !== undefined && card2.color !== undefined && card1.color === card2.color;
     const isSameNumber = card1.number !== undefined && card2.number !== undefined && card1.number === card2.number;
     const isSameSpecial = card1.special !== undefined && card2.special !== undefined && card1.special === card2.special;
@@ -36,10 +36,10 @@ function isCardPlayable(card1: Cards, card2: Cards): boolean {
  * @param isTurnDirectionClockwise  - checks the turn direction
  */
 const getNextPlayerIndex = (
-    players: Player[], 
-    playerTurn: number, 
+    players: Player[],
+    playerTurn: number,
     nmbSkip: number,
-    isTurnDirectionClockwise: boolean ): number => {
+    isTurnDirectionClockwise: boolean): number => {
 
     if (isTurnDirectionClockwise) {
         if (playerTurn + nmbSkip > players.length - 1) {
@@ -70,7 +70,7 @@ const getNextPlayerIndex = (
  * @param setNmbCardsToDraw - set the number of cards to draw (1 after function)
  */
 const drawCard = (
-    deck: LinkedList<Cards> | null, 
+    deck: LinkedList<Cards> | null,
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     pit: Stack<Cards> | null,
     setPlayers: Dispatch<SetStateAction<Player[]>>,
@@ -79,7 +79,7 @@ const drawCard = (
     setPlayerTurn: Dispatch<SetStateAction<number>>,
     isTurnDirectionClockwise: boolean,
     nmbCardsToDraw: number,
-    setNmbCardsToDraw: Dispatch<SetStateAction<number>> ) => {
+    setNmbCardsToDraw: Dispatch<SetStateAction<number>>) => {
 
     if (!deck) {
         console.error('Deck is null');
@@ -182,12 +182,12 @@ const hasPlayerWon = (player: Player, setPlayers: Dispatch<SetStateAction<Player
  * @returns returns true if the card has been played otherwise returns false
  */
 const playCard = (
-    player: Player, 
-    cardIndex: number, 
+    player: Player,
+    cardIndex: number,
     pit: Stack<Cards>,
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     players: Player[],
-    setPlayers: Dispatch<SetStateAction<Player[]>> ) => {
+    setPlayers: Dispatch<SetStateAction<Player[]>>) => {
 
     const cardPlayed = player.cards[cardIndex];
 
@@ -203,7 +203,7 @@ const playCard = (
         }
         return p;
     });
-    
+
     console.log(players);
 
     setPlayers(updatedPlayers);
@@ -220,7 +220,7 @@ const playCard = (
  * @param setDeck - setDeck set the deck after refilling it
  **/
 const getPitsCardsToDeck = (
-    pit: Stack<Cards> | null, 
+    pit: Stack<Cards> | null,
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>) => {
 
@@ -264,8 +264,8 @@ const getPitsCardsToDeck = (
  * @param setNmbCardsToDraw - set the number of cards to one at the end of function
  **/
 const useSpecialCardEffect = async (
-    card: Cards, 
-    playerTurn: number, 
+    card: Cards,
+    playerTurn: number,
     setPlayerTurn: Dispatch<SetStateAction<number>>,
     players: Player[],
     setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>,
@@ -318,8 +318,8 @@ const displayColorsChoice = (colorChangeRef: MutableRefObject<HTMLElement | null
  **/
 const changeColor = (
     newColor: 'r' | 'y' | 'b' | 'g',
-    pit: Stack<Cards> | null, 
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>, 
+    pit: Stack<Cards> | null,
+    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     colorChangeRef: MutableRefObject<HTMLElement | null>) => {
 
     if (!pit) {
@@ -329,7 +329,7 @@ const changeColor = (
 
     const updatedCard = pit.peek();
     pit.shift();
-    
+
     const newCard: Cards = { special: updatedCard.special, color: newColor, changecolor: true }
     const updatedPit = new Stack<Cards>([...pit.getItems(), newCard]);
 

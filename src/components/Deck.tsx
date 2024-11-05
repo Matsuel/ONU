@@ -19,29 +19,29 @@ interface DeckProps {
     setNmbCardsToDraw: Dispatch<SetStateAction<number>>
 }
 
-const Deck = ({ 
-    deck, 
-    playerTurn, 
-    players, 
-    setPlayers, 
+const Deck = ({
+    deck,
+    playerTurn,
+    players,
+    setPlayers,
     pit,
     setPit,
     setDeck,
     setPlayerTurn,
     isTurnDirectionClockwise,
     nmbCardsToDraw,
-    setNmbCardsToDraw } : DeckProps) => {
+    setNmbCardsToDraw }: DeckProps) => {
 
     return (
         <div>
             <button
                 className="flex flex-col"
                 onClick={() => {
-                        drawCard(deck, setPit, pit, setPlayers, players, playerTurn, setPlayerTurn, isTurnDirectionClockwise, nmbCardsToDraw, setNmbCardsToDraw);
+                    drawCard(deck, setPit, pit, setPlayers, players, playerTurn, setPlayerTurn, isTurnDirectionClockwise, nmbCardsToDraw, setNmbCardsToDraw);
 
-                        if (deck?.getSize() === 1) {
-                            getPitsCardsToDeck(pit, setPit, setDeck);
-                        }
+                    if (deck?.getSize() === 1) {
+                        getPitsCardsToDeck(pit, setPit, setDeck);
+                    }
                 }}
             >
                 <img
