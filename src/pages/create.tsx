@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { socket } from "./_app";
 import { useRouter } from "next/router";
 import { emitCreateGame, emitStartGame, onCreateGame, onStartGame } from "@/utils/socketEvents";
 

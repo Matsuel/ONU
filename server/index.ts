@@ -103,7 +103,7 @@ io.on('connection', async (socket) => {
 
     socket.on('getGame', async (data) => {
         const { id } = data;
-        const game = games.find(g => g.uuid === id[0] && g.players.find(p => p.socket.id === socket.id));
+        const game = games.find(g => g.uuid === id && g.players.find(p => p.socket.id === socket.id));
         if (game) {
             const simplifiedGame = {
                 ...game,

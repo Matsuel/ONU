@@ -12,27 +12,24 @@ import { socket } from '../_app';
 import { useRouter } from "next/router";
 
 export default function Game() {
-    const [players, setPlayers] = useState<Player[]>([]);
-    const [playerTurn, setPlayerTurn] = useState(0);
-    const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
     const router = useRouter();
+    const { id } = router.query;
 
+    const [players, setPlayers] = useState<Player[]>([]);
     const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
     const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
+    const [playerTurn, setPlayerTurn] = useState(0);
+    const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
     const [nmbCardsToDraw, setNmbCardsToDraw] = useState(0);
-
     const colors = ['red', 'yellow', 'blue', 'green'];
     const colorChangeRef = useRef(null);
-    const { id } = router.query;
 
     useEffect(() => {
-        if (id) socket.emit('getGame', { id });
+        if (id) socket.emit('getGame', { id: id[0] });
     }, [id]);
 
     useEffect(() => {
-
-        socket.removeAllListeners('getGame');
         socket.on('getGame', (data) => {
             const newDeck = new LinkedList<Cards>();
             newDeck.fromJSON(data.game.deck);
@@ -40,10 +37,6 @@ export default function Game() {
             setDeck(newDeck);
             setPlayers(data.game.players as Player[]);
         });
-
-        return () => {
-            socket.off('getGame');
-        };
     }, []);
 
     return (

@@ -88,8 +88,7 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
     }));
     socket.on('getGame', (data) => __awaiter(void 0, void 0, void 0, function* () {
         const { id } = data;
-        console.log('getGame', id);
-        const game = games.find(g => g.uuid === id[0] && g.players.find(p => p.socket.id === socket.id));
+        const game = games.find(g => g.uuid === id && g.players.find(p => p.socket.id === socket.id));
         if (game) {
             const simplifiedGame = Object.assign(Object.assign({}, game), { players: game.players.map(({ uuid, name, cards }) => ({
                     uuid,
