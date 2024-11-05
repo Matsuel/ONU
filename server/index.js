@@ -79,15 +79,17 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
             }
             // informer les joueurs que la partie va commencer
             game.players.forEach((player) => {
-                player.socket.emit('start', { status: true, message: 'Game started' });
+                player.socket.emit('start', { status: true, uuid: uuid });
             });
         }
         else {
             socket.emit('start', { status: false, message: 'Game not found' });
         }
     }));
-    socket.on('getGame', () => __awaiter(void 0, void 0, void 0, function* () {
-        const game = games.find(g => g.players.find(p => p.uuid === socket.id));
+    socket.on('getGame', (data) => __awaiter(void 0, void 0, void 0, function* () {
+        const { id } = data;
+        console.log('getGame', id);
+        const game = games.find(g => g.uuid === id[0] && g.players.find(p => p.socket.id === socket.id));
         if (game) {
             const simplifiedGame = Object.assign(Object.assign({}, game), { players: game.players.map(({ uuid, name, cards }) => ({
                     uuid,
@@ -97,6 +99,7 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
             socket.emit('getGame', { game: simplifiedGame });
         }
     }));
+    // Dès qu'un joueur joue une carte on modifie la partie sur le serveur et on renvoie la partie modifiée à tous les joueurs
 }));
 server.listen(8000, () => {
     console.log('listening on *:8000');

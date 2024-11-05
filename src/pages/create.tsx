@@ -19,8 +19,9 @@ export default function Create() {
         })
 
         onStartGame((msg) => {
-            if (msg.status) {
-                router.push({ pathname: '/game' });
+            if (msg.uuid) {
+                console.log(msg.uuid);
+                router.push({ pathname: `/game/${msg.uuid}` });
             } else {
                 console.log('Game not found');
             }

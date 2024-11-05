@@ -100,13 +100,6 @@ const Players = ({
         }
     }
 
-    useEffect(() => {
-        console.log(players, 'players');
-        console.log(playerTurn, 'playerTurn');
-        console.log(pit, 'pit');
-        console.log(deck, 'deck');
-    }, []);
-
     return (
         <div>
             <p className="text-red-700 text-2xl">
