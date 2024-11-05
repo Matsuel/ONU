@@ -1,6 +1,6 @@
-import Cards from "../../../../interface/cards"
-import { Stack } from "../../../../structs/stack"
-import CardDisplay from "../card-display/CardDisplay"
+import Cards from "../../interface/cards"
+import { Stack } from "../../structs/stack"
+import CardDisplay from "@/components/CardDisplay"
 
 interface PitProps {
     pit: Stack<Cards> | null,

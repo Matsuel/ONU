@@ -1,4 +1,4 @@
-import Cards from "../../../../interface/cards"
+import Cards from "../../interface/cards"
 
 interface CardDisplayProps {
     card: Cards | null,

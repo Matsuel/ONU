@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
-import Cards from "../../../../interface/cards";
-import Player from "../../../../interface/player";
-import { LinkedList } from "../../../../structs/linkedArray";
-import { drawCard, getPitsCardsToDeck } from "../../../../cardsFunction";
-import { Stack } from "../../../../structs/stack";
+import Cards from "../../interface/cards";
+import Player from "../../interface/player";
+import { LinkedList } from "../../structs/linkedArray";
+import { drawCard, getPitsCardsToDeck } from "../../cardsFunction";
+import { Stack } from "../../structs/stack";
 
 interface DeckProps {
     deck: LinkedList<Cards> | null,

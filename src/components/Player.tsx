@@ -1,10 +1,10 @@
-import Player from "../../../../interface/player";
-import CardDisplay from "../card-display/CardDisplay";
-import { isCardPlayable, playCard, useSpecialCardEffect, isPlayerTurn, getNextPlayerIndex } from "../../../../cardsFunction";
+import Player from "../../interface/player";
+import CardDisplay from "./CardDisplay";
+import { isCardPlayable, playCard, useSpecialCardEffect, isPlayerTurn, getNextPlayerIndex } from "../../cardsFunction";
 import { Dispatch, MutableRefObject, SetStateAction, useEffect} from "react";
-import Cards from "../../../../interface/cards";
-import { Stack } from "../../../../structs/stack";
-import { LinkedList } from "../../../../structs/linkedArray";
+import Cards from "../../interface/cards";
+import { Stack } from "../../structs/stack";
+import { LinkedList } from "../../structs/linkedArray";
 
 interface PlayersProps {
     players: Player[],
