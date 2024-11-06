@@ -81,6 +81,7 @@ const drawCard = (
     nmbCardsToDraw: number,
     setNmbCardsToDraw: Dispatch<SetStateAction<number>>) => {
 
+
     if (!deck) {
         console.error('Deck is null');
         return;
@@ -125,6 +126,7 @@ const drawCard = (
 
     let updateTopCard = pit.peek();
 
+    
     if (!updateTopCard.isOverOneHandOld) {
         pit.shift();
         updateTopCard.isOverOneHandOld = true;
@@ -224,6 +226,8 @@ const getPitsCardsToDeck = (
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>) => {
 
+        console.log("getPitsCardsToDeck");
+
     if (!pit) {
         console.error("Pit is null");
         return;
@@ -263,7 +267,7 @@ const getPitsCardsToDeck = (
  * @param nmbCardToDraw - nmb of cards to draw 
  * @param setNmbCardsToDraw - set the number of cards to one at the end of function
  **/
-const useSpecialCardEffect = async (
+const useSpecialCardEffect = (
     card: Cards,
     playerTurn: number,
     setPlayerTurn: Dispatch<SetStateAction<number>>,

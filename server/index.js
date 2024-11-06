@@ -39,6 +39,7 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
         const firstCard = deck.removeHead();
         pit.push(firstCard);
         const game = {
+            playerTurn: 0,
             pit: pit,
             deck: deck,
             players: [{ uuid: socket.id, name: username, cards: [], socket: socket }],
@@ -71,6 +72,7 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('start', uuid);
         const game = games.find(g => g.uuid === uuid);
         if (game) {
+            game.playerTurn = Math.floor(Math.random() * game.players.length);
             // distribuer les cartes
             for (let i = 0; i < 7; i++) {
                 game.players.forEach((player) => {

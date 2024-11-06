@@ -32,6 +32,8 @@ export default function Game() {
     // - Envoyer la nouvelle partie à tous les joueurs à chaque fois qu'une carte est jouée
     // - Déplacer les fonctions de jeu dans un fichier à part sur le serveur
     // - Mettre les interfaces sur le serveur
+    
+    // - Décaler sur le serveur la fonction de changement de joueur
 
     useEffect(() => {
         if (id) socket.emit('getGame', { id: id[0] });
@@ -39,6 +41,8 @@ export default function Game() {
 
     useEffect(() => {
         socket.on('getGame', (data) => {
+            console.log(data);
+            setPlayerTurn(data.game.playerTurn);
             const newDeck = new LinkedList<Cards>();
             newDeck.fromJSON(data.game.deck);
             setPit(new Stack(data.game.pit.stack));
