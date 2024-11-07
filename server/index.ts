@@ -121,6 +121,17 @@ io.on('connection', async (socket) => {
     });
 
     // Dès qu'un joueur joue une carte on modifie la partie sur le serveur et on renvoie la partie modifiée à tous les joueurs
+    socket.on('playCard', async (data) => {
+        // console.log('playCard', data);
+        const { player, cardIndex, pit, players, cardPlayed } = data;
+        console.log(player, cardIndex, pit, players, cardPlayed);
+    });
+
+    socket.on('getPitsCardsToDeck', async (data) => {
+        // console.log('getPitsCardsToDeck', data);
+        const { pit, deck, players, playerTurn, nmbCardsToDraw } = data;
+        console.log(pit, deck, players, playerTurn, nmbCardsToDraw);
+    });
 
 });
 

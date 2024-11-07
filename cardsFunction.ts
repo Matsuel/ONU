@@ -3,6 +3,7 @@ import { LinkedList } from "./structs/linkedArray";
 import Player from "./interface/player";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { Stack } from "./structs/stack";
+import { socket } from "@/pages/_app";
 
 /**
  * Checks if card1 is playable on card2
@@ -126,7 +127,7 @@ const drawCard = (
 
     let updateTopCard = pit.peek();
 
-    
+
     if (!updateTopCard.isOverOneHandOld) {
         pit.shift();
         updateTopCard.isOverOneHandOld = true;
@@ -136,8 +137,10 @@ const drawCard = (
     }
 
     setPlayers(updatedPlayers);
+    socket.emit('getPitsCardsToDeck', { pit, deck, players, playerTurn, nmbCardsToDraw });
     setNmbCardsToDraw(0);
     setPlayerTurn(getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise));
+
 };
 
 /**
@@ -191,6 +194,7 @@ const playCard = (
     players: Player[],
     setPlayers: Dispatch<SetStateAction<Player[]>>) => {
 
+
     const cardPlayed = player.cards[cardIndex];
 
     const newPit = new Stack<Cards>([...pit.getItems(), cardPlayed]);
@@ -210,6 +214,7 @@ const playCard = (
 
     setPlayers(updatedPlayers);
     hasPlayerWon(player, setPlayers);
+    socket.emit('playCard', { player, cardIndex, pit, players, cardPlayed });
 
     return true;
 };
@@ -226,7 +231,7 @@ const getPitsCardsToDeck = (
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>) => {
 
-        console.log("getPitsCardsToDeck");
+    console.log("getPitsCardsToDeck");
 
     if (!pit) {
         console.error("Pit is null");
@@ -252,6 +257,8 @@ const getPitsCardsToDeck = (
 
     setPit(new Stack<Cards>([updatedDeck.removeHead()]));
     setDeck(updatedDeck);
+
+    socket.emit('getPitsCardsToDeck', { pit, deck:updatedDeck });
 }
 
 /**

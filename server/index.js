@@ -101,6 +101,16 @@ io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
         }
     }));
     // Dès qu'un joueur joue une carte on modifie la partie sur le serveur et on renvoie la partie modifiée à tous les joueurs
+    socket.on('playCard', (data) => __awaiter(void 0, void 0, void 0, function* () {
+        // console.log('playCard', data);
+        const { player, cardIndex, pit, players, cardPlayed } = data;
+        console.log(player, cardIndex, pit, players, cardPlayed);
+    }));
+    socket.on('getPitsCardsToDeck', (data) => __awaiter(void 0, void 0, void 0, function* () {
+        // console.log('getPitsCardsToDeck', data);
+        const { pit, deck, players, playerTurn, nmbCardsToDraw } = data;
+        console.log(pit, deck, players, playerTurn, nmbCardsToDraw);
+    }));
 }));
 server.listen(8000, () => {
     console.log('listening on *:8000');
