@@ -6,9 +6,10 @@ const getGame = async (
   socket: Socket,
   games: Game[]
 ): Promise<void> => {
-  const { id } = data;
+  console.log(data);
+  const { id, uuid } = data;
   const game = games.find(
-    (g) => g.uuid === id && g.players.find((p) => p.socket.id === socket.id)
+    (g) => g.uuid === id && g.players.find((p) => p.uuid === uuid)
   );
   if (game) {
     const simplifiedGame = {

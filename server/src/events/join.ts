@@ -21,7 +21,11 @@ const join = async (
         cards: [],
         socket: socket,
       });
-      socket.emit("join", { status: true, uuid: uuid });
+      socket.emit("join", {
+        status: true,
+        uuid: uuid,
+        playerUuid: game.players[game.players.length - 1].uuid,
+      });
     }
   } else {
     socket.emit("join", { status: false, message: "Game not found" });

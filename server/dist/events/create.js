@@ -26,6 +26,6 @@ const create = (data, socket, games) => __awaiter(void 0, void 0, void 0, functi
         uuid: crypto.randomUUID(),
     };
     games.push(game);
-    socket.emit("create", { uuid: game.uuid });
+    socket.emit("create", { uuid: game.uuid, playerUuid: game.players[0].uuid });
 });
 exports.default = create;

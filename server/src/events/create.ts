@@ -23,7 +23,7 @@ const create = async (
     uuid: crypto.randomUUID(),
   };
   games.push(game);
-  socket.emit("create", { uuid: game.uuid });
+  socket.emit("create", { uuid: game.uuid, playerUuid: game.players[0].uuid });
 };
 
 export default create;

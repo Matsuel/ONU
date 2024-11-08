@@ -26,7 +26,11 @@ const join = (data, socket, games) => __awaiter(void 0, void 0, void 0, function
                 cards: [],
                 socket: socket,
             });
-            socket.emit("join", { status: true, uuid: uuid });
+            socket.emit("join", {
+                status: true,
+                uuid: uuid,
+                playerUuid: game.players[game.players.length - 1].uuid,
+            });
         }
     }
     else {

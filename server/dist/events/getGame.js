@@ -10,8 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const getGame = (data, socket, games) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = data;
-    const game = games.find((g) => g.uuid === id && g.players.find((p) => p.socket.id === socket.id));
+    console.log(data);
+    const { id, uuid } = data;
+    const game = games.find((g) => g.uuid === id && g.players.find((p) => p.uuid === uuid));
     if (game) {
         const simplifiedGame = Object.assign(Object.assign({}, game), { players: game.players.map(({ uuid, name, cards }) => ({
                 uuid,

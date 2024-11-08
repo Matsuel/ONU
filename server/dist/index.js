@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const initServer_1 = require("./utils/initServer");
 const loadEvents_1 = __importDefault(require("./utils/loadEvents"));
 const { io } = (0, initServer_1.initServer)();
+// Utiliser une db pour stocker les parties et rajouter le cookie du joueur
 // Mettre toutes les evenements pour le jeu ici
 // Créer un cookie pour stocker l'uuid du joueur
 // Evenement reconnect pour revenir dans la partie avec le cookie
