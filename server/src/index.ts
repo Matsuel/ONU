@@ -4,10 +4,8 @@ import loadEvents from "./utils/loadEvents";
 
 const { io } = initServer();
 
-// Utiliser une db pour stocker les parties et rajouter le cookie du joueur
+// Utiliser une db pour stocker les parties
 // Mettre toutes les evenements pour le jeu ici
-// Créer un cookie pour stocker l'uuid du joueur
-// Evenement reconnect pour revenir dans la partie avec le cookie
 
 let games = [] as Game[];
 
