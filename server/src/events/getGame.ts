@@ -12,6 +12,12 @@ const getGame = async (
     (g) => g.uuid === id && g.players.find((p) => p.uuid === uuid)
   );
   if (game) {
+    // modfier le player avec le socket
+    console.log(game);
+    game.players = game.players.map((p) =>
+      p.uuid === uuid ? { ...p, socket } : p
+    );
+    console.log(game);
     const simplifiedGame = {
       ...game,
       players: game.players.map(({ uuid, name, cards }) => ({

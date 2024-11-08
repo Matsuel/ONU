@@ -14,6 +14,10 @@ const getGame = (data, socket, games) => __awaiter(void 0, void 0, void 0, funct
     const { id, uuid } = data;
     const game = games.find((g) => g.uuid === id && g.players.find((p) => p.uuid === uuid));
     if (game) {
+        // modfier le player avec le socket
+        console.log(game);
+        game.players = game.players.map((p) => p.uuid === uuid ? Object.assign(Object.assign({}, p), { socket }) : p);
+        console.log(game);
         const simplifiedGame = Object.assign(Object.assign({}, game), { players: game.players.map(({ uuid, name, cards }) => ({
                 uuid,
                 name,
