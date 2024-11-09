@@ -12,14 +12,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const linkedArray_1 = require("./linkedArray");
+const stack_1 = require("./stack");
+const cards_1 = require("./utils/cards");
 const initServer_1 = require("./utils/initServer");
 const loadEvents_1 = __importDefault(require("./utils/loadEvents"));
 const { io } = (0, initServer_1.initServer)();
-// Utiliser une db pour stocker les parties et rajouter le cookie du joueur
+// Utiliser une db pour stocker les parties
 // Mettre toutes les evenements pour le jeu ici
-// Créer un cookie pour stocker l'uuid du joueur
-// Evenement reconnect pour revenir dans la partie avec le cookie
 let games = [];
 io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     (0, loadEvents_1.default)(socket, games);
+    socket.on("playCard", (data) => {
+        const { deck, uuid, cardIndex, card, player, pit, players, playerTurn, setPlayerTurn, setPlayers, isTurnDirectionClockwise, setNmbCardsToDraw, nmbCardsToDraw, } = data;
+        console.log(deck, "deck");
+        const pitGame = new stack_1.Stack(pit.stack);
+        const deckGame = new linkedArray_1.LinkedList();
+        deckGame.fromJSON(deck);
+        console.log(pitGame.peek(), "pitGame");
+        if (!pitGame) {
+            console.error("Pit cannot be null");
+            return;
+        }
+        if (!deckGame) {
+            console.error("Deck cannot be null");
+            return;
+        }
+        if (!(0, cards_1.isPlayerTurn)(player, players, playerTurn)) {
+            console.error(`${player.name}: can't play, not your turn`);
+            return false;
+        }
+        if (!(0, cards_1.isCardPlayable)(card, pitGame.peek())) {
+            console.error(`${JSON.stringify(card)} not playable on ${JSON.stringify(pitGame.peek())}`);
+            return false;
+        }
+        // if (card.special !== undefined) {
+        //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
+        //   useSpecialCardEffect(
+        //     card,
+        //     playerTurn,
+        //     setPlayerTurn,
+        //     players,
+        //     setIsTurnDirectionClockwise,
+        //     isTurnDirectionClockwise,
+        //     colorChangeRef,
+        //     nmbCardsToDraw,
+        //     setNmbCardsToDraw
+        //   );
+        // } else {
+        //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
+        //   setPlayerTurn(
+        //     getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+        //   );
+        // }
+    });
 }));

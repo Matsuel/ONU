@@ -31,10 +31,13 @@ export class LinkedList<T> {
     private len: number = 0;
 
     /**
-     * Initializes an empty linked list.
+     * Initializes a linked list. Optionally accepts an array of elements to populate the list.
+     * @param elements An optional array of elements to initialize the list with.
      */
-    constructor() {
-        this.head = null;
+    constructor(elements?: T[]) {
+        if (elements && elements.length > 0) {
+            elements.forEach(elem => this.append(elem));
+        }
     }
 
     /**
@@ -55,6 +58,24 @@ export class LinkedList<T> {
             current.next = node;
         }
         this.len++;
+    }
+
+    /**
+     * Converts a JSON object to a linked list.
+     * @param json The JSON object representing a linked list.
+     */
+    public fromJSON(json: { head: { elem: T; next: any } | null; len: number }): void {
+        this.head = null; // Clear any existing elements in the list
+        this.len = 0;
+
+        let current = json.head;
+        while (current !== null) {
+            this.append(current.elem);
+            current = current.next;
+        }
+
+        // Set the length based on the provided JSON
+        this.len = json.len;
     }
 
     /**

@@ -62,9 +62,12 @@ export default function Game() {
     });
   }, []);
 
+  if (!id) return <div>Loading...</div>;
+
   return (
     <div className="flex flex-col bg-black w-screen min-h-screen text-white">
       <Players
+        uuid={id[0] as string}
         players={players}
         playerTurn={playerTurn}
         pit={pit}

@@ -26,12 +26,15 @@ class LinkedNode {
  */
 class LinkedList {
     /**
-     * Initializes an empty linked list.
+     * Initializes a linked list. Optionally accepts an array of elements to populate the list.
+     * @param elements An optional array of elements to initialize the list with.
      */
-    constructor() {
+    constructor(elements) {
         this.head = null;
         this.len = 0;
-        this.head = null;
+        if (elements && elements.length > 0) {
+            elements.forEach(elem => this.append(elem));
+        }
     }
     /**
      * Appends an element to the end of the linked list.
@@ -51,6 +54,21 @@ class LinkedList {
             current.next = node;
         }
         this.len++;
+    }
+    /**
+     * Converts a JSON object to a linked list.
+     * @param json The JSON object representing a linked list.
+     */
+    fromJSON(json) {
+        this.head = null; // Clear any existing elements in the list
+        this.len = 0;
+        let current = json.head;
+        while (current !== null) {
+            this.append(current.elem);
+            current = current.next;
+        }
+        // Set the length based on the provided JSON
+        this.len = json.len;
     }
     /**
      * Returns the element at the head of the list.
