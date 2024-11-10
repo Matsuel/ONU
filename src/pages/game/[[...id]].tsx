@@ -62,6 +62,11 @@ export default function Game() {
     });
   }, []);
 
+  socket.on("playCard", (data) => {
+    setPlayers(data.players as Player[]);
+    setPit(new Stack(data.pit.stack));
+  });
+
   if (!id) return <div>Loading...</div>;
 
   return (

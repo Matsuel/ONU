@@ -1,7 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isPlayerTurn = void 0;
+exports.isPlayerTurn = exports.playCard = void 0;
 exports.isCardPlayable = isCardPlayable;
+const stack_1 = require("../stack");
+/**
+ * Plays a card from the player's hand to the pit.
+ * @param player - The player who plays the card.
+ * @param cardIndex - The index of the played card in the player's hand.
+ * @param pit - Pit that will be emptied
+ * @param setPit - setPit set the pit after removing cards from it
+ * @param player - The player to check for a win
+ * @param setPlayers - same as deck
+ *
+ * @returns returns true if the card has been played otherwise returns false
+ */
+const playCard = (player, cardIndex, pit, players) => {
+    console.log("playCard", player);
+    const cardPlayed = player.cards[cardIndex];
+    const newPit = new stack_1.Stack([...pit.getItems(), cardPlayed]);
+    const updatedPlayers = players.map((p) => {
+        if (player.uuid === p.uuid) {
+            return Object.assign(Object.assign({}, p), { cards: player.cards.filter((c) => c !== cardPlayed) });
+        }
+        return p;
+    });
+    player = updatedPlayers.find((p) => p.uuid === player.uuid);
+    console.log("updatedPlayers", player);
+    // hasPlayerWon(player, setPlayers);
+    return { player, newPit, updatedPlayers };
+};
+exports.playCard = playCard;
 /**
  * Checks if it is the specified player's turn.
  *

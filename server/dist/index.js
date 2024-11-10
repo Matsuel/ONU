@@ -24,7 +24,7 @@ let games = [];
 io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     (0, loadEvents_1.default)(socket, games);
     socket.on("playCard", (data) => {
-        const { deck, uuid, cardIndex, card, player, pit, players, playerTurn, setPlayerTurn, setPlayers, isTurnDirectionClockwise, setNmbCardsToDraw, nmbCardsToDraw, } = data;
+        let { deck, uuid, cardIndex, card, player, pit, players, playerTurn, isTurnDirectionClockwise, setNmbCardsToDraw, nmbCardsToDraw, } = data;
         console.log(deck, "deck");
         const pitGame = new stack_1.Stack(pit.stack);
         const deckGame = new linkedArray_1.LinkedList();
@@ -46,24 +46,30 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             console.error(`${JSON.stringify(card)} not playable on ${JSON.stringify(pitGame.peek())}`);
             return false;
         }
-        // if (card.special !== undefined) {
-        //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
-        //   useSpecialCardEffect(
-        //     card,
-        //     playerTurn,
-        //     setPlayerTurn,
-        //     players,
-        //     setIsTurnDirectionClockwise,
-        //     isTurnDirectionClockwise,
-        //     colorChangeRef,
-        //     nmbCardsToDraw,
-        //     setNmbCardsToDraw
-        //   );
-        // } else {
-        //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
-        //   setPlayerTurn(
-        //     getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-        //   );
-        // }
+        if (card.special !== undefined) {
+            console.log("special card");
+            (0, cards_1.playCard)(player, cardIndex, pitGame, players);
+            // useSpecialCardEffect(
+            //   card,
+            //   playerTurn,
+            //   setPlayerTurn,
+            //   players,
+            //   setIsTurnDirectionClockwise,
+            //   isTurnDirectionClockwise,
+            //   colorChangeRef,
+            //   nmbCardsToDraw,
+            //   setNmbCardsToDraw
+            // );
+        }
+        else {
+            console.log("normal card");
+            console.log(player, cardIndex, pitGame, players);
+            let { newPit: pit2, player: player2, updatedPlayers: players2, } = (0, cards_1.playCard)(player, cardIndex, pitGame, players);
+            console.log(pit2);
+            socket.emit("playCard", { pit: pit2, players: players2 });
+            // setPlayerTurn(
+            //   getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+            // );
+        }
     });
 }));

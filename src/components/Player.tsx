@@ -81,54 +81,52 @@ const Players = ({
       pit,
       players,
       playerTurn,
-      setPlayerTurn,
-      setPlayers,
       isTurnDirectionClockwise,
       setNmbCardsToDraw,
       nmbCardsToDraw,
     });
 
-    if (!pit) {
-      console.error("Pit cannot be null");
-      return;
-    }
+    // if (!pit) {
+    //   console.error("Pit cannot be null");
+    //   return;
+    // }
 
-    if (!deck) {
-      console.error("Deck cannot be null");
-      return;
-    }
+    // if (!deck) {
+    //   console.error("Deck cannot be null");
+    //   return;
+    // }
 
-    if (!isPlayerTurn(player, players, playerTurn)) {
-      console.error(`${player.name}: can't play, not your turn`);
-      return false;
-    }
+    // if (!isPlayerTurn(player, players, playerTurn)) {
+    //   console.error(`${player.name}: can't play, not your turn`);
+    //   return false;
+    // }
 
-    if (!isCardPlayable(card, pit.peek())) {
-      console.error(
-        `${JSON.stringify(card)} not playable on ${JSON.stringify(pit.peek())}`
-      );
-      return false;
-    }
+    // if (!isCardPlayable(card, pit.peek())) {
+    //   console.error(
+    //     `${JSON.stringify(card)} not playable on ${JSON.stringify(pit.peek())}`
+    //   );
+    //   return false;
+    // }
 
-    if (card.special !== undefined) {
-      playCard(player, cardIndex, pit, setPit, players, setPlayers);
-      useSpecialCardEffect(
-        card,
-        playerTurn,
-        setPlayerTurn,
-        players,
-        setIsTurnDirectionClockwise,
-        isTurnDirectionClockwise,
-        colorChangeRef,
-        nmbCardsToDraw,
-        setNmbCardsToDraw
-      );
-    } else {
-      playCard(player, cardIndex, pit, setPit, players, setPlayers);
-      setPlayerTurn(
-        getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-      );
-    }
+    // if (card.special !== undefined) {
+    //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
+    //   useSpecialCardEffect(
+    //     card,
+    //     playerTurn,
+    //     setPlayerTurn,
+    //     players,
+    //     setIsTurnDirectionClockwise,
+    //     isTurnDirectionClockwise,
+    //     colorChangeRef,
+    //     nmbCardsToDraw,
+    //     setNmbCardsToDraw
+    //   );
+    // } else {
+    //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
+    //   setPlayerTurn(
+    //     getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+    //   );
+    // }
   };
 
   return (

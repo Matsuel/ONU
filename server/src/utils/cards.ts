@@ -1,4 +1,44 @@
+import { Stack } from "../stack";
 import { Cards, Player } from "../type";
+
+/**
+ * Plays a card from the player's hand to the pit.
+ * @param player - The player who plays the card.
+ * @param cardIndex - The index of the played card in the player's hand.
+ * @param pit - Pit that will be emptied
+ * @param setPit - setPit set the pit after removing cards from it
+ * @param player - The player to check for a win
+ * @param setPlayers - same as deck
+ *
+ * @returns returns true if the card has been played otherwise returns false
+ */
+export const playCard = (
+  player: Player,
+  cardIndex: number,
+  pit: Stack<Cards>,
+  players: Player[]
+) => {
+  console.log("playCard", player);
+  const cardPlayed = player.cards[cardIndex];
+
+  const newPit = new Stack<Cards>([...pit.getItems(), cardPlayed]);
+
+  const updatedPlayers = players.map((p) => {
+    if (player.uuid === p.uuid) {
+      return {
+        ...p,
+        cards: player.cards.filter((c) => c !== cardPlayed),
+      };
+    }
+    return p;
+  });
+
+  player = updatedPlayers.find((p) => p.uuid === player.uuid) as Player;
+  console.log("updatedPlayers", player);
+  // hasPlayerWon(player, setPlayers);
+
+  return { player, newPit, updatedPlayers };
+};
 
 /**
  * Checks if it is the specified player's turn.
