@@ -16,8 +16,17 @@ const create = (data, socket, games) => __awaiter(void 0, void 0, void 0, functi
     const deck = new linkedArray_1.LinkedList();
     deck.fillDeck();
     const pit = new stack_1.Stack([]);
-    const firstCard = deck.removeHead();
-    pit.push(firstCard);
+    // si la carte est spécaile on la met dans la pile et on en pioche une autre
+    let isSpecial = true;
+    while (isSpecial) {
+        const firstCard = deck.removeHead();
+        pit.push(firstCard);
+        if (firstCard.special === undefined) {
+            isSpecial = false;
+        }
+    }
+    // const firstCard = deck.removeHead();
+    // pit.push(firstCard);
     const game = {
         playerTurn: 0,
         pit: pit,

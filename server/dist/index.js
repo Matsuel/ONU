@@ -25,7 +25,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     (0, loadEvents_1.default)(socket, games);
     socket.on("playCard", (data) => {
         let { deck, uuid, cardIndex, card, player, pit, players, playerTurn, isTurnDirectionClockwise, nmbCardsToDraw, } = data;
-        console.log(deck, "deck");
+        console.log(isTurnDirectionClockwise, "deck");
         const pitGame = new stack_1.Stack(pit.stack);
         const deckGame = new linkedArray_1.LinkedList();
         deckGame.fromJSON(deck);

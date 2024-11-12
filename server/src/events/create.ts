@@ -13,8 +13,16 @@ const create = async (
   deck.fillDeck();
 
   const pit = new Stack<Cards>([]);
-  const firstCard = deck.removeHead();
-  pit.push(firstCard);
+
+  // si la carte est spécaile on la met dans la pile et on en pioche une autre
+  let isSpecial = true;
+  while (isSpecial) {
+    const firstCard = deck.removeHead();
+    pit.push(firstCard);
+    if (firstCard.special === undefined) {
+      isSpecial = false;
+    }
+  }
   const game = {
     playerTurn: 0,
     pit: pit,

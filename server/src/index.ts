@@ -28,7 +28,7 @@ io.on("connection", async (socket) => {
       isTurnDirectionClockwise,
       nmbCardsToDraw,
     } = data;
-    console.log(deck, "deck");
+    console.log(isTurnDirectionClockwise, "deck");
     const pitGame = new Stack(pit.stack) as Stack<Cards>;
     const deckGame = new LinkedList<Cards>();
     deckGame.fromJSON(deck);
