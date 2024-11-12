@@ -2,10 +2,6 @@ import Player from "../../interface/player";
 import CardDisplay from "./CardDisplay";
 import {
   isCardPlayable,
-  playCard,
-  useSpecialCardEffect,
-  isPlayerTurn,
-  getNextPlayerIndex,
 } from "../../cardsFunction";
 import { Dispatch, MutableRefObject, SetStateAction, useEffect } from "react";
 import Cards from "../../interface/cards";
@@ -48,26 +44,18 @@ const Players = ({
    * @param cardIndex - the index of the card played
    * @param card - the card played by the player
    * @param player - the last playing player
-   * @param setPit - set the pit (Stack<Cards>)
    * @param players - array of all the players
    * @param playerTurn - index of the current playing player
-   * @param setPlayerTurn - set the index of the current playing player
-   * @param setPlayers - set the array of players
    * @param isTurnDirectionClockwise - checks if next player will be left or right
-   * @param setNmbCardsToDraw - set nmb of cards that the player will draw
    * @param nmbCardsToDraw - nmb of cards that the player will draw
    **/
   const playCardOnClick = (
     cardIndex: number,
     card: Cards,
     player: Player,
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     players: Player[],
     playerTurn: number,
-    setPlayerTurn: Dispatch<SetStateAction<number>>,
-    setPlayers: Dispatch<SetStateAction<Player[]>>,
     isTurnDirectionClockwise: boolean,
-    setNmbCardsToDraw: Dispatch<SetStateAction<number>>,
     nmbCardsToDraw: number
   ) => {
     console.log("playCardOnClick", deck);
@@ -82,7 +70,6 @@ const Players = ({
       players,
       playerTurn,
       isTurnDirectionClockwise,
-      setNmbCardsToDraw,
       nmbCardsToDraw,
     });
   };
@@ -100,23 +87,19 @@ const Players = ({
             <button
               key={cardIndex}
               className={`cursor-not-allowed ${isCardPlayable(card, pit!.peek()) &&
-                  players[playerTurn].uuid === player.uuid
-                  ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
-                  : "opacity-30 cursor-not-allowed"
+                players[playerTurn].uuid === player.uuid
+                ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
+                : "opacity-30 cursor-not-allowed"
                 }`}
               onClick={() =>
                 playCardOnClick(
                   cardIndex,
                   card,
                   player,
-                  setPit,
                   players,
                   playerTurn,
-                  setPlayerTurn,
-                  setPlayers,
                   isTurnDirectionClockwise,
-                  setNmbCardsToDraw,
-                  nmbCardsToDraw
+                  nmbCardsToDraw,
                 )
               }
             >

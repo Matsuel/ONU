@@ -20,14 +20,14 @@ export default function Game() {
   const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
   const [playerTurn, setPlayerTurn] = useState(0);
-  const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] =
-    useState(true);
+  const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
   const [nmbCardsToDraw, setNmbCardsToDraw] = useState(0);
   const colors = ["red", "yellow", "blue", "green"];
   const colorChangeRef = useRef(null);
   const [uuid, setUuid] = useState("");
 
   // TODO:
+  // - +2 problème qui empêche de jouer une carte normale après
   // - +4 et Changement de couleur
   // - Faire un event pour le changement de couelur et le +4
   // - Modal pour choisir la couleur

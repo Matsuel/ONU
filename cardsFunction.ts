@@ -39,34 +39,6 @@ function isCardPlayable(card1: Cards, card2: Cards): boolean {
 }
 
 /**
- * Advances the turn to the next player.
- * @param players - Array of all the players
- * @param playerTurn - Current player turn
- * @param nmbSkip - Nmb of turn skip if not passed is one
- * @param isTurnDirectionClockwise  - checks the turn direction
- */
-const getNextPlayerIndex = (
-  players: Player[],
-  playerTurn: number,
-  nmbSkip: number,
-  isTurnDirectionClockwise: boolean
-): number => {
-  if (isTurnDirectionClockwise) {
-    if (playerTurn + nmbSkip > players.length - 1) {
-      return playerTurn + nmbSkip - players.length;
-    } else {
-      return playerTurn + nmbSkip;
-    }
-  } else {
-    if (playerTurn - nmbSkip < 0) {
-      return playerTurn - nmbSkip + players.length;
-    } else {
-      return playerTurn - nmbSkip;
-    }
-  }
-};
-
-/**
  * Draws a card from the deck to the player's hand.
  * @param deck - The card in which the player will draw the cards
  * @param setPit - setPit set the pit after removing cards from it
@@ -112,27 +84,6 @@ const drawCard = (
 };
 
 /**
- * Checks if it is the specified player's turn.
- *
- * @param player - The player to check.
- * @param players - Array of player
- * @param playerTurn index of the playing player
- *
- * @returns True if it is the player's turn; otherwise, false.
- */
-const isPlayerTurn = (
-  player: Player,
-  players: Player[],
-  playerTurn: number
-) => {
-  if (player.uuid !== players[playerTurn].uuid) {
-    return false;
-  } else {
-    return true;
-  }
-};
-
-/**
  * Checks if the specified player has won the game.
  * If the player has no cards left, they are removed from the players' list.
  *
@@ -149,47 +100,6 @@ const hasPlayerWon = (
   }
 };
 
-/**
- * Plays a card from the player's hand to the pit.
- * @param player - The player who plays the card.
- * @param cardIndex - The index of the played card in the player's hand.
- * @param pit - Pit that will be emptied
- * @param setPit - setPit set the pit after removing cards from it
- * @param player - The player to check for a win
- * @param setPlayers - same as deck
- *
- * @returns returns true if the card has been played otherwise returns false
- */
-const playCard = (
-  player: Player,
-  cardIndex: number,
-  pit: Stack<Cards>,
-  setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
-  players: Player[],
-  setPlayers: Dispatch<SetStateAction<Player[]>>
-) => {
-  const cardPlayed = player.cards[cardIndex];
-
-  const newPit = new Stack<Cards>([...pit.getItems(), cardPlayed]);
-  setPit(newPit);
-
-  const updatedPlayers = players.map((p) => {
-    if (player.uuid === p.uuid) {
-      return {
-        ...p,
-        cards: player.cards.filter((c) => c !== cardPlayed),
-      };
-    }
-    return p;
-  });
-
-  console.log(players);
-
-  setPlayers(updatedPlayers);
-  hasPlayerWon(player, setPlayers);
-
-  return true;
-};
 
 /**
  * Append the cards to deck from pit until pit is len 1
@@ -231,64 +141,6 @@ const getPitsCardsToDeck = (
   setDeck(updatedDeck);
 
   socket.emit("getPitsCardsToDeck", { pit, deck: updatedDeck });
-};
-
-/**
- * plays a special card from player's hand to pit
- *
- * @param card - The played card from a player
- * @param playerTurn - The index of the current playing player
- * @param setPlayerTurn - Set the index of the current playing player
- * @param players - An array of all the playrers of type Player
- * @param setIsTurnDirectionClockwise - Set is isTurnDirectionClockwise to true or false
- * @param isTurnDirectionClockwise - Checks if the next player will be on left or right
- * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
- * @param nmbCardToDraw - nmb of cards to draw
- * @param setNmbCardsToDraw - set the number of cards to one at the end of function
- **/
-const useSpecialCardEffect = (
-  card: Cards,
-  playerTurn: number,
-  setPlayerTurn: Dispatch<SetStateAction<number>>,
-  players: Player[],
-  setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>,
-  isTurnDirectionClockwise: boolean,
-  colorChangeRef: MutableRefObject<HTMLElement | null>,
-  nmbCardsToDraw: number,
-  setNmbCardsToDraw: Dispatch<SetStateAction<number>>
-) => {
-  switch (card.special) {
-    case "skip":
-      setPlayerTurn(
-        getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
-      );
-      break;
-    case "plus2":
-      setPlayerTurn(
-        getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-      );
-      setNmbCardsToDraw(nmbCardsToDraw + 2);
-      break;
-    case "plus4":
-      displayColorsChoice(colorChangeRef);
-      setNmbCardsToDraw(nmbCardsToDraw + 4);
-      setPlayerTurn(
-        getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-      );
-      break;
-    case "rev":
-      setIsTurnDirectionClockwise(!isTurnDirectionClockwise);
-      setPlayerTurn(
-        getNextPlayerIndex(players, playerTurn, 1, !isTurnDirectionClockwise)
-      );
-      break;
-    case "changecolor":
-      displayColorsChoice(colorChangeRef);
-      setPlayerTurn(
-        getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-      );
-      break;
-  }
 };
 
 /**
@@ -340,10 +192,6 @@ const changeColor = (
 export {
   isCardPlayable,
   drawCard,
-  playCard,
   getPitsCardsToDeck,
-  useSpecialCardEffect,
   changeColor,
-  isPlayerTurn,
-  getNextPlayerIndex,
 };
