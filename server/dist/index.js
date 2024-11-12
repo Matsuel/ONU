@@ -68,4 +68,18 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             });
         }
     });
+    socket.on("drawCard", (data) => {
+        const { uuid, pit, deck, players, playerTurn } = data;
+        console.log("drawCard before", players);
+        const deckGame = new linkedArray_1.LinkedList();
+        deckGame.fromJSON(deck);
+        const pitGame = new stack_1.Stack(pit.stack);
+        const updatedPlayers = (0, cards_1.addCardsToPlayer)(players, playerTurn, 1, deckGame);
+        console.log("drawCard", updatedPlayers);
+        const playerTurn2 = (0, cards_1.getNextPlayerIndex)(players, playerTurn, 1, true);
+        const game = games.find((g) => g.uuid === uuid);
+        game.players.forEach((p) => {
+            p.socket.emit("getGame", { game: { players: updatedPlayers, playerTurn: playerTurn2, deck: deckGame, pit: pitGame } });
+        });
+    });
 }));

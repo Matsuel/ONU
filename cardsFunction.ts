@@ -89,8 +89,10 @@ const drawCard = (
   setPlayerTurn: Dispatch<SetStateAction<number>>,
   isTurnDirectionClockwise: boolean,
   nmbCardsToDraw: number,
-  setNmbCardsToDraw: Dispatch<SetStateAction<number>>
+  setNmbCardsToDraw: Dispatch<SetStateAction<number>>,
+  uuid: string
 ) => {
+  console.log("drawCard");
   if (!deck) {
     console.error("Deck is null");
     return;
@@ -106,58 +108,7 @@ const drawCard = (
     return;
   }
 
-  const drawnCards: Cards[] = [];
-
-  if (nmbCardsToDraw === 0) {
-    nmbCardsToDraw = 1;
-  }
-
-  for (let i = 0; i < nmbCardsToDraw; i++) {
-    const drawnCard = deck.removeHead();
-
-    if (!drawnCard) {
-      console.error("Cannot get head of deck");
-      return;
-    }
-
-    drawnCards.push(drawnCard);
-  }
-
-  const updatedPlayers = players.map((p) => {
-    if (p.uuid === players[playerTurn].uuid) {
-      return {
-        ...p,
-        cards: [...p.cards, ...drawnCards],
-      };
-    }
-    return p;
-  });
-
-  let updateTopCard = pit.peek();
-
-  if (!updateTopCard.isOverOneHandOld) {
-    pit.shift();
-    updateTopCard.isOverOneHandOld = true;
-    const updatedPit: Stack<Cards> = new Stack([
-      ...pit.getItems(),
-      updateTopCard,
-    ]);
-
-    setPit(updatedPit);
-  }
-
-  setPlayers(updatedPlayers);
-  socket.emit("getPitsCardsToDeck", {
-    pit,
-    deck,
-    players,
-    playerTurn,
-    nmbCardsToDraw,
-  });
-  setNmbCardsToDraw(0);
-  setPlayerTurn(
-    getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-  );
+  socket.emit("drawCard", { deck, pit, players, playerTurn, uuid });
 };
 
 /**

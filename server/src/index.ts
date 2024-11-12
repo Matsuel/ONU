@@ -1,7 +1,7 @@
 import { LinkedList } from "./linkedArray";
 import { Stack } from "./stack";
 import { Cards, Game } from "./type";
-import { getNextPlayerIndex, isCardPlayable, isPlayerTurn, playCard, useSpecialCardEffect } from "./utils/cards";
+import { addCardsToPlayer, getNextPlayerIndex, isCardPlayable, isPlayerTurn, playCard, useSpecialCardEffect } from "./utils/cards";
 import { initServer } from "./utils/initServer";
 import loadEvents from "./utils/loadEvents";
 
@@ -91,5 +91,20 @@ io.on("connection", async (socket) => {
         p.socket.emit("playCard", { pit: pit2, players: players2, playerTurn });
       });
     }
+  });
+
+  socket.on("drawCard", (data) => {
+    const { uuid, pit, deck, players, playerTurn } = data;
+    console.log("drawCard before", players);
+    const deckGame = new LinkedList<Cards>();
+    deckGame.fromJSON(deck);
+    const pitGame = new Stack(pit.stack) as Stack<Cards>;
+    const updatedPlayers = addCardsToPlayer(players, playerTurn, 1, deckGame);
+    console.log("drawCard", updatedPlayers);
+    const playerTurn2 = getNextPlayerIndex(players, playerTurn, 1, true);
+    const game = games.find((g) => g.uuid === uuid) as Game;
+    game.players.forEach((p) => {
+      p.socket.emit("getGame", { game: { players: updatedPlayers, playerTurn: playerTurn2, deck: deckGame, pit: pitGame } });
+    });
   });
 });

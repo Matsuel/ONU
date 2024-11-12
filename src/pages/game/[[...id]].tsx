@@ -53,6 +53,7 @@ export default function Game() {
   useEffect(() => {
     socket.on("getGame", (data) => {
       console.log(data);
+      console.log(data.game.playerTurn)
       setPlayerTurn(data.game.playerTurn);
       const newDeck = new LinkedList<Cards>();
       newDeck.fromJSON(data.game.deck);
@@ -65,6 +66,13 @@ export default function Game() {
   socket.on("playCard", (data) => {
     setPlayers(data.players as Player[]);
     setPit(new Stack(data.pit.stack));
+    setPlayerTurn(data.playerTurn);
+  });
+
+  socket.on("drawCard", (data) => {
+    setPlayers(data.players as Player[]);
+    const newDeck = new LinkedList<Cards>();
+    newDeck.fromJSON(data.deck);
     setPlayerTurn(data.playerTurn);
   });
 
@@ -89,6 +97,7 @@ export default function Game() {
       />
 
       <Deck
+        uuid={id[0] as string}
         deck={deck}
         playerTurn={playerTurn}
         players={players}
