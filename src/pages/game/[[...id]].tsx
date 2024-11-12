@@ -22,7 +22,7 @@ export default function Game() {
   const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
   const [nmbCardsToDraw, setNmbCardsToDraw] = useState(0);
   const [uuid, setUuid] = useState("");
-
+  
   // TODO:
   // - Ajouter toutes les props de base dans la partie lors de sa création isTurnDirectionClockwise, nmbCardsToDraw
 

@@ -33,3 +33,7 @@ const join = async (
 };
 
 export default join;
+
+
+// Rejeter un joueur si y'a déjà 6 joueurs
+// Timer pour jouer sinon on piore une carte
