@@ -41,27 +41,18 @@ function isCardPlayable(card1: Cards, card2: Cards): boolean {
 /**
  * Draws a card from the deck to the player's hand.
  * @param deck - The card in which the player will draw the cards
- * @param setPit - setPit set the pit after removing cards from it
  * @param pit - Pit that will be emptied
- * @param setPlayers - same as deck
- * @param players - Array of players
  * @param playerTurn - The index of the current playing player
- * @param setPlayerTurn - Set the index of the current playing player
  * @param isTurnDirectionClockwise - Checks if the next playr will be left or right
  * @param nmbCardsToDraw - The number of cards to draw for player
- * @param setNmbCardsToDraw - set the number of cards to draw (1 after function)
+ * @param uuid - The unique identifier of the player
  */
 const drawCard = (
   deck: LinkedList<Cards> | null,
-  setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
   pit: Stack<Cards> | null,
-  setPlayers: Dispatch<SetStateAction<Player[]>>,
   players: Player[],
   playerTurn: number,
-  setPlayerTurn: Dispatch<SetStateAction<number>>,
-  isTurnDirectionClockwise: boolean,
   nmbCardsToDraw: number,
-  setNmbCardsToDraw: Dispatch<SetStateAction<number>>,
   uuid: string
 ) => {
   console.log("drawCard");

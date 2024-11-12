@@ -67,15 +67,9 @@ export default function Game() {
         players={players}
         playerTurn={playerTurn}
         pit={pit}
-        setPit={setPit}
-        setPlayerTurn={setPlayerTurn}
-        setPlayers={setPlayers}
         deck={deck}
         isTurnDirectionClockwise={isTurnDirectionClockwise}
-        setIsTurnDirectionClockwise={setIsTurnDirectionClockwise}
-        colorChangeRef={colorChangeRef}
         nmbCardsToDraw={nmbCardsToDraw}
-        setNmbCardsToDraw={setNmbCardsToDraw}
       />
 
       <Deck
@@ -83,13 +77,9 @@ export default function Game() {
         deck={deck}
         playerTurn={playerTurn}
         players={players}
-        setPlayers={setPlayers}
-        setPlayerTurn={setPlayerTurn}
         pit={pit}
         setPit={setPit}
         setDeck={setDeck}
-        isTurnDirectionClockwise={isTurnDirectionClockwise}
-        setNmbCardsToDraw={setNmbCardsToDraw}
         nmbCardsToDraw={nmbCardsToDraw}
       />
 

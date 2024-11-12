@@ -13,15 +13,9 @@ interface PlayersProps {
   players: Player[];
   playerTurn: number;
   pit: Stack<Cards> | null;
-  setPit: Dispatch<SetStateAction<Stack<Cards> | null>>;
-  setPlayerTurn: Dispatch<SetStateAction<number>>;
-  setPlayers: Dispatch<SetStateAction<Player[]>>;
   deck: LinkedList<Cards> | null;
   isTurnDirectionClockwise: boolean;
-  setIsTurnDirectionClockwise: Dispatch<SetStateAction<boolean>>;
-  colorChangeRef: MutableRefObject<null>;
   nmbCardsToDraw: number;
-  setNmbCardsToDraw: Dispatch<SetStateAction<number>>;
   uuid: string;
 }
 
@@ -30,15 +24,9 @@ const Players = ({
   players,
   playerTurn,
   pit,
-  setPit,
-  setPlayerTurn,
-  setPlayers,
   deck,
   isTurnDirectionClockwise,
-  setIsTurnDirectionClockwise,
-  colorChangeRef,
   nmbCardsToDraw,
-  setNmbCardsToDraw,
 }: PlayersProps) => {
   /**
    * @param cardIndex - the index of the card played

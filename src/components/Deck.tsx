@@ -9,14 +9,10 @@ interface DeckProps {
     deck: LinkedList<Cards> | null,
     playerTurn: number,
     players: Player[],
-    setPlayers: Dispatch<SetStateAction<Player[]>>,
-    setPlayerTurn: Dispatch<SetStateAction<number>>,
     pit: Stack<Cards> | null,
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
-    isTurnDirectionClockwise: boolean,
     nmbCardsToDraw: number,
-    setNmbCardsToDraw: Dispatch<SetStateAction<number>>,
     uuid: string
 }
 
@@ -24,14 +20,10 @@ const Deck = ({
     deck,
     playerTurn,
     players,
-    setPlayers,
     pit,
     setPit,
     setDeck,
-    setPlayerTurn,
-    isTurnDirectionClockwise,
     nmbCardsToDraw,
-    setNmbCardsToDraw,
     uuid
 }: DeckProps) => {
 
@@ -40,7 +32,7 @@ const Deck = ({
             <button
                 className="flex flex-col"
                 onClick={() => {
-                    drawCard(deck, setPit, pit, setPlayers, players, playerTurn, setPlayerTurn, isTurnDirectionClockwise, nmbCardsToDraw, setNmbCardsToDraw, uuid);
+                    drawCard(deck, pit, players, playerTurn, nmbCardsToDraw, uuid);
 
                     if (deck?.getSize() === 1) {
                         getPitsCardsToDeck(pit, setPit, setDeck);
