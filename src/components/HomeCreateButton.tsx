@@ -4,7 +4,7 @@ import Button from "./Button";
 const HomeCreateButton = () => {
     return (
         <div className='flex justify-center gap-4'>
-            <Link href="/join">
+            <Link href="/create">
                 <Button label='Créer une partie'/>
             </Link>
         </div>
