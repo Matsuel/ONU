@@ -28,14 +28,9 @@ export default function Game() {
   const [uuid, setUuid] = useState("");
 
   // TODO:
-  // - Choisir sur le serveur le joueur qui commence
-  // - Empecher les autres joueurs de jouer si ce n'est pas leur tour
-  // - Dès qu'une carte est jouée, envoyée la nouvelle partie au serveur
-  // - Envoyer la nouvelle partie à tous les joueurs à chaque fois qu'une carte est jouée
-  // - Déplacer les fonctions de jeu dans un fichier à part sur le serveur
-  // - Mettre les interfaces sur le serveur
-
-  // - Décaler sur le serveur la fonction de changement de joueur
+  // - +4 et Changement de couleur
+  // - Faire un event pour le changement de couelur et le +4
+  // - Modal pour choisir la couleur
 
   useEffect(() => {
     const playerUuid = sessionStorage.getItem("uuid");
