@@ -147,29 +147,24 @@ export const useSpecialCardEffect = (
     case "skip":
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-      break;
     case "plus2":
       nmbCardsToDraw = nmbCardsToDraw + 2;
       const playerToTakeCards = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       players = addCardsToPlayer(players, playerToTakeCards, nmbCardsToDraw, deck);
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-      break;
     case "plus4":
       nmbCardsToDraw = nmbCardsToDraw + 4;
       playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       players = addCardsToPlayer(players, playerTurn, nmbCardsToDraw, deck);
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-      break;
     case "rev":
       isTurnDirectionClockwise = !isTurnDirectionClockwise;
       playerTurn = getNextPlayerIndex(players, playerTurn, 1, !isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-      break;
     case "changecolor":
       playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-      break;
     default:
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
   }
