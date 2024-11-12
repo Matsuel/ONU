@@ -58,12 +58,11 @@ exports.isPlayerTurn = isPlayerTurn;
  **/
 function isCardPlayable(card1, card2) {
     console.log(card1, card2);
-    if (card2.special === "plus2" && !card2.isOverOneHandOld) {
-        return card1.special === "plus2" || card1.special == "plus4";
-    }
-    else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
-        return card1.special === "plus4";
-    }
+    // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
+    //   return card1.special === "plus2" || card1.special == "plus4";
+    // } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
+    //   return card1.special === "plus4";
+    // }
     const isJoker = card1.special === "changecolor" || card1.special === "plus4";
     const isSameColor = card1.color !== undefined &&
         card2.color !== undefined &&
@@ -120,9 +119,10 @@ const useSpecialCardEffect = (card, playerTurn, players, isTurnDirectionClockwis
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
             break;
         case "plus2":
-            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
             nmbCardsToDraw = nmbCardsToDraw + 2;
-            players = (0, exports.addCardsToPlayer)(players, playerTurn, nmbCardsToDraw, deck);
+            const playerToTakeCards = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
+            players = (0, exports.addCardsToPlayer)(players, playerToTakeCards, nmbCardsToDraw, deck);
+            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
             break;
         case "plus4":

@@ -74,7 +74,7 @@ const Players = ({
           {player.cards.map((card, cardIndex) => (
             <button
               key={cardIndex}
-              className={`cursor-not-allowed ${isCardPlayable(card, pit!.peek()) &&
+              className={` ${isCardPlayable(card, pit!.peek()) &&
                 players[playerTurn].uuid === player.uuid
                 ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
                 : "opacity-30 cursor-not-allowed"

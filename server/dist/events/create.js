@@ -25,8 +25,6 @@ const create = (data, socket, games) => __awaiter(void 0, void 0, void 0, functi
             isSpecial = false;
         }
     }
-    // const firstCard = deck.removeHead();
-    // pit.push(firstCard);
     const game = {
         playerTurn: 0,
         pit: pit,

@@ -28,7 +28,7 @@ io.on("connection", async (socket) => {
       isTurnDirectionClockwise,
       nmbCardsToDraw,
     } = data;
-    console.log(isTurnDirectionClockwise, "deck");
+    console.log(card, "deck");
     const pitGame = new Stack(pit.stack) as Stack<Cards>;
     const deckGame = new LinkedList<Cards>();
     deckGame.fromJSON(deck);
@@ -74,12 +74,12 @@ io.on("connection", async (socket) => {
         );
       console.log("special card after", deckGame.getSize());
       playerTurn = playerTurn2;
-      players = players3;
+      // players = players3;
       isTurnDirectionClockwise = isTurnDirectionClockwise2;
       nmbCardsToDraw = nmbCardsToDraw2;
       const game = games.find((g) => g.uuid === uuid) as Game;
       game.players.forEach((p) => {
-        p.socket.emit("getGame", { game: { players, playerTurn, deck: deckGame, pit: pit2 } });
+        p.socket.emit("getGame", { game: { players: players3, playerTurn: playerTurn2, deck: deckGame, pit: pit2 } });
       });
     } else {
       let {

@@ -14,11 +14,7 @@ import { socket } from "@/pages/_app";
  * @returns True if card is playable otherwise False
  **/
 function isCardPlayable(card1: Cards, card2: Cards): boolean {
-  if (card2.special === "plus2" && !card2.isOverOneHandOld) {
-    return card1.special === "plus2" || card1.special == "plus4";
-  } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
-    return card1.special === "plus4";
-  }
+  console.log("isCardPlayable", card1, card2);
 
   const isJoker = card1.special === "changecolor" || card1.special === "plus4";
 
@@ -26,6 +22,7 @@ function isCardPlayable(card1: Cards, card2: Cards): boolean {
     card1.color !== undefined &&
     card2.color !== undefined &&
     card1.color === card2.color;
+  console.log("isSameColor", isSameColor);
   const isSameNumber =
     card1.number !== undefined &&
     card2.number !== undefined &&

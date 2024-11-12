@@ -72,11 +72,11 @@ export const isPlayerTurn = (
  **/
 export function isCardPlayable(card1: Cards, card2: Cards): boolean {
   console.log(card1, card2);
-  if (card2.special === "plus2" && !card2.isOverOneHandOld) {
-    return card1.special === "plus2" || card1.special == "plus4";
-  } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
-    return card1.special === "plus4";
-  }
+  // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
+  //   return card1.special === "plus2" || card1.special == "plus4";
+  // } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
+  //   return card1.special === "plus4";
+  // }
 
   const isJoker = card1.special === "changecolor" || card1.special === "plus4";
 
@@ -149,9 +149,10 @@ export const useSpecialCardEffect = (
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
       break;
     case "plus2":
-      playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       nmbCardsToDraw = nmbCardsToDraw + 2;
-      players = addCardsToPlayer(players, playerTurn, nmbCardsToDraw, deck);
+      const playerToTakeCards = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+      players = addCardsToPlayer(players, playerToTakeCards, nmbCardsToDraw, deck);
+      playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
       break;
     case "plus4":
