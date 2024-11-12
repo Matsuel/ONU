@@ -65,6 +65,7 @@ export default function Game() {
   socket.on("playCard", (data) => {
     setPlayers(data.players as Player[]);
     setPit(new Stack(data.pit.stack));
+    setPlayerTurn(data.playerTurn);
   });
 
   if (!id) return <div>Loading...</div>;

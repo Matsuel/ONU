@@ -1,7 +1,7 @@
 import { LinkedList } from "./linkedArray";
 import { Stack } from "./stack";
 import { Cards, Game } from "./type";
-import { isCardPlayable, isPlayerTurn, playCard } from "./utils/cards";
+import { getNextPlayerIndex, isCardPlayable, isPlayerTurn, playCard } from "./utils/cards";
 import { initServer } from "./utils/initServer";
 import loadEvents from "./utils/loadEvents";
 
@@ -26,14 +26,13 @@ io.on("connection", async (socket) => {
       players,
       playerTurn,
       isTurnDirectionClockwise,
-      setNmbCardsToDraw,
       nmbCardsToDraw,
     } = data;
     console.log(deck, "deck");
     const pitGame = new Stack(pit.stack) as Stack<Cards>;
     const deckGame = new LinkedList<Cards>();
     deckGame.fromJSON(deck);
-    console.log(pitGame.peek(), "pitGame");
+    // console.log(pitGame.peek(), "pitGame");
     if (!pitGame) {
       console.error("Pit cannot be null");
       return;
@@ -71,7 +70,6 @@ io.on("connection", async (socket) => {
       //   setNmbCardsToDraw
       // );
     } else {
-      console.log("normal card");
       console.log(player, cardIndex, pitGame, players);
       let {
         newPit: pit2,
@@ -79,10 +77,12 @@ io.on("connection", async (socket) => {
         updatedPlayers: players2,
       } = playCard(player, cardIndex, pitGame, players);
       console.log(pit2);
-      socket.emit("playCard", { pit: pit2, players: players2 });
-      // setPlayerTurn(
-      //   getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-      // );
+      playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+      const game = games.find((g) => g.uuid === uuid) as Game;
+      console.log(game);
+      game.players.forEach((p) => {
+        p.socket.emit("playCard", { pit: pit2, players: players2, playerTurn });
+      });
     }
   });
 });

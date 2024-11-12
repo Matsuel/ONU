@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isPlayerTurn = exports.playCard = void 0;
+exports.getNextPlayerIndex = exports.isPlayerTurn = exports.playCard = void 0;
 exports.isCardPlayable = isCardPlayable;
 const stack_1 = require("../stack");
 /**
@@ -15,7 +15,7 @@ const stack_1 = require("../stack");
  * @returns returns true if the card has been played otherwise returns false
  */
 const playCard = (player, cardIndex, pit, players) => {
-    console.log("playCard", player);
+    // console.log("playCard", player);
     const cardPlayed = player.cards[cardIndex];
     const newPit = new stack_1.Stack([...pit.getItems(), cardPlayed]);
     const updatedPlayers = players.map((p) => {
@@ -25,7 +25,7 @@ const playCard = (player, cardIndex, pit, players) => {
         return p;
     });
     player = updatedPlayers.find((p) => p.uuid === player.uuid);
-    console.log("updatedPlayers", player);
+    // console.log("updatedPlayers", player);
     // hasPlayerWon(player, setPlayers);
     return { player, newPit, updatedPlayers };
 };
@@ -76,3 +76,29 @@ function isCardPlayable(card1, card2) {
         card1.special === card2.special;
     return isJoker || isSameColor || isSameNumber || isSameSpecial;
 }
+/**
+ * Advances the turn to the next player.
+ * @param players - Array of all the players
+ * @param playerTurn - Current player turn
+ * @param nmbSkip - Nmb of turn skip if not passed is one
+ * @param isTurnDirectionClockwise  - checks the turn direction
+ */
+const getNextPlayerIndex = (players, playerTurn, nmbSkip, isTurnDirectionClockwise) => {
+    if (isTurnDirectionClockwise) {
+        if (playerTurn + nmbSkip > players.length - 1) {
+            return playerTurn + nmbSkip - players.length;
+        }
+        else {
+            return playerTurn + nmbSkip;
+        }
+    }
+    else {
+        if (playerTurn - nmbSkip < 0) {
+            return playerTurn - nmbSkip + players.length;
+        }
+        else {
+            return playerTurn - nmbSkip;
+        }
+    }
+};
+exports.getNextPlayerIndex = getNextPlayerIndex;

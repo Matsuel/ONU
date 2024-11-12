@@ -29,7 +29,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
         const pitGame = new stack_1.Stack(pit.stack);
         const deckGame = new linkedArray_1.LinkedList();
         deckGame.fromJSON(deck);
-        console.log(pitGame.peek(), "pitGame");
+        // console.log(pitGame.peek(), "pitGame");
         if (!pitGame) {
             console.error("Pit cannot be null");
             return;
@@ -62,14 +62,22 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             // );
         }
         else {
-            console.log("normal card");
+            // console.log("normal card");
             console.log(player, cardIndex, pitGame, players);
             let { newPit: pit2, player: player2, updatedPlayers: players2, } = (0, cards_1.playCard)(player, cardIndex, pitGame, players);
             console.log(pit2);
-            socket.emit("playCard", { pit: pit2, players: players2 });
-            // setPlayerTurn(
-            //   getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-            // );
+            playerTurn = (0, cards_1.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
+            const game = games.find((g) => g.uuid === uuid);
+            console.log(game);
+            game.players.forEach((p) => {
+                // io.to(p.socket).emit("playCard", {
+                //   pit: pit2,
+                //   players: players2,
+                //   playerTurn,
+                // });
+                p.socket.emit("playCard", { pit: pit2, players: players2, playerTurn });
+            });
+            // socket.emit("playCard", { pit: pit2, players: players2, playerTurn });
         }
     });
 }));

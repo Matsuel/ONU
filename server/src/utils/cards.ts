@@ -18,7 +18,7 @@ export const playCard = (
   pit: Stack<Cards>,
   players: Player[]
 ) => {
-  console.log("playCard", player);
+  // console.log("playCard", player);
   const cardPlayed = player.cards[cardIndex];
 
   const newPit = new Stack<Cards>([...pit.getItems(), cardPlayed]);
@@ -34,7 +34,7 @@ export const playCard = (
   });
 
   player = updatedPlayers.find((p) => p.uuid === player.uuid) as Player;
-  console.log("updatedPlayers", player);
+  // console.log("updatedPlayers", player);
   // hasPlayerWon(player, setPlayers);
 
   return { player, newPit, updatedPlayers };
@@ -94,3 +94,31 @@ export function isCardPlayable(card1: Cards, card2: Cards): boolean {
 
   return isJoker || isSameColor || isSameNumber || isSameSpecial;
 }
+
+/**
+ * Advances the turn to the next player.
+ * @param players - Array of all the players
+ * @param playerTurn - Current player turn
+ * @param nmbSkip - Nmb of turn skip if not passed is one
+ * @param isTurnDirectionClockwise  - checks the turn direction
+ */
+export const getNextPlayerIndex = (
+  players: Player[],
+  playerTurn: number,
+  nmbSkip: number,
+  isTurnDirectionClockwise: boolean
+): number => {
+  if (isTurnDirectionClockwise) {
+    if (playerTurn + nmbSkip > players.length - 1) {
+      return playerTurn + nmbSkip - players.length;
+    } else {
+      return playerTurn + nmbSkip;
+    }
+  } else {
+    if (playerTurn - nmbSkip < 0) {
+      return playerTurn - nmbSkip + players.length;
+    } else {
+      return playerTurn - nmbSkip;
+    }
+  }
+};
