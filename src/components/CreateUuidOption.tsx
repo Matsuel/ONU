@@ -2,7 +2,7 @@ import Button from "./Button";
 import {
     emitStartGame,
     onStartGame,
-  } from "@/utils/socketEvents";
+} from "@/utils/socketEvents";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
