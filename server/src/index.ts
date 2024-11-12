@@ -1,7 +1,7 @@
 import { LinkedList } from "./linkedArray";
 import { Stack } from "./stack";
 import { Cards, Game } from "./type";
-import { getNextPlayerIndex, isCardPlayable, isPlayerTurn, playCard } from "./utils/cards";
+import { getNextPlayerIndex, isCardPlayable, isPlayerTurn, playCard, useSpecialCardEffect } from "./utils/cards";
 import { initServer } from "./utils/initServer";
 import loadEvents from "./utils/loadEvents";
 
@@ -57,29 +57,36 @@ io.on("connection", async (socket) => {
 
     if (card.special !== undefined) {
       console.log("special card");
-      playCard(player, cardIndex, pitGame, players);
-      // useSpecialCardEffect(
-      //   card,
-      //   playerTurn,
-      //   setPlayerTurn,
-      //   players,
-      //   setIsTurnDirectionClockwise,
-      //   isTurnDirectionClockwise,
-      //   colorChangeRef,
-      //   nmbCardsToDraw,
-      //   setNmbCardsToDraw
-      // );
-    } else {
-      console.log(player, cardIndex, pitGame, players);
       let {
         newPit: pit2,
         player: player2,
         updatedPlayers: players2,
       } = playCard(player, cardIndex, pitGame, players);
-      console.log(pit2);
+      const { isTurnDirectionClockwise: isTurnDirectionClockwise2, nmbCardsToDraw: nmbCardsToDraw2, playerTurn: playerTurn2, players: players3 }
+        = useSpecialCardEffect(
+          card,
+          playerTurn,
+          players2,
+          isTurnDirectionClockwise,
+          nmbCardsToDraw,
+          deckGame
+        );
+      playerTurn = playerTurn2;
+      players = players3;
+      isTurnDirectionClockwise = isTurnDirectionClockwise2;
+      nmbCardsToDraw = nmbCardsToDraw2;
+      const game = games.find((g) => g.uuid === uuid) as Game;
+      game.players.forEach((p) => {
+        p.socket.emit("playCard", { pit: pit2, players, playerTurn });
+      });
+    } else {
+      let {
+        newPit: pit2,
+        player: player2,
+        updatedPlayers: players2,
+      } = playCard(player, cardIndex, pitGame, players);
       playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       const game = games.find((g) => g.uuid === uuid) as Game;
-      console.log(game);
       game.players.forEach((p) => {
         p.socket.emit("playCard", { pit: pit2, players: players2, playerTurn });
       });

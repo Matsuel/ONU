@@ -85,48 +85,6 @@ const Players = ({
       setNmbCardsToDraw,
       nmbCardsToDraw,
     });
-
-    // if (!pit) {
-    //   console.error("Pit cannot be null");
-    //   return;
-    // }
-
-    // if (!deck) {
-    //   console.error("Deck cannot be null");
-    //   return;
-    // }
-
-    // if (!isPlayerTurn(player, players, playerTurn)) {
-    //   console.error(`${player.name}: can't play, not your turn`);
-    //   return false;
-    // }
-
-    // if (!isCardPlayable(card, pit.peek())) {
-    //   console.error(
-    //     `${JSON.stringify(card)} not playable on ${JSON.stringify(pit.peek())}`
-    //   );
-    //   return false;
-    // }
-
-    // if (card.special !== undefined) {
-    //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
-    //   useSpecialCardEffect(
-    //     card,
-    //     playerTurn,
-    //     setPlayerTurn,
-    //     players,
-    //     setIsTurnDirectionClockwise,
-    //     isTurnDirectionClockwise,
-    //     colorChangeRef,
-    //     nmbCardsToDraw,
-    //     setNmbCardsToDraw
-    //   );
-    // } else {
-    //   playCard(player, cardIndex, pit, setPit, players, setPlayers);
-    //   setPlayerTurn(
-    //     getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-    //   );
-    // }
   };
 
   return (
@@ -141,12 +99,11 @@ const Players = ({
           {player.cards.map((card, cardIndex) => (
             <button
               key={cardIndex}
-              className={`cursor-not-allowed ${
-                isCardPlayable(card, pit!.peek()) &&
-                players[playerTurn].uuid === player.uuid
+              className={`cursor-not-allowed ${isCardPlayable(card, pit!.peek()) &&
+                  players[playerTurn].uuid === player.uuid
                   ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
                   : "opacity-30 cursor-not-allowed"
-              }`}
+                }`}
               onClick={() =>
                 playCardOnClick(
                   cardIndex,
