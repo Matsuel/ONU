@@ -154,9 +154,11 @@ export const useSpecialCardEffect = (
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
     case "plus4":
+      console.log("plus4", card);
       nmbCardsToDraw = nmbCardsToDraw + 4;
-      playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-      players = addCardsToPlayer(players, playerTurn, nmbCardsToDraw, deck);
+      const playerToTake4Cards = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+      players = addCardsToPlayer(players, playerToTake4Cards, nmbCardsToDraw, deck);
+      playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
     case "rev":
       isTurnDirectionClockwise = !isTurnDirectionClockwise;

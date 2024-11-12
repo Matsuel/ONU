@@ -98,7 +98,7 @@ const Card = ({
             {isHovered && <div className="absolute top-[50%] left-[50%] transform-gpu -translate-x-1/2 -translate-y-1/2">
                 {colors.map((color, index) => (
                     <button
-                        className="w-32 h-32 hover:border-4 border-white transition-all rounded-2xl"
+                        className="w-20 h-20 hover:border-4 border-white transition-all rounded-2xl"
                         style={{ background: color }}
                         key={index}
                         onClick={() => {

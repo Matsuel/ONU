@@ -117,29 +117,26 @@ const useSpecialCardEffect = (card, playerTurn, players, isTurnDirectionClockwis
         case "skip":
             playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-            break;
         case "plus2":
             nmbCardsToDraw = nmbCardsToDraw + 2;
             const playerToTakeCards = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
             players = (0, exports.addCardsToPlayer)(players, playerToTakeCards, nmbCardsToDraw, deck);
             playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-            break;
         case "plus4":
+            console.log("plus4", card);
             nmbCardsToDraw = nmbCardsToDraw + 4;
-            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
-            players = (0, exports.addCardsToPlayer)(players, playerTurn, nmbCardsToDraw, deck);
+            const playerToTake4Cards = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
+            players = (0, exports.addCardsToPlayer)(players, playerToTake4Cards, nmbCardsToDraw, deck);
+            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-            break;
         case "rev":
             isTurnDirectionClockwise = !isTurnDirectionClockwise;
             playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, !isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-            break;
         case "changecolor":
             playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
-            break;
         default:
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
     }

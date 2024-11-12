@@ -24,8 +24,16 @@ let games = [];
 io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     (0, loadEvents_1.default)(socket, games);
     socket.on("playCard", (data) => {
-        let { deck, uuid, cardIndex, card, player, pit, players, playerTurn, isTurnDirectionClockwise, nmbCardsToDraw, } = data;
-        console.log(card, "deck");
+        let { deck, uuid, cardIndex, card, player, pit, players, playerTurn, isTurnDirectionClockwise, nmbCardsToDraw, specialColor, } = data;
+        console.log(specialColor, card, "deck");
+        if (card.special !== undefined && (specialColor === undefined && card.color === undefined))
+            return;
+        if (specialColor) {
+            card.color = specialColor;
+            player.cards[cardIndex].color = specialColor;
+        }
+        console.log("playCard", player);
+        // return
         const pitGame = new stack_1.Stack(pit.stack);
         const deckGame = new linkedArray_1.LinkedList();
         deckGame.fromJSON(deck);
@@ -47,11 +55,9 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             return false;
         }
         if (card.special !== undefined) {
-            console.log("special card");
+            // console.log("special card", card);
             let { newPit: pit2, player: player2, updatedPlayers: players2, } = (0, cards_1.playCard)(player, cardIndex, pitGame, players);
-            console.log("special card", deckGame.getSize());
             const { isTurnDirectionClockwise: isTurnDirectionClockwise2, nmbCardsToDraw: nmbCardsToDraw2, playerTurn: playerTurn2, players: players3 } = (0, cards_1.useSpecialCardEffect)(card, playerTurn, players2, isTurnDirectionClockwise, nmbCardsToDraw, deckGame);
-            console.log("special card after", deckGame.getSize());
             playerTurn = playerTurn2;
             // players = players3;
             isTurnDirectionClockwise = isTurnDirectionClockwise2;

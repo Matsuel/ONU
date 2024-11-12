@@ -27,8 +27,16 @@ io.on("connection", async (socket) => {
       playerTurn,
       isTurnDirectionClockwise,
       nmbCardsToDraw,
+      specialColor,
     } = data;
-    console.log(card, "deck");
+    console.log(specialColor, card, "deck");
+    if (card.special !== undefined && (specialColor === undefined && card.color === undefined)) return
+    if (specialColor) {
+      card.color = specialColor;
+      player.cards[cardIndex].color = specialColor;
+    }
+    console.log("playCard", player);
+    // return
     const pitGame = new Stack(pit.stack) as Stack<Cards>;
     const deckGame = new LinkedList<Cards>();
     deckGame.fromJSON(deck);
@@ -56,13 +64,12 @@ io.on("connection", async (socket) => {
     }
 
     if (card.special !== undefined) {
-      console.log("special card");
+      // console.log("special card", card);
       let {
         newPit: pit2,
         player: player2,
         updatedPlayers: players2,
       } = playCard(player, cardIndex, pitGame, players);
-      console.log("special card", deckGame.getSize());
       const { isTurnDirectionClockwise: isTurnDirectionClockwise2, nmbCardsToDraw: nmbCardsToDraw2, playerTurn: playerTurn2, players: players3 }
         = useSpecialCardEffect(
           card,
@@ -72,7 +79,6 @@ io.on("connection", async (socket) => {
           nmbCardsToDraw,
           deckGame
         );
-      console.log("special card after", deckGame.getSize());
       playerTurn = playerTurn2;
       // players = players3;
       isTurnDirectionClockwise = isTurnDirectionClockwise2;
