@@ -3,11 +3,10 @@ import { LinkedList } from "../../../structs/linkedArray";
 import { Stack } from "../../../structs/stack";
 import Cards from "../../../interface/cards";
 import Player from "../../../interface/player";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Deck from "@/components/Deck";
 import Players from "@/components/Player";
 import Pit from "@/components/Pit";
-import { changeColor } from "../../../cardsFunction";
 import { socket } from "../_app";
 import { useRouter } from "next/router";
 

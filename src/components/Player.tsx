@@ -1,12 +1,7 @@
 import Player from "../../interface/player";
-import CardDisplay from "./CardDisplay";
-import {
-  isCardPlayable,
-} from "../../cardsFunction";
 import Cards from "../../interface/cards";
 import { Stack } from "../../structs/stack";
 import { LinkedList } from "../../structs/linkedArray";
-import { socket } from "@/pages/_app";
 import Card from "./Card";
 
 interface PlayersProps {

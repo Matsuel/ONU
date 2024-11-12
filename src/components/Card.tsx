@@ -37,15 +37,6 @@ const Card = ({
     const colors = ["red", "green", "blue", "yellow"]
     const colorsCards = { "red": "r", "green": "g", "blue": "b", "yellow": "y" }
 
-    /**
- * @param cardIndex - the index of the card played
- * @param card - the card played by the player
- * @param player - the last playing player
- * @param players - array of all the players
- * @param playerTurn - index of the current playing player
- * @param isTurnDirectionClockwise - checks if next player will be left or right
- * @param nmbCardsToDraw - nmb of cards that the player will draw
- **/
     const playCardOnClick = (
         cardIndex: number,
         card: Cards,
