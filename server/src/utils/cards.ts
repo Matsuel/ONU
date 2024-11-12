@@ -182,6 +182,7 @@ export const addCardsToPlayer = (
 ): Player[] => {
   console.log("addCardsToPlayer", deck);
   const cardsToAdd = Array.from({ length: nmbCardsToDraw }, () => deck.removeHead());
+  console.log("cardsToAdd", deck.getSize());
   console.log("cardsToAdd", cardsToAdd);
   let updatedPlayers = players.map((p, index) => {
     if (index === playerTurn) {

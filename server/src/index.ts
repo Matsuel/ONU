@@ -62,6 +62,7 @@ io.on("connection", async (socket) => {
         player: player2,
         updatedPlayers: players2,
       } = playCard(player, cardIndex, pitGame, players);
+      console.log("special card", deckGame.getSize());
       const { isTurnDirectionClockwise: isTurnDirectionClockwise2, nmbCardsToDraw: nmbCardsToDraw2, playerTurn: playerTurn2, players: players3 }
         = useSpecialCardEffect(
           card,
@@ -71,13 +72,14 @@ io.on("connection", async (socket) => {
           nmbCardsToDraw,
           deckGame
         );
+      console.log("special card after", deckGame.getSize());
       playerTurn = playerTurn2;
       players = players3;
       isTurnDirectionClockwise = isTurnDirectionClockwise2;
       nmbCardsToDraw = nmbCardsToDraw2;
       const game = games.find((g) => g.uuid === uuid) as Game;
       game.players.forEach((p) => {
-        p.socket.emit("playCard", { pit: pit2, players, playerTurn });
+        p.socket.emit("getGame", { game: { players, playerTurn, deck: deckGame, pit: pit2 } });
       });
     } else {
       let {
@@ -88,7 +90,7 @@ io.on("connection", async (socket) => {
       playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       const game = games.find((g) => g.uuid === uuid) as Game;
       game.players.forEach((p) => {
-        p.socket.emit("playCard", { pit: pit2, players: players2, playerTurn });
+        p.socket.emit("getGame", { game: { players: players2, playerTurn, deck: deckGame, pit: pit2 } });
       });
     }
   });
