@@ -31,6 +31,7 @@ export default function Game() {
   // - +4 et Changement de couleur
   // - Faire un event pour le changement de couelur et le +4
   // - Modal pour choisir la couleur
+  // - Ajouter toutes les props de base dans la partie lors de sa création isTurnDirectionClockwise, nmbCardsToDraw
 
   useEffect(() => {
     const playerUuid = sessionStorage.getItem("uuid");
