@@ -7,6 +7,7 @@ import Cards from "../../interface/cards";
 import { Stack } from "../../structs/stack";
 import { LinkedList } from "../../structs/linkedArray";
 import { socket } from "@/pages/_app";
+import Card from "./Card";
 
 interface PlayersProps {
   players: Player[];
@@ -27,39 +28,6 @@ const Players = ({
   isTurnDirectionClockwise,
   nmbCardsToDraw,
 }: PlayersProps) => {
-  /**
-   * @param cardIndex - the index of the card played
-   * @param card - the card played by the player
-   * @param player - the last playing player
-   * @param players - array of all the players
-   * @param playerTurn - index of the current playing player
-   * @param isTurnDirectionClockwise - checks if next player will be left or right
-   * @param nmbCardsToDraw - nmb of cards that the player will draw
-   **/
-  const playCardOnClick = (
-    cardIndex: number,
-    card: Cards,
-    player: Player,
-    players: Player[],
-    playerTurn: number,
-    isTurnDirectionClockwise: boolean,
-    nmbCardsToDraw: number
-  ) => {
-    console.log("playCardOnClick", deck);
-
-    socket.emit("playCard", {
-      deck,
-      uuid,
-      cardIndex,
-      card,
-      player,
-      pit,
-      players,
-      playerTurn,
-      isTurnDirectionClockwise,
-      nmbCardsToDraw,
-    });
-  };
 
   return (
     <div>
@@ -71,27 +39,19 @@ const Players = ({
         <div key={index}>
           <p>{player.name}</p>
           {player.cards.map((card, cardIndex) => (
-            <button
+            <Card
               key={cardIndex}
-              className={` ${isCardPlayable(card, pit!.peek()) &&
-                players[playerTurn].uuid === player.uuid
-                ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
-                : "opacity-30 cursor-not-allowed"
-                }`}
-              onClick={() =>
-                playCardOnClick(
-                  cardIndex,
-                  card,
-                  player,
-                  players,
-                  playerTurn,
-                  isTurnDirectionClockwise,
-                  nmbCardsToDraw,
-                )
-              }
-            >
-              <CardDisplay key={cardIndex} card={card} />
-            </button>
+              card={card}
+              cardIndex={cardIndex}
+              player={player}
+              players={players}
+              playerTurn={playerTurn}
+              isTurnDirectionClockwise={isTurnDirectionClockwise}
+              nmbCardsToDraw={nmbCardsToDraw}
+              pit={pit}
+              deck={deck}
+              uuid={uuid}
+            />
           ))}
         </div>
       ))}
