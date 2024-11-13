@@ -11,9 +11,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const start = (data, socket, games) => __awaiter(void 0, void 0, void 0, function* () {
     const { uuid } = data;
-    console.log("start", uuid);
     const game = games.find((g) => g.uuid === uuid);
     if (game) {
+        if (game.players.length < 2) {
+            socket.emit("start", {
+                status: false,
+                message: "Not enough players",
+            });
+            return;
+        }
         game.playerTurn = Math.floor(Math.random() * game.players.length);
         // distribuer les cartes
         for (let i = 0; i < 7; i++) {

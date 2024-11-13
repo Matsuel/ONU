@@ -10,6 +10,7 @@ import {
 export default function Create() {
   const [uuid, setUuid] = useState("");
   const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const copyToClipboard = () => {
@@ -26,6 +27,8 @@ export default function Create() {
       if (msg.uuid) {
         console.log(msg.uuid);
         router.push({ pathname: `/game/${msg.uuid}` });
+      } else if (msg.message) {
+        setError(msg.message);
       } else {
         console.log("Game not found");
       }
@@ -53,6 +56,7 @@ export default function Create() {
           <button onClick={() => emitStartGame(uuid)}>
             Commencer la partie
           </button>
+          {error && <p>{error}</p>}
         </div>
       )}
     </div>

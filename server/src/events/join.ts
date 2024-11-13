@@ -14,6 +14,8 @@ const join = async (
     const player = game.players.find((p) => p.name === username);
     if (player) {
       socket.emit("join", { status: false, message: "Player already exists" });
+    } else if (game.players.length >= 6) {
+      socket.emit("join", { status: false, message: "Game is full" });
     } else {
       game.players.push({
         uuid: socket.id,
@@ -33,7 +35,4 @@ const join = async (
 };
 
 export default join;
-
-
-// Rejeter un joueur si y'a déjà 6 joueurs
 // Timer pour jouer sinon on piore une carte
