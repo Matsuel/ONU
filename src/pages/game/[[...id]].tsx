@@ -48,6 +48,7 @@ export default function Game() {
   useEffect(() => {
     socket.on("getGame", (data) => {
       setPlayerTurn(data.game.playerTurn);
+      setTimer(30);
       const newDeck = new LinkedList<Cards>();
       newDeck.fromJSON(data.game.deck);
       setPit(new Stack(data.game.pit.stack));
