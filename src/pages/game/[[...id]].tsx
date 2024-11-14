@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import Deck from "@/components/Deck";
-import Players from "@/components/Player";
-import Pit from "@/components/Pit";
+import Deck from "@/components/structs/Deck";
+import Players from "@/components/structs/Player";
+import Pit from "@/components/structs/Pit";
 import { socket } from "../_app";
 import { useRouter } from "next/router";
 import { GameContext } from "@/providers/GameProvider";
@@ -39,14 +39,12 @@ export default function Game() {
             setLoading(true);
             socket.emit("getGame", { id: id[0], uuid });
         }
-    }, [uuid, id]);
+    }, [uuid, id, setLoading]);
 
     useTimer({ id: id ? id[0] : undefined, uuid });
-
+    useEffect(() => {
         socket.on("gameOver", (data) => {
-            console.log(data);
-
-            // Quand l'utilisateur clique sur OK, on le redirige vers la page d'accueil
+            console.error(data);
         });
     }, [router]);
 
