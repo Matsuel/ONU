@@ -1,3 +1,13 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "indent": ["error", 4],
+    "quotes": ["error", "double"],
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-else-return": "error",
+    "eqeqeq": "error",
+    "no-eval": "error"
+  }
 }
