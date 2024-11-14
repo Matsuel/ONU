@@ -1,7 +1,6 @@
 import Card from "./Card";
 import { useContext } from "react";
 import { PlayersContext } from "@/providers/PlayersProvider";
-import { GameContext } from "@/providers/GameProvider";
 
 interface PlayersProps {
     uuid: string;
@@ -32,8 +31,6 @@ const Players = ({
                             card={card}
                             cardIndex={cardIndex}
                             player={player}
-                            players={players}
-                            playerTurn={playerTurn}
                             uuid={uuid}
                         />
                     ))}
