@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { LinkedList } from "../../../structs/linkedArray";
 import { Stack } from "../../../structs/stack";
 import Cards from "../../../interface/cards";
@@ -10,21 +10,23 @@ import Pit from "@/components/Pit";
 import { socket } from "../_app";
 import { useRouter } from "next/router";
 import { drawCard } from "../../../cardsFunction";
+import { GameContext } from "@/providers/GameProvider";
+import { PlayersContext } from "@/providers/PlayersProvider";
+import { PitContext } from "@/providers/PitProvider";
+import { DeckContext } from "@/providers/DeckProvider";
 
 export default function Game() {
+
+    const { isTurnDirectionClockwise, setIsTurnDirectionClockwise, nmbCardsToDraw, setNmbCardsToDraw, uuid, setUuid } = useContext(GameContext)
+    const { playerTurn, players, setPlayerTurn, setPlayers, setTimer, timer } = useContext(PlayersContext);
+    const { pit, setPit } = useContext(PitContext);
+    const { deck, setDeck } = useContext(DeckContext);
+
     const router = useRouter();
     const { id } = router.query;
 
-    const [players, setPlayers] = useState<Player[]>([]);
-    const [deck, setDeck] = useState<LinkedList<Cards> | null>(null);
-    const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
-    const [playerTurn, setPlayerTurn] = useState(0);
-    const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
-    const [nmbCardsToDraw, setNmbCardsToDraw] = useState(0);
-    const [uuid, setUuid] = useState("");
     const [loading, setLoading] = useState(true);
-    const [timer, setTimer] = useState(30);
 
     // TODO:
     // - Ajouter toutes les props de base dans la partie lors de sa création isTurnDirectionClockwise, nmbCardsToDraw
@@ -93,10 +95,6 @@ export default function Game() {
             )}
             <Players
                 uuid={id[0] as string}
-                players={players}
-                playerTurn={playerTurn}
-                pit={pit}
-                deck={deck}
                 isTurnDirectionClockwise={isTurnDirectionClockwise}
                 nmbCardsToDraw={nmbCardsToDraw}
             />
@@ -106,13 +104,11 @@ export default function Game() {
                 deck={deck}
                 playerTurn={playerTurn}
                 players={players}
-                pit={pit}
-                setPit={setPit}
                 setDeck={setDeck}
                 nmbCardsToDraw={nmbCardsToDraw}
             />
 
-            <Pit pit={pit} />
+            <Pit />
         </div>
     );
 }

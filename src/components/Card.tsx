@@ -1,11 +1,11 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import Player from "../../interface/player"
-import { Stack } from "../../structs/stack"
 import Cards from "../../interface/cards"
 import { socket } from "@/pages/_app"
-import { LinkedList } from "../../structs/linkedArray"
 import { isCardPlayable } from "../../cardsFunction"
 import CardDisplay from "./CardDisplay"
+import { PitContext } from "@/providers/PitProvider"
+import { DeckContext } from "@/providers/DeckProvider"
 
 interface CardProps {
     card: Cards
@@ -15,8 +15,6 @@ interface CardProps {
     playerTurn: number
     isTurnDirectionClockwise: boolean
     nmbCardsToDraw: number
-    pit: Stack<Cards> | null
-    deck: LinkedList<Cards> | null
     uuid: string
 }
 
@@ -28,10 +26,11 @@ const Card = ({
     playerTurn,
     isTurnDirectionClockwise,
     nmbCardsToDraw,
-    pit,
-    deck,
     uuid
 }: CardProps) => {
+
+    const { pit } = useContext(PitContext)
+    const {deck} = useContext(DeckContext)
 
     const [isHovered, setIsHovered] = useState(false)
     const colors = ["red", "green", "blue", "yellow"]
@@ -75,7 +74,7 @@ const Card = ({
                 players[playerTurn].uuid === player.uuid
                 ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
                 : "opacity-30 cursor-not-allowed"
-            }`}
+                }`}
             onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
             onClick={() =>

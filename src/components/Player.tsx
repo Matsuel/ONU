@@ -1,14 +1,8 @@
-import Player from "../../interface/player";
-import Cards from "../../interface/cards";
-import { Stack } from "../../structs/stack";
-import { LinkedList } from "../../structs/linkedArray";
 import Card from "./Card";
+import { useContext } from "react";
+import { PlayersContext } from "@/providers/PlayersProvider";
 
 interface PlayersProps {
-    players: Player[];
-    playerTurn: number;
-    pit: Stack<Cards> | null;
-    deck: LinkedList<Cards> | null;
     isTurnDirectionClockwise: boolean;
     nmbCardsToDraw: number;
     uuid: string;
@@ -16,13 +10,12 @@ interface PlayersProps {
 
 const Players = ({
     uuid,
-    players,
-    playerTurn,
-    pit,
-    deck,
     isTurnDirectionClockwise,
     nmbCardsToDraw,
 }: PlayersProps) => {
+
+
+    const { players, playerTurn } = useContext(PlayersContext);
 
     return (
         <div>
@@ -43,8 +36,6 @@ const Players = ({
                             playerTurn={playerTurn}
                             isTurnDirectionClockwise={isTurnDirectionClockwise}
                             nmbCardsToDraw={nmbCardsToDraw}
-                            pit={pit}
-                            deck={deck}
                             uuid={uuid}
                         />
                     ))}

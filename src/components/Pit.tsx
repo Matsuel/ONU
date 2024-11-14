@@ -1,12 +1,11 @@
-import Cards from "../../interface/cards"
-import { Stack } from "../../structs/stack"
+import { useContext } from "react"
 import CardDisplay from "@/components/CardDisplay"
+import { PitContext } from "@/providers/PitProvider"
 
-interface PitProps {
-    pit: Stack<Cards> | null,
-}
+const Pit = () => {
 
-const Pit = ({ pit }: PitProps) => {
+    const { pit } = useContext(PitContext)
+
     return (
         <div>
             {pit && (

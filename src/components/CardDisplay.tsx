@@ -15,6 +15,8 @@ const CardDisplay = ({
                     src={`/Cards/${card.special}.png`}
                     alt="special card"
                     className="w-24"
+                    width={100}
+                    height={100}
                 />
             )}
 
@@ -25,12 +27,16 @@ const CardDisplay = ({
                             src={`/Cards/${card.special}${card.color}.png`}
                             alt="special card"
                             className="w-24"
+                            width={100}
+                            height={100}
                         />
                     ) : (
                         <Image
                             src={`/Cards/${card.special}.png`}
                             alt="special card"
                             className="w-24"
+                            width={100}
+                            height={100}
                         />
                     )}
                 </div>
@@ -41,6 +47,8 @@ const CardDisplay = ({
                             src={`/Cards/${card.number}${card.color}.png`}
                             alt="base card"
                             className="w-24"
+                            width={100}
+                            height={100}
                         />
                     )}
                 </div>
