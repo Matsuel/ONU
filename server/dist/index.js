@@ -59,7 +59,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             const game = games.find((g) => g.uuid === uuid);
             if (checkIfPlayerHasWon(players3)) {
                 game.players.forEach((p) => {
-                    p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players3) });
+                    p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players3), ended: true });
                 });
             }
             game.players.forEach((p) => {
@@ -83,7 +83,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
             const game = games.find((g) => g.uuid === uuid);
             if (checkIfPlayerHasWon(players2)) {
                 game.players.forEach((p) => {
-                    p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players2) });
+                    p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players2), ended: true });
                 });
             }
             game.players.forEach((p) => {
