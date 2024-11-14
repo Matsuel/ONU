@@ -66,15 +66,21 @@ const Card = ({
         });
     };
 
+    const isCurrentPlayerTurn = playerIndex === playerTurn;
+    const isPlayable = isCardPlayable(card, pit!.peek());
+    const isMyTurn = player.uuid === playerUuid && playerIndex === playerTurn;
+
     return (
         <button
             key={cardIndex}
-            className={`relative ${isCardPlayable(card, pit!.peek()) &&
-                playerIndex === playerTurn
-                ? ""
-                : "opacity-30 cursor-not-allowed"
-                } ${players[playerTurn].uuid !== playerUuid ? "cursor-not-allowed" : "cursor-pointer hover:border-4 border-white transition-all rounded-xl"}`}
-            onMouseEnter={() => handleHover(true)}
+            className={`relative transition-all rounded-xl ${isMyTurn
+                    ? isPlayable
+                        ? "cursor-pointer hover:border-4 border-white"
+                        : "opacity-30 cursor-not-allowed"
+                    : isCurrentPlayerTurn
+                        ? "opacity-100 cursor-not-allowed"
+                        : "opacity-30 cursor-not-allowed"
+                }`} onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
             onClick={() =>
                 playCardOnClick(
