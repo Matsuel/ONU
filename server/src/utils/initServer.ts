@@ -18,7 +18,7 @@ export const initServer = (): {
 
     const port = process.env.NEXT_PUBLIC_PORT;
     server.listen(port, () => {
-        console.log(`Server running on port ${port} TEST TEST TEST`);
+        console.log(`Server running on port ${port}`);
     });
 
     return { io };

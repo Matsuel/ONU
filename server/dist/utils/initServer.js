@@ -19,6 +19,7 @@ const initServer = () => {
         },
     });
     const port = process.env.NEXT_PUBLIC_PORT;
+    console.log(port);
     server.listen(port, () => {
         console.log(`Server running on port ${port} TEST TEST TEST`);
     });
