@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 interface ClipboardProps {
     size?: number
@@ -7,7 +7,7 @@ interface ClipboardProps {
 
 const Clipboard = ({
     size = 28,
-    fill = '#fff'
+    fill = "#fff"
 }: ClipboardProps) => {
 
     return (

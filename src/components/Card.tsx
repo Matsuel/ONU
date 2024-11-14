@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import Player from '../../interface/player'
-import { Stack } from '../../structs/stack'
-import Cards from '../../interface/cards'
-import { socket } from '@/pages/_app'
-import { LinkedList } from '../../structs/linkedArray'
-import { isCardPlayable } from '../../cardsFunction'
-import CardDisplay from './CardDisplay'
+import React, { useState } from "react"
+import Player from "../../interface/player"
+import { Stack } from "../../structs/stack"
+import Cards from "../../interface/cards"
+import { socket } from "@/pages/_app"
+import { LinkedList } from "../../structs/linkedArray"
+import { isCardPlayable } from "../../cardsFunction"
+import CardDisplay from "./CardDisplay"
 
 interface CardProps {
     card: Cards
@@ -36,6 +36,10 @@ const Card = ({
     const [isHovered, setIsHovered] = useState(false)
     const colors = ["red", "green", "blue", "yellow"]
     const colorsCards = { "red": "r", "green": "g", "blue": "b", "yellow": "y" }
+
+    const handleHover = (value: boolean) => {
+        if (!card.color && players[playerTurn].uuid === player.uuid) { setIsHovered(value); }
+    }
 
     const playCardOnClick = (
         cardIndex: number,
@@ -71,9 +75,9 @@ const Card = ({
                 players[playerTurn].uuid === player.uuid
                 ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
                 : "opacity-30 cursor-not-allowed"
-                }`}
-            onMouseEnter={() => { !card.color && players[playerTurn].uuid === player.uuid && setIsHovered(true) }}
-            onMouseLeave={() => { !card.color && players[playerTurn].uuid === player.uuid && setIsHovered(false) }}
+            }`}
+            onMouseEnter={() => handleHover(true)}
+            onMouseLeave={() => handleHover(false)}
             onClick={() =>
                 playCardOnClick(
                     cardIndex,

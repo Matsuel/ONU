@@ -5,35 +5,35 @@ import CreateGameOption from "./CreateGameOption";
 import CreateUuidOption from "./CreateUuidOption";
 
 const CreateOption = () => {
-  const router = useRouter();
-  const [uuid, setUuid] = useState("");
+    const router = useRouter();
+    const [uuid, setUuid] = useState("");
 
 
-  useEffect(() => {
-    onCreateGame((msg) => {
-      setUuid(msg.uuid);
-      sessionStorage.setItem("uuid", msg.playerUuid);
-    });
+    useEffect(() => {
+        onCreateGame((msg) => {
+            setUuid(msg.uuid);
+            sessionStorage.setItem("uuid", msg.playerUuid);
+        });
 
-    onStartGame((msg) => {
-      if (msg.uuid) {
-        router.push({ pathname: `/game/${msg.uuid}` });
-      } else {
-        console.log("Game not found");
-      }
-    });
-  }, []);
+        onStartGame((msg) => {
+            if (msg.uuid) {
+                router.push({ pathname: `/game/${msg.uuid}` });
+            } else {
+                console.log("Game not found");
+            }
+        });
+    }, [router]);
 
 
-  return (
-    <div className='flex justify-center gap-4 pt-64'>
-      {uuid === "" ? (
-        <CreateGameOption />
-      ) : (
-        <CreateUuidOption uuid={uuid} />
-      )}
-    </div>
-  );
+    return (
+        <div className='flex justify-center gap-4 pt-64'>
+            {uuid === "" ? (
+                <CreateGameOption />
+            ) : (
+                <CreateUuidOption uuid={uuid} />
+            )}
+        </div>
+    );
 }
 
 export default CreateOption;

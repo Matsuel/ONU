@@ -8,4 +8,4 @@ export default function App({ Component, pageProps }: AppProps) {
     );
 }
 
-export const socket = io('http://localhost:8000');
+export const socket = io("http://localhost:8000");

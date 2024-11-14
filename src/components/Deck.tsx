@@ -4,6 +4,7 @@ import Player from "../../interface/player";
 import { LinkedList } from "../../structs/linkedArray";
 import { drawCard, getPitsCardsToDeck } from "../../cardsFunction";
 import { Stack } from "../../structs/stack";
+import Image from "next/image";
 
 interface DeckProps {
     deck: LinkedList<Cards> | null,
@@ -39,7 +40,7 @@ const Deck = ({
                     }
                 }}
             >
-                <img
+                <Image
                     src="/Cards/back.png"
                     alt="pit"
                     className="w-24 hover:border-4 border-white transition-all rounded-xl"

@@ -5,53 +5,53 @@ import { LinkedList } from "../../structs/linkedArray";
 import Card from "./Card";
 
 interface PlayersProps {
-  players: Player[];
-  playerTurn: number;
-  pit: Stack<Cards> | null;
-  deck: LinkedList<Cards> | null;
-  isTurnDirectionClockwise: boolean;
-  nmbCardsToDraw: number;
-  uuid: string;
+    players: Player[];
+    playerTurn: number;
+    pit: Stack<Cards> | null;
+    deck: LinkedList<Cards> | null;
+    isTurnDirectionClockwise: boolean;
+    nmbCardsToDraw: number;
+    uuid: string;
 }
 
 const Players = ({
-  uuid,
-  players,
-  playerTurn,
-  pit,
-  deck,
-  isTurnDirectionClockwise,
-  nmbCardsToDraw,
+    uuid,
+    players,
+    playerTurn,
+    pit,
+    deck,
+    isTurnDirectionClockwise,
+    nmbCardsToDraw,
 }: PlayersProps) => {
 
-  return (
-    <div>
-      <p className="text-red-700 text-2xl">
-        {players[playerTurn]?.name}'s turn
-      </p>
+    return (
+        <div>
+            <p className="text-red-700 text-2xl">
+                Au tour de {players[playerTurn]?.name}
+            </p>
 
-      {players.map((player, index) => (
-        <div key={index}>
-          <p>{player.name}</p>
-          {player.cards.map((card, cardIndex) => (
-            <Card
-              key={cardIndex}
-              card={card}
-              cardIndex={cardIndex}
-              player={player}
-              players={players}
-              playerTurn={playerTurn}
-              isTurnDirectionClockwise={isTurnDirectionClockwise}
-              nmbCardsToDraw={nmbCardsToDraw}
-              pit={pit}
-              deck={deck}
-              uuid={uuid}
-            />
-          ))}
+            {players.map((player, index) => (
+                <div key={index}>
+                    <p>{player.name}</p>
+                    {player.cards.map((card, cardIndex) => (
+                        <Card
+                            key={cardIndex}
+                            card={card}
+                            cardIndex={cardIndex}
+                            player={player}
+                            players={players}
+                            playerTurn={playerTurn}
+                            isTurnDirectionClockwise={isTurnDirectionClockwise}
+                            nmbCardsToDraw={nmbCardsToDraw}
+                            pit={pit}
+                            deck={deck}
+                            uuid={uuid}
+                        />
+                    ))}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 };
 
 export default Players;
