@@ -80,11 +80,26 @@ io.on("connection", async (socket) => {
       const game = games.find((g) => g.uuid === uuid) as Game;
       if (checkIfPlayerHasWon(players3)) {
         game.players.forEach((p) => {
-          p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players3) });
+          p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players3), ended: true });
         });
       }
       game.players.forEach((p) => {
         p.socket.emit("getGame", { game: { players: players3, playerTurn: playerTurn2, deck: deckGame, pit: pit2 } });
+      });
+      games.forEach((g) => {
+        if (g.uuid === uuid) {
+
+          g.players = players2.map((p) => {
+            const existingPlayer = g.players.find((gp) => gp.uuid === p.uuid);
+            return {
+              ...p,
+              socket: existingPlayer ? existingPlayer.socket : p.socket,
+            };
+          });
+          g.playerTurn = playerTurn;
+          g.deck = deckGame;
+          g.pit = pit2;
+        }
       });
     } else {
       let {
@@ -96,11 +111,26 @@ io.on("connection", async (socket) => {
       const game = games.find((g) => g.uuid === uuid) as Game;
       if (checkIfPlayerHasWon(players2)) {
         game.players.forEach((p) => {
-          p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players2) });
+          p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players2), ended: true });
         });
       }
       game.players.forEach((p) => {
         p.socket.emit("getGame", { game: { players: players2, playerTurn, deck: deckGame, pit: pit2 } });
+      });
+      games.forEach((g) => {
+        if (g.uuid === uuid) {
+
+          g.players = players2.map((p) => {
+            const existingPlayer = g.players.find((gp) => gp.uuid === p.uuid);
+            return {
+              ...p,
+              socket: existingPlayer ? existingPlayer.socket : p.socket,
+            };
+          });
+          g.playerTurn = playerTurn;
+          g.deck = deckGame;
+          g.pit = pit2;
+        }
       });
     }
   });
@@ -117,6 +147,21 @@ io.on("connection", async (socket) => {
     const game = games.find((g) => g.uuid === uuid) as Game;
     game.players.forEach((p) => {
       p.socket.emit("getGame", { game: { players: updatedPlayers, playerTurn: playerTurn2, deck: deckGame, pit: pitGame } });
+    });
+    games.forEach((g) => {
+      if (g.uuid === uuid) {
+
+        g.players = updatedPlayers.map((p) => {
+          const existingPlayer = g.players.find((gp) => gp.uuid === p.uuid);
+          return {
+            ...p,
+            socket: existingPlayer ? existingPlayer.socket : p.socket,
+          };
+        });
+        g.playerTurn = playerTurn2;
+        g.deck = deckGame;
+        g.pit = pitGame;
+      }
     });
   });
 });

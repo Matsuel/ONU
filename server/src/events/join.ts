@@ -15,7 +15,7 @@ const join = async (
     const player = game.players.find((p) => p.name === username);
     if (player) {
       socket.emit("join", { status: false, message: "Player already exists" });
-    } else if (game.players.length >= 6) {
+    } else if (game.players.length >= 4) {
       socket.emit("join", { status: false, message: "Game is full" });
     } else {
       game.players.push({

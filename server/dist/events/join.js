@@ -20,7 +20,7 @@ const join = (data, socket, games) => __awaiter(void 0, void 0, void 0, function
         if (player) {
             socket.emit("join", { status: false, message: "Player already exists" });
         }
-        else if (game.players.length >= 6) {
+        else if (game.players.length >= 4) {
             socket.emit("join", { status: false, message: "Game is full" });
         }
         else {
