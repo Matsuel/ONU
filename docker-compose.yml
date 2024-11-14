@@ -1,0 +1,10 @@
+version: '3.8'  # You can specify the version here
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Adjust this if necessary to match your app's ports
+      - "8000:8000"

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "dev": "concurrently \"node ./server/dist/index.js\" \"next dev\"",
     "start": "next start",
     "lint": "next lint"
   },
