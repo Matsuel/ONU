@@ -1,32 +1,26 @@
-import React, { useContext } from "react";
-import { LinkedList } from "../../../structs/linkedArray";
-import { Stack } from "../../../structs/stack";
-import Cards from "../../../interface/cards";
-import Player from "../../../interface/player";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Deck from "@/components/Deck";
 import Players from "@/components/Player";
 import Pit from "@/components/Pit";
 import { socket } from "../_app";
 import { useRouter } from "next/router";
-import { drawCard } from "../../../cardsFunction";
 import { GameContext } from "@/providers/GameProvider";
 import { PlayersContext } from "@/providers/PlayersProvider";
-import { PitContext } from "@/providers/PitProvider";
-import { DeckContext } from "@/providers/DeckProvider";
+import { LoadingContext } from "@/providers/LoadingProvider";
+import useGame from "@/hooks/useGame";
+import useTimer from "@/hooks/useTimer";
 
 export default function Game() {
 
     const { isTurnDirectionClockwise, setIsTurnDirectionClockwise, nmbCardsToDraw, setNmbCardsToDraw, uuid, setUuid } = useContext(GameContext)
-    const { playerTurn, players, setPlayerTurn, setPlayers, setTimer, timer } = useContext(PlayersContext);
-    const { pit, setPit } = useContext(PitContext);
-    const { deck, setDeck } = useContext(DeckContext);
+    const { playerTurn, players, timer } = useContext(PlayersContext);
+    const { loading, setLoading } = useContext(LoadingContext);
 
     const router = useRouter();
     const { id } = router.query;
 
+    useGame();
 
-    const [loading, setLoading] = useState(true);
 
     // TODO:
     // - Ajouter toutes les props de base dans la partie lors de sa création isTurnDirectionClockwise, nmbCardsToDraw
@@ -47,42 +41,15 @@ export default function Game() {
         }
     }, [uuid, id]);
 
-    useEffect(() => {
-        socket.on("getGame", (data) => {
-            setPlayerTurn(data.game.playerTurn);
-            setTimer(30);
-            const newDeck = new LinkedList<Cards>();
-            newDeck.fromJSON(data.game.deck);
-            setPit(new Stack(data.game.pit.stack));
-            setDeck(newDeck);
-            setPlayers(data.game.players as Player[]);
-            setLoading(false);
-        });
+    useTimer({ id: id ? id[0] : undefined, uuid });
 
+    useEffect(() => {
         socket.on("gameOver", (data) => {
             console.log(data);
 
             // Quand l'utilisateur clique sur OK, on le redirige vers la page d'accueil
         });
     }, [router]);
-
-    useEffect(() => {
-        if (!uuid || players.length === 0 || !id) return;
-        if (players[playerTurn].uuid === uuid) {
-            const interval = setInterval(() => {
-                setTimer((prev) => {
-                    if (prev === 0) {
-                        drawCard(deck, pit, players, playerTurn, 1, id[0] as string);
-                        clearInterval(interval);
-                        return 30;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-            return () => clearInterval(interval);
-        }
-
-    }, [playerTurn, players, uuid, id, deck, pit]);
 
     if (!id || !uuid || loading) return <div>Loading...</div>;
 

@@ -6,21 +6,24 @@ import "dotenv/config";
 import "@/styles/globals.css";
 import { AppProps } from "next/app";
 import io from "socket.io-client";
+import LoadingProvider from "@/providers/LoadingProvider";
 
 export default function App({
     Component,
     pageProps
 }: AppProps) {
     return (
-        <PlayersProvider>
-            <GameProvider>
-                <PitProvider>
-                    <DeckProvider>
-                        <Component {...pageProps} />
-                    </DeckProvider>
-                </PitProvider>
-            </GameProvider>
-        </PlayersProvider>
+        <LoadingProvider>
+            <PlayersProvider>
+                <GameProvider>
+                    <PitProvider>
+                        <DeckProvider>
+                            <Component {...pageProps} />
+                        </DeckProvider>
+                    </PitProvider>
+                </GameProvider>
+            </PlayersProvider>
+        </LoadingProvider>
     );
 }
 
