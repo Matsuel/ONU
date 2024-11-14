@@ -11,7 +11,7 @@ const Button = ({
     ...props
 }: ButtonProps) => {
     return (
-        <button {...props} className={cn(`py-4 px-2 rounded-lg bg-gradient-to-l from-[#FF4201] to-[#FF6603]`, className)}>
+        <button {...props} className={cn(`py-4 px-2 rounded-lg bg-gradient-to-l from-[#FF4201] to-[#FF6603] focus:outline-none placeholder:text-white`, className)}>
             {label}
             {children}
         </button>

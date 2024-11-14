@@ -9,7 +9,7 @@ const CreateGameOption = () => {
         <div className="w-full flex flex-col items-center gap-4">
             <Input
                 autoFocus
-                className="w-[50%] text-center font-semibold text-2xl"
+                className="w-[50%]"
                 placeholder="Nom d'utilisateur"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
