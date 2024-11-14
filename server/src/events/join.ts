@@ -8,6 +8,7 @@ const join = async (
 ): Promise<void> => {
   const { uuid, username } = data;
   console.log("join", uuid);
+  console.log("join", username);
   const game = games.find((g) => g.uuid === uuid);
   if (game) {
     // Check if player already exists
@@ -30,7 +31,7 @@ const join = async (
       });
     }
   } else {
-    socket.emit("join", { status: false, message: "Game not found" });
+    socket.emit("join", { status: false, message: "Cette partie n'existe pas" });
   }
 };
 

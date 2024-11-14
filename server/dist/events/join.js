@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const join = (data, socket, games) => __awaiter(void 0, void 0, void 0, function* () {
     const { uuid, username } = data;
     console.log("join", uuid);
+    console.log("join", username);
     const game = games.find((g) => g.uuid === uuid);
     if (game) {
         // Check if player already exists
