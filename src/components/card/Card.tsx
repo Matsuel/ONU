@@ -7,9 +7,9 @@ import { PitContext } from "@/providers/PitProvider"
 import { DeckContext } from "@/providers/DeckProvider"
 import { GameContext } from "@/providers/GameProvider"
 import { PlayersContext } from "@/providers/PlayersProvider"
-import { colors, colorsCards } from "@/constantes/colors"
 import Player from "@/interface/player"
 import CardBack from "./CardBack"
+import ColorModal from "./ColorModal"
 
 interface CardProps {
     card: Cards
@@ -74,12 +74,12 @@ const Card = ({
         <button
             key={cardIndex}
             className={`relative transition-all rounded-xl ${isMyTurn
-                    ? isPlayable
-                        ? "cursor-pointer hover:border-4 border-white"
-                        : "opacity-30 cursor-not-allowed"
-                    : isCurrentPlayerTurn
-                        ? "opacity-100 cursor-not-allowed"
-                        : "opacity-30 cursor-not-allowed"
+                ? isPlayable
+                    ? "cursor-pointer hover:border-4 border-white"
+                    : "opacity-30 cursor-not-allowed"
+                : isCurrentPlayerTurn
+                    ? "opacity-100 cursor-not-allowed"
+                    : "opacity-30 cursor-not-allowed"
                 }`} onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
             onClick={() =>
@@ -94,32 +94,7 @@ const Card = ({
                 )
             }
         >
-            {isHovered && <div className="absolute top-[50%] left-[50%] transform-gpu -translate-x-1/2 -translate-y-1/2">
-                {colors.map((color, index) => (
-                    <button
-                        className="w-20 h-20 hover:border-4 border-white transition-all rounded-2xl"
-                        style={{ background: color }}
-                        key={index}
-                        onClick={() => {
-                            socket.emit("playCard", {
-                                deck,
-                                uuid,
-                                cardIndex,
-                                card,
-                                player,
-                                pit,
-                                players,
-                                playerTurn,
-                                isTurnDirectionClockwise,
-                                nmbCardsToDraw,
-                                specialColor: colorsCards[color as keyof typeof colorsCards]
-                            });
-                            setIsHovered(false)
-                        }}
-                    ></button>
-                ))}
-            </div>}
-            {/* <CardDisplay key={cardIndex} card={card} /> */}
+            {isHovered && <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} />}
             {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}
         </button >
     )
