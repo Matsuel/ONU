@@ -37,6 +37,7 @@ const ColorModal = ({
                     style={{ background: color }}
                     key={index}
                     onClick={() => {
+                        setIsHovered(false)
                         socket.emit("playCard", {
                             deck,
                             uuid,
@@ -50,7 +51,6 @@ const ColorModal = ({
                             nmbCardsToDraw,
                             specialColor: colorsCards[color as keyof typeof colorsCards]
                         });
-                        setIsHovered(false)
                     }}
                 ></button>
             ))}
