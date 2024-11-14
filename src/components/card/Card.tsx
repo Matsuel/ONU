@@ -32,12 +32,11 @@ const Card = ({
     const { deck } = useContext(DeckContext)
     const { isTurnDirectionClockwise, nmbCardsToDraw, uuid: playerUuid } = useContext(GameContext)
     const { playerTurn, players } = useContext(PlayersContext)
-    console.log("Card", playerTurn, players, playerUuid, player.uuid);
 
     const [isHovered, setIsHovered] = useState(false)
 
     const handleHover = (value: boolean) => {
-        if (!card.color && players[playerTurn].uuid === player.uuid) { setIsHovered(value); }
+        if (!card.color && players[playerTurn].uuid === player.uuid && players[playerTurn].uuid === playerUuid) { setIsHovered(value); }
     }
 
     const playCardOnClick = (
@@ -71,10 +70,10 @@ const Card = ({
         <button
             key={cardIndex}
             className={`relative ${isCardPlayable(card, pit!.peek()) &&
-                players[playerTurn].uuid === playerUuid && playerIndex === playerTurn
-                ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
+                playerIndex === playerTurn
+                ? ""
                 : "opacity-30 cursor-not-allowed"
-                }`}
+                } ${players[playerTurn].uuid !== playerUuid ? "cursor-not-allowed" : "cursor-pointer hover:border-4 border-white transition-all rounded-xl"}`}
             onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
             onClick={() =>
