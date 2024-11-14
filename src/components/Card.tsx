@@ -6,6 +6,7 @@ import { isCardPlayable } from "../../cardsFunction"
 import CardDisplay from "./CardDisplay"
 import { PitContext } from "@/providers/PitProvider"
 import { DeckContext } from "@/providers/DeckProvider"
+import { GameContext } from "@/providers/GameProvider"
 
 interface CardProps {
     card: Cards
@@ -13,8 +14,6 @@ interface CardProps {
     player: Player
     players: Player[]
     playerTurn: number
-    isTurnDirectionClockwise: boolean
-    nmbCardsToDraw: number
     uuid: string
 }
 
@@ -24,13 +23,12 @@ const Card = ({
     player,
     players,
     playerTurn,
-    isTurnDirectionClockwise,
-    nmbCardsToDraw,
     uuid
 }: CardProps) => {
 
     const { pit } = useContext(PitContext)
-    const {deck} = useContext(DeckContext)
+    const { deck } = useContext(DeckContext)
+    const { isTurnDirectionClockwise, nmbCardsToDraw } = useContext(GameContext)
 
     const [isHovered, setIsHovered] = useState(false)
     const colors = ["red", "green", "blue", "yellow"]

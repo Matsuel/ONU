@@ -1,31 +1,23 @@
-import { Dispatch, SetStateAction, useContext } from "react";
-import Cards from "../../interface/cards";
-import Player from "../../interface/player";
-import { LinkedList } from "../../structs/linkedArray";
+import { useContext } from "react";
 import { drawCard, getPitsCardsToDeck } from "../../cardsFunction";
-import { Stack } from "../../structs/stack";
 import Image from "next/image";
 import { PitContext } from "@/providers/PitProvider";
+import { DeckContext } from "@/providers/DeckProvider";
+import { PlayersContext } from "@/providers/PlayersProvider";
+import { GameContext } from "@/providers/GameProvider";
 
 interface DeckProps {
-    deck: LinkedList<Cards> | null,
-    playerTurn: number,
-    players: Player[],
-    setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>,
-    nmbCardsToDraw: number,
     uuid: string
 }
 
 const Deck = ({
-    deck,
-    playerTurn,
-    players,
-    setDeck,
-    nmbCardsToDraw,
     uuid
 }: DeckProps) => {
 
     const { pit, setPit } = useContext(PitContext);
+    const { deck, setDeck } = useContext(DeckContext)
+    const { playerTurn, players } = useContext(PlayersContext);
+    const { nmbCardsToDraw } = useContext(GameContext);
 
     return (
         <div>

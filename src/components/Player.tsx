@@ -1,17 +1,14 @@
 import Card from "./Card";
 import { useContext } from "react";
 import { PlayersContext } from "@/providers/PlayersProvider";
+import { GameContext } from "@/providers/GameProvider";
 
 interface PlayersProps {
-    isTurnDirectionClockwise: boolean;
-    nmbCardsToDraw: number;
     uuid: string;
 }
 
 const Players = ({
     uuid,
-    isTurnDirectionClockwise,
-    nmbCardsToDraw,
 }: PlayersProps) => {
 
 
@@ -19,6 +16,9 @@ const Players = ({
 
     return (
         <div>
+
+            // TODO:
+            // Faire un composant de merde
             <p className="text-red-700 text-2xl">
                 Au tour de {players[playerTurn]?.name}
             </p>
@@ -34,8 +34,6 @@ const Players = ({
                             player={player}
                             players={players}
                             playerTurn={playerTurn}
-                            isTurnDirectionClockwise={isTurnDirectionClockwise}
-                            nmbCardsToDraw={nmbCardsToDraw}
                             uuid={uuid}
                         />
                     ))}

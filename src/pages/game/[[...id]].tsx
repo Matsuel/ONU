@@ -88,6 +88,9 @@ export default function Game() {
 
     return (
         <div className="flex flex-col bg-black w-screen min-h-screen text-white">
+
+            // TODO:
+            // Faire un composant de merde pour le compteur de fdp
             {players[playerTurn].uuid === uuid && (
                 <div className="bg-white text-black">
                     <h1>{timer}</h1>
@@ -95,17 +98,10 @@ export default function Game() {
             )}
             <Players
                 uuid={id[0] as string}
-                isTurnDirectionClockwise={isTurnDirectionClockwise}
-                nmbCardsToDraw={nmbCardsToDraw}
             />
 
             <Deck
                 uuid={id[0] as string}
-                deck={deck}
-                playerTurn={playerTurn}
-                players={players}
-                setDeck={setDeck}
-                nmbCardsToDraw={nmbCardsToDraw}
             />
 
             <Pit />
