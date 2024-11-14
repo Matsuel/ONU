@@ -1,6 +1,6 @@
 import React from "react";
-import Title from "@/components/Title";
-import JoinOption from "@/components/JoinOption";
+import Title from "@/components/ui/Title";
+import JoinOption from "@/components/ui/JoinOption";
 
 
 export default function Join() {

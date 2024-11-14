@@ -1,6 +1,6 @@
 import React from "react";
-import Title from "@/components/Title";
-import CreateOption from "@/components/CreateOption";
+import Title from "@/components/ui/Title";
+import CreateOption from "@/components/createOption/CreateOption";
 
 export default function Create() {
     return (

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import Player from "../../interface/player"
+import Player from "@/components/structs/Player"
 import Cards from "../../interface/cards"
 import { socket } from "@/pages/_app"
 import { isCardPlayable } from "../../cardsFunction"

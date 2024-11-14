@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { onCreateGame, onStartGame } from "@/utils/socketEvents";
 import { useRouter } from "next/router";
-import CreateGameOption from "./CreateGameOption";
-import CreateUuidOption from "./CreateUuidOption";
+import CreateGameOption from "@/components/createOption/Game";
+import CreateUuidOption from "@/components/createOption/Uuid";
 
 const CreateOption = () => {
     const router = useRouter();
@@ -19,7 +19,7 @@ const CreateOption = () => {
             if (msg.uuid) {
                 router.push({ pathname: `/game/${msg.uuid}` });
             } else {
-                console.log("Game not found");
+                console.error("Game not found");
             }
         });
     }, [router]);

@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
-import { LinkedList } from "../../../structs/linkedArray";
-import { Stack } from "../../../structs/stack";
-import Cards from "../../../interface/cards";
-import Player from "../../../interface/player";
+import { LinkedList } from "@/structs/linkedArray";
+import { Stack } from "@/structs/stack";
+import Cards from "@/interface/cards";
+import Player from "@/interface/player";
 import { useEffect, useState } from "react";
-import Deck from "@/components/Deck";
-import Players from "@/components/Player";
-import Pit from "@/components/Pit";
+import Deck from "@/components/structs/Deck";
+import Players from "@/components/structs/Player";
+import Pit from "@/components/structs/Pit";
 import { socket } from "../_app";
 import { useRouter } from "next/router";
-import { drawCard } from "../../../cardsFunction";
+import { drawCard } from "@/cardsFunction";
 import { GameContext } from "@/providers/GameProvider";
 import { PlayersContext } from "@/providers/PlayersProvider";
 import { PitContext } from "@/providers/PitProvider";
@@ -28,9 +28,6 @@ export default function Game() {
 
     const [loading, setLoading] = useState(true);
 
-    // TODO:
-    // - Ajouter toutes les props de base dans la partie lors de sa création isTurnDirectionClockwise, nmbCardsToDraw
-
     useEffect(() => {
         const playerUuid = sessionStorage.getItem("uuid");
         if (playerUuid) {
@@ -38,7 +35,7 @@ export default function Game() {
         } else {
             router.push("/");
         }
-    }, []);
+    }, [router, setUuid]);
 
     useEffect(() => {
         if (id) {
@@ -88,9 +85,6 @@ export default function Game() {
 
     return (
         <div className="flex flex-col bg-black w-screen min-h-screen text-white">
-
-            // TODO:
-            // Faire un composant de merde pour le compteur de fdp
             {players[playerTurn].uuid === uuid && (
                 <div className="bg-white text-black">
                     <h1>{timer}</h1>

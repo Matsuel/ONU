@@ -1,5 +1,5 @@
-import { isCardPlayable } from "../cardsFunction";
-import Cards from "../interface/cards";
+import { isCardPlayable } from "@/cardsFunction";
+import Cards from "@/interface/cards";
 
 describe('Actions', () => {
     test('isCardPlayable: should return true or false depending on cards', () => {

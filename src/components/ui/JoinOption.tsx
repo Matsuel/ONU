@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { emitJoinGame, onJoinGame, onStartGame } from "@/utils/socketEvents";
-import Button from "@/components/Button";
+import Button from "@/components/ui/Button";
 import { useRouter } from "next/router";
 import Trash from "@/assets/Trash";
 import Clipboard from "@/assets/Clipboard";
@@ -40,10 +40,10 @@ const JoinOption = () => {
                 setGameUuid(msg.uuid);
                 router.push({ pathname: `/game/${msg.uuid}` });
             } else {
-                console.log("Game not found");
+                console.error("Game not found");
             }
         });
-    }, []);
+    }, [router]);
 
     return (
         <div className="flex flex-col gap-4 items-center pt-64">

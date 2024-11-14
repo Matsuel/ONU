@@ -1,4 +1,4 @@
-import Button from "./Button";
+import Button from "@/components/ui/Button";
 import {
     emitStartGame,
     onStartGame,
@@ -24,7 +24,7 @@ const CreateUuidOption = ({ uuid }: CreateUuidOptionProps) => {
             if (msg.uuid) {
                 router.push({ pathname: `/game/${msg.uuid}` });
             } else {
-                console.log("Game not found");
+                console.error("Game not found");
             }
         });
     }, [router]);

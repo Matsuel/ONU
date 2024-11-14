@@ -1,7 +1,6 @@
-import Card from "./Card";
+import Card from "@/components/card/Card";
 import { useContext } from "react";
 import { PlayersContext } from "@/providers/PlayersProvider";
-import { GameContext } from "@/providers/GameProvider";
 
 interface PlayersProps {
     uuid: string;
@@ -16,9 +15,6 @@ const Players = ({
 
     return (
         <div>
-
-            // TODO:
-            // Faire un composant de merde
             <p className="text-red-700 text-2xl">
                 Au tour de {players[playerTurn]?.name}
             </p>

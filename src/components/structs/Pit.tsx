@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import CardDisplay from "@/components/CardDisplay"
+import CardDisplay from "@/components/card/CardDisplay"
 import { PitContext } from "@/providers/PitProvider"
 
 const Pit = () => {

@@ -1,4 +1,4 @@
-import { LinkedList } from "../structs/linkedArray";
+import { LinkedList } from "@/structs/linkedArray";
 
 describe('LinkedList', () => {
     let list: LinkedList<number>;

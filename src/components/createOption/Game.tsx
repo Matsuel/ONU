@@ -1,7 +1,7 @@
-import Button from "./Button"
+import Button from "@/components/ui/Button"
 import { emitCreateGame } from "@/utils/socketEvents";
 import { useState } from "react";
-import Input from "./Input";
+import Input from "@/components/ui/Input";
 
 const CreateGameOption = () => {
     const [username, setUsername] = useState("");
