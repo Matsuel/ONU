@@ -1,3 +1,4 @@
+import { LinkedList } from "../linkedArray";
 import { Stack } from "../stack";
 import { Cards, Player } from "../type";
 
@@ -71,11 +72,11 @@ export const isPlayerTurn = (
  **/
 export function isCardPlayable(card1: Cards, card2: Cards): boolean {
   console.log(card1, card2);
-  if (card2.special === "plus2" && !card2.isOverOneHandOld) {
-    return card1.special === "plus2" || card1.special == "plus4";
-  } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
-    return card1.special === "plus4";
-  }
+  // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
+  //   return card1.special === "plus2" || card1.special == "plus4";
+  // } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
+  //   return card1.special === "plus4";
+  // }
 
   const isJoker = card1.special === "changecolor" || card1.special === "plus4";
 
@@ -122,3 +123,74 @@ export const getNextPlayerIndex = (
     }
   }
 };
+
+/**
+ * plays a special card from player's hand to pit
+ *
+ * @param card - The played card from a player
+ * @param playerTurn - The index of the current playing player
+ * @param players - An array of all the playrers of type Player
+ * @param isTurnDirectionClockwise - Checks if the next player will be on left or right
+ * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
+ * @param nmbCardToDraw - nmb of cards to draw
+ * @param deck - The pit where the cards are placed
+ **/
+export const useSpecialCardEffect = (
+  card: Cards,
+  playerTurn: number,
+  players: Player[],
+  isTurnDirectionClockwise: boolean,
+  nmbCardsToDraw: number,
+  deck: LinkedList<Cards>
+) => {
+  switch (card.special) {
+    case "skip":
+      playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
+      return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+    case "plus2":
+      nmbCardsToDraw = nmbCardsToDraw + 2;
+      const playerToTakeCards = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+      players = addCardsToPlayer(players, playerToTakeCards, nmbCardsToDraw, deck);
+      playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
+      return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+    case "plus4":
+      console.log("plus4", card);
+      nmbCardsToDraw = nmbCardsToDraw + 4;
+      const playerToTake4Cards = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+      players = addCardsToPlayer(players, playerToTake4Cards, nmbCardsToDraw, deck);
+      playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
+      return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+    case "rev":
+      isTurnDirectionClockwise = !isTurnDirectionClockwise;
+      playerTurn = getNextPlayerIndex(players, playerTurn, 1, !isTurnDirectionClockwise)
+      return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+    case "changecolor":
+      playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
+      return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+    default:
+      return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+  }
+};
+
+export const addCardsToPlayer = (
+  players: Player[],
+  playerTurn: number,
+  nmbCardsToDraw: number,
+  deck: LinkedList<Cards>
+): Player[] => {
+  console.log("addCardsToPlayer", deck);
+  const cardsToAdd = Array.from({ length: nmbCardsToDraw }, () => deck.removeHead());
+  console.log("cardsToAdd", deck.getSize());
+  console.log("cardsToAdd", cardsToAdd);
+  let updatedPlayers = players.map((p, index) => {
+    if (index === playerTurn) {
+      return {
+        ...p,
+        cards: [...p.cards, ...cardsToAdd],
+      };
+    }
+    return p;
+  });
+
+  return updatedPlayers;
+}

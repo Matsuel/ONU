@@ -7,9 +7,15 @@ const start = async (
   games: Game[]
 ): Promise<void> => {
   const { uuid } = data;
-  console.log("start", uuid);
   const game = games.find((g) => g.uuid === uuid);
   if (game) {
+    if (game.players.length < 2) {
+      socket.emit("start", {
+        status: false,
+        message: "Not enough players",
+      });
+      return;
+    }
     game.playerTurn = Math.floor(Math.random() * game.players.length);
     // distribuer les cartes
     for (let i = 0; i < 7; i++) {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNextPlayerIndex = exports.isPlayerTurn = exports.playCard = void 0;
+exports.addCardsToPlayer = exports.useSpecialCardEffect = exports.getNextPlayerIndex = exports.isPlayerTurn = exports.playCard = void 0;
 exports.isCardPlayable = isCardPlayable;
 const stack_1 = require("../stack");
 /**
@@ -58,12 +58,11 @@ exports.isPlayerTurn = isPlayerTurn;
  **/
 function isCardPlayable(card1, card2) {
     console.log(card1, card2);
-    if (card2.special === "plus2" && !card2.isOverOneHandOld) {
-        return card1.special === "plus2" || card1.special == "plus4";
-    }
-    else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
-        return card1.special === "plus4";
-    }
+    // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
+    //   return card1.special === "plus2" || card1.special == "plus4";
+    // } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
+    //   return card1.special === "plus4";
+    // }
     const isJoker = card1.special === "changecolor" || card1.special === "plus4";
     const isSameColor = card1.color !== undefined &&
         card2.color !== undefined &&
@@ -102,3 +101,58 @@ const getNextPlayerIndex = (players, playerTurn, nmbSkip, isTurnDirectionClockwi
     }
 };
 exports.getNextPlayerIndex = getNextPlayerIndex;
+/**
+ * plays a special card from player's hand to pit
+ *
+ * @param card - The played card from a player
+ * @param playerTurn - The index of the current playing player
+ * @param players - An array of all the playrers of type Player
+ * @param isTurnDirectionClockwise - Checks if the next player will be on left or right
+ * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
+ * @param nmbCardToDraw - nmb of cards to draw
+ * @param deck - The pit where the cards are placed
+ **/
+const useSpecialCardEffect = (card, playerTurn, players, isTurnDirectionClockwise, nmbCardsToDraw, deck) => {
+    switch (card.special) {
+        case "skip":
+            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
+            return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+        case "plus2":
+            nmbCardsToDraw = nmbCardsToDraw + 2;
+            const playerToTakeCards = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
+            players = (0, exports.addCardsToPlayer)(players, playerToTakeCards, nmbCardsToDraw, deck);
+            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
+            return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+        case "plus4":
+            console.log("plus4", card);
+            nmbCardsToDraw = nmbCardsToDraw + 4;
+            const playerToTake4Cards = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
+            players = (0, exports.addCardsToPlayer)(players, playerToTake4Cards, nmbCardsToDraw, deck);
+            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
+            return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+        case "rev":
+            isTurnDirectionClockwise = !isTurnDirectionClockwise;
+            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, !isTurnDirectionClockwise);
+            return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+        case "changecolor":
+            playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
+            return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+        default:
+            return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
+    }
+};
+exports.useSpecialCardEffect = useSpecialCardEffect;
+const addCardsToPlayer = (players, playerTurn, nmbCardsToDraw, deck) => {
+    console.log("addCardsToPlayer", deck);
+    const cardsToAdd = Array.from({ length: nmbCardsToDraw }, () => deck.removeHead());
+    console.log("cardsToAdd", deck.getSize());
+    console.log("cardsToAdd", cardsToAdd);
+    let updatedPlayers = players.map((p, index) => {
+        if (index === playerTurn) {
+            return Object.assign(Object.assign({}, p), { cards: [...p.cards, ...cardsToAdd] });
+        }
+        return p;
+    });
+    return updatedPlayers;
+};
+exports.addCardsToPlayer = addCardsToPlayer;

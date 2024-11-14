@@ -19,6 +19,9 @@ const join = (data, socket, games) => __awaiter(void 0, void 0, void 0, function
         if (player) {
             socket.emit("join", { status: false, message: "Player already exists" });
         }
+        else if (game.players.length >= 6) {
+            socket.emit("join", { status: false, message: "Game is full" });
+        }
         else {
             game.players.push({
                 uuid: socket.id,
@@ -38,3 +41,4 @@ const join = (data, socket, games) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.default = join;
+// Timer pour jouer sinon on piore une carte

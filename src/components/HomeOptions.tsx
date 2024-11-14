@@ -1,15 +1,11 @@
-import Link from 'next/link'
-import Button from '../components/Button'
-import HomeJoinButton from './HomeJoinButton';
-import HomeCreateButton from './HomeCreateButton';
+import CustomLink from './CustomLink';
 
 
 const HomeOptions = () => {
     return (
         <div className='flex justify-center gap-4 pt-80'>
-            <HomeJoinButton />
-
-            <HomeCreateButton />
+            <CustomLink href="/join" label="Rejoindre une partie" />
+            <CustomLink href="/create" label="Créer une partie" />
         </div>
     );
 }

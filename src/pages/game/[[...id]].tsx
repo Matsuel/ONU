@@ -3,13 +3,13 @@ import { LinkedList } from "../../../structs/linkedArray";
 import { Stack } from "../../../structs/stack";
 import Cards from "../../../interface/cards";
 import Player from "../../../interface/player";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Deck from "@/components/Deck";
 import Players from "@/components/Player";
 import Pit from "@/components/Pit";
-import { changeColor } from "../../../cardsFunction";
 import { socket } from "../_app";
 import { useRouter } from "next/router";
+import { drawCard } from "../../../cardsFunction";
 
 export default function Game() {
   const router = useRouter();
@@ -20,22 +20,14 @@ export default function Game() {
   const [pit, setPit] = useState<Stack<Cards> | null>(null);
 
   const [playerTurn, setPlayerTurn] = useState(0);
-  const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] =
-    useState(true);
+  const [isTurnDirectionClockwise, setIsTurnDirectionClockwise] = useState(true);
   const [nmbCardsToDraw, setNmbCardsToDraw] = useState(0);
-  const colors = ["red", "yellow", "blue", "green"];
-  const colorChangeRef = useRef(null);
   const [uuid, setUuid] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [timer, setTimer] = useState(30);
 
   // TODO:
-  // - Choisir sur le serveur le joueur qui commence
-  // - Empecher les autres joueurs de jouer si ce n'est pas leur tour
-  // - Dès qu'une carte est jouée, envoyée la nouvelle partie au serveur
-  // - Envoyer la nouvelle partie à tous les joueurs à chaque fois qu'une carte est jouée
-  // - Déplacer les fonctions de jeu dans un fichier à part sur le serveur
-  // - Mettre les interfaces sur le serveur
-
-  // - Décaler sur le serveur la fonction de changement de joueur
+  // - Ajouter toutes les props de base dans la partie lors de sa création isTurnDirectionClockwise, nmbCardsToDraw
 
   useEffect(() => {
     const playerUuid = sessionStorage.getItem("uuid");
@@ -47,83 +39,80 @@ export default function Game() {
   }, []);
 
   useEffect(() => {
-    if (id) socket.emit("getGame", { id: id[0], uuid });
+    if (id) {
+      setLoading(true);
+      socket.emit("getGame", { id: id[0], uuid });
+    }
   }, [uuid, id]);
 
   useEffect(() => {
     socket.on("getGame", (data) => {
-      console.log(data);
       setPlayerTurn(data.game.playerTurn);
+      setTimer(30);
       const newDeck = new LinkedList<Cards>();
       newDeck.fromJSON(data.game.deck);
       setPit(new Stack(data.game.pit.stack));
       setDeck(newDeck);
       setPlayers(data.game.players as Player[]);
+      setLoading(false);
+    });
+
+    socket.on("gameOver", (data) => {
+      console.log(data);
+
+      // Quand l'utilisateur clique sur OK, on le redirige vers la page d'accueil
     });
   }, []);
 
-  socket.on("playCard", (data) => {
-    setPlayers(data.players as Player[]);
-    setPit(new Stack(data.pit.stack));
-    setPlayerTurn(data.playerTurn);
-  });
+  useEffect(() => {
+    if (!uuid || players.length === 0 || !id) return;
+    if (players[playerTurn].uuid === uuid) {
+      const interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev === 0) {
+            drawCard(deck, pit, players, playerTurn, 1, id[0] as string);
+            clearInterval(interval);
+            return 30;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
 
-  if (!id) return <div>Loading...</div>;
+  }, [playerTurn, players, uuid, id]);
+
+  if (!id || !uuid || loading) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col bg-black w-screen min-h-screen text-white">
+      {players[playerTurn].uuid === uuid && (
+        <div className="bg-white text-black">
+          <h1>{timer}</h1>
+        </div>
+      )}
       <Players
         uuid={id[0] as string}
         players={players}
         playerTurn={playerTurn}
         pit={pit}
-        setPit={setPit}
-        setPlayerTurn={setPlayerTurn}
-        setPlayers={setPlayers}
         deck={deck}
         isTurnDirectionClockwise={isTurnDirectionClockwise}
-        setIsTurnDirectionClockwise={setIsTurnDirectionClockwise}
-        colorChangeRef={colorChangeRef}
         nmbCardsToDraw={nmbCardsToDraw}
-        setNmbCardsToDraw={setNmbCardsToDraw}
       />
 
       <Deck
+        uuid={id[0] as string}
         deck={deck}
         playerTurn={playerTurn}
         players={players}
-        setPlayers={setPlayers}
-        setPlayerTurn={setPlayerTurn}
         pit={pit}
         setPit={setPit}
         setDeck={setDeck}
-        isTurnDirectionClockwise={isTurnDirectionClockwise}
-        setNmbCardsToDraw={setNmbCardsToDraw}
         nmbCardsToDraw={nmbCardsToDraw}
       />
 
       <Pit pit={pit} />
-
-      <div className="hidden" ref={colorChangeRef}>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <button
-            className="w-32 h-32 hover:border-4 border-white transition-all rounded-2xl"
-            style={{ background: colors[index] }}
-            key={index}
-            onClick={() => {
-              index === 0
-                ? changeColor("r", pit, setPit, colorChangeRef)
-                : index === 1
-                  ? changeColor("y", pit, setPit, colorChangeRef)
-                  : index === 2
-                    ? changeColor("b", pit, setPit, colorChangeRef)
-                    : index === 3
-                      ? changeColor("g", pit, setPit, colorChangeRef)
-                      : "";
-            }}
-          ></button>
-        ))}
-      </div>
     </div>
   );
 }
