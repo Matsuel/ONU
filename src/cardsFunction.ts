@@ -104,6 +104,7 @@ const changeColor = (
     setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
     colorChangeRef: MutableRefObject<HTMLElement | null>
 ) => {
+
     if (!pit) {
         console.error("Pit is null");
         return;
