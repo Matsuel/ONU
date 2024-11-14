@@ -9,6 +9,7 @@ import { GameContext } from "@/providers/GameProvider"
 import { PlayersContext } from "@/providers/PlayersProvider"
 import { colors, colorsCards } from "@/constantes/colors"
 import Player from "@/interface/player"
+import CardBack from "./CardBack"
 
 interface CardProps {
     card: Cards
@@ -113,7 +114,8 @@ const Card = ({
                     ></button>
                 ))}
             </div>}
-            <CardDisplay key={cardIndex} card={card} />
+            {/* <CardDisplay key={cardIndex} card={card} /> */}
+            {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}
         </button >
     )
 }
