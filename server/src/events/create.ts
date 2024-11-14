@@ -2,6 +2,7 @@ import { Socket } from "socket.io";
 import { LinkedList } from "../linkedArray";
 import { Stack } from "../stack";
 import { Cards, Game } from "../type";
+import crypto from "crypto";
 
 const create = async (
   data: any,

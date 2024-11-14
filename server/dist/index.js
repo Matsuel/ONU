@@ -20,7 +20,7 @@ const loadEvents_1 = __importDefault(require("./utils/loadEvents"));
 const { io } = (0, initServer_1.initServer)();
 // Utiliser une db pour stocker les parties
 // Mettre toutes les evenements pour le jeu ici
-let games = [];
+const games = [];
 io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
     (0, loadEvents_1.default)(socket, games);
     socket.on("playCard", (data) => {

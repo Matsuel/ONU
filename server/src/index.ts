@@ -10,7 +10,7 @@ const { io } = initServer();
 // Utiliser une db pour stocker les parties
 // Mettre toutes les evenements pour le jeu ici
 
-let games = [] as Game[];
+const games = [] as Game[];
 
 io.on("connection", async (socket) => {
   loadEvents(socket, games);

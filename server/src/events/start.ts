@@ -17,6 +17,7 @@ const start = async (
       return;
     }
     game.playerTurn = Math.floor(Math.random() * game.players.length);
+
     // distribuer les cartes
     for (let i = 0; i < 7; i++) {
       game.players.forEach((player) => {
