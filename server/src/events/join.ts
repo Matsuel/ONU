@@ -36,4 +36,3 @@ const join = async (
 };
 
 export default join;
-// Timer pour jouer sinon on piore une carte

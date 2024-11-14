@@ -9,6 +9,7 @@ import Input from "./Input";
 const JoinOption = () => {
   const [username, setUsername] = useState("");
   const [uuid, setUuid] = useState("");
+  const [gameUuid, setGameUuid] = useState("");
 
   const [message, setMessage] = useState("");
   const router = useRouter();
@@ -29,7 +30,7 @@ const JoinOption = () => {
       console.log(msg);
       if (msg.status) {
         setMessage(msg.uuid);
-        setUuid(msg.uuid);
+        setGameUuid(msg.uuid);
         sessionStorage.setItem("uuid", msg.playerUuid);
       } else {
         setMessage(msg.message);
@@ -38,7 +39,7 @@ const JoinOption = () => {
 
     onStartGame((msg) => {
       if (msg.uuid) {
-        console.log(msg.uuid);
+        setGameUuid(msg.uuid);
         router.push({ pathname: `/game/${msg.uuid}` });
       } else {
         console.log("Game not found");
@@ -56,11 +57,11 @@ const JoinOption = () => {
           onChange={(e) => setUuid(e.target.value)}
           value={uuid}
         />
-        <Button className="w-10 h-10 flex items-center justify-center p-0" onClick={clipboardToUUID}>
+        <Button className="w-10 h-10 flex items-center justify-center p-0">
           <Clipboard fill="white" size={20} />
         </Button>
 
-        <Button className="w-10 h-10 flex items-center justify-center p-0" onClick={clearUUID}>
+        <Button className="w-10 h-10 flex items-center justify-center p-0">
           <Trash fill="white" size={20} />
         </Button>
       </div>
