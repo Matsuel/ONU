@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react'
-import { Stack } from '../../structs/stack'
-import Cards from '../../interface/cards'
+import { Stack } from '@/structs/stack'
+import Cards from '@/interface/cards'
 import { ProviderProps } from '@/types'
 
 interface PitProviderType {

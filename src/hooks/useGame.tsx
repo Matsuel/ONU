@@ -30,7 +30,7 @@ const useGame = () => {
             setPlayers(data.game.players as Player[]);
             setLoading(false);
         });
-    }, [router]);
+    }, [router, setDeck, setPlayerTurn, setPlayers, setPit, setLoading, setTimer]);
 }
 
 export default useGame

@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import Player from '../../interface/player';
+import Player from '@/interface/player';
 import { ProviderProps } from '@/types';
 
 interface PlayersContextType {
