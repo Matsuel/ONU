@@ -1,6 +1,6 @@
 import { PlayersContext } from '@/providers/PlayersProvider';
-import React, { useContext, useEffect } from 'react'
-import { drawCard } from '../../cardsFunction';
+import { useContext, useEffect } from 'react'
+import { drawCard } from '@/cardsFunction';
 import { DeckContext } from '@/providers/DeckProvider';
 import { PitContext } from '@/providers/PitProvider';
 
