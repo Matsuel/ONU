@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initServer = void 0;
+require("dotenv/config");
 const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const socket_io_1 = require("socket.io");
@@ -17,8 +18,9 @@ const initServer = () => {
             origin: "*",
         },
     });
-    server.listen(8000, () => {
-        console.log("Server running on port 8000");
+    const port = process.env.NEXT_PUBLIC_PORT;
+    server.listen(port, () => {
+        console.log(`Server running on port ${port} TEST TEST TEST`);
     });
     return { io };
 };

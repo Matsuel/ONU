@@ -5,7 +5,7 @@ import HomeOptions from '@/components/HomeOptions'
 
 export default function Home() {
     return (
-        <div style={{backgroundImage: `url(/Home/background.png)`}} className='min-h-screen'>
+        <div className='min-h-screen bg-center bg-cover bg-no-repeat'>
             <Title title='ONU' />
             <HomeOptions />
         </div>

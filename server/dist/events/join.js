@@ -38,8 +38,7 @@ const join = (data, socket, games) => __awaiter(void 0, void 0, void 0, function
         }
     }
     else {
-        socket.emit("join", { status: false, message: "Game not found" });
+        socket.emit("join", { status: false, message: "Cette partie n'existe pas" });
     }
 });
 exports.default = join;
-// Timer pour jouer sinon on piore une carte
