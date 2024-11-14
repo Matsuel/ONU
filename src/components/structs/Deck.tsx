@@ -17,7 +17,7 @@ const Deck = ({
     const { pit, setPit } = useContext(PitContext);
     const { deck, setDeck } = useContext(DeckContext)
     const { playerTurn, players } = useContext(PlayersContext);
-    const { nmbCardsToDraw } = useContext(GameContext);
+    const { nmbCardsToDraw, uuid: playerUuid } = useContext(GameContext);
 
     return (
         <div>
@@ -31,10 +31,12 @@ const Deck = ({
                     }
                 }}
             >
+                {playerUuid === players[playerTurn].uuid && <p>Draw a card</p>}
                 <Image
                     src="/Cards/back.png"
                     alt="pit"
-                    className="w-24 hover:border-4 border-white transition-all rounded-xl"
+                    // className="w-24 hover:border-4 border-white transition-all rounded-xl"
+                    className={playerUuid === players[playerTurn].uuid ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl" : "opacity-30 cursor-not-allowed"}
                     width={100}
                     height={100}
                 />

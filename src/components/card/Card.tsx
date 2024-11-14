@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react"
-import Player from "@/components/structs/Player"
 import Cards from "../../interface/cards"
 import { socket } from "@/pages/_app"
 import { isCardPlayable } from "../../cardsFunction"
@@ -9,25 +8,30 @@ import { DeckContext } from "@/providers/DeckProvider"
 import { GameContext } from "@/providers/GameProvider"
 import { PlayersContext } from "@/providers/PlayersProvider"
 import { colors, colorsCards } from "@/constantes/colors"
+import Player from "@/interface/player"
 
 interface CardProps {
     card: Cards
     cardIndex: number
     player: Player
     uuid: string
+    playerIndex: number
 }
 
 const Card = ({
     card,
     cardIndex,
     player,
-    uuid
+    uuid,
+    playerIndex
 }: CardProps) => {
+
 
     const { pit } = useContext(PitContext)
     const { deck } = useContext(DeckContext)
-    const { isTurnDirectionClockwise, nmbCardsToDraw } = useContext(GameContext)
+    const { isTurnDirectionClockwise, nmbCardsToDraw, uuid: playerUuid } = useContext(GameContext)
     const { playerTurn, players } = useContext(PlayersContext)
+    console.log("Card", playerTurn, players, playerUuid, player.uuid);
 
     const [isHovered, setIsHovered] = useState(false)
 
@@ -66,7 +70,7 @@ const Card = ({
         <button
             key={cardIndex}
             className={`relative ${isCardPlayable(card, pit!.peek()) &&
-                players[playerTurn].uuid === player.uuid
+                players[playerTurn].uuid === playerUuid && playerIndex === playerTurn
                 ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl"
                 : "opacity-30 cursor-not-allowed"
                 }`}
@@ -104,11 +108,7 @@ const Card = ({
                                 nmbCardsToDraw,
                                 specialColor: colorsCards[color as keyof typeof colorsCards]
                             });
-                            // playCardOnClick(
-
-                            // );
                             setIsHovered(false)
-
                         }}
                     ></button>
                 ))}
