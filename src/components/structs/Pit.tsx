@@ -11,11 +11,10 @@ const Pit = () => {
             {pit && (
                 <CardDisplay
                     card={pit?.peek()}
+                    className="left-[50%] top-[50%] fixed -translate-y-[50%]"
                 />
 
             )}
-            {JSON.stringify(pit?.peek(), null, 2)}
-            Pit size: {pit?.getSize() || 0}
         </div>
     )
 }

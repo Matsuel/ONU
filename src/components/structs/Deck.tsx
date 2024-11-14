@@ -36,12 +36,11 @@ const Deck = ({
                     src="/Cards/back.png"
                     alt="pit"
                     // className="w-24 hover:border-4 border-white transition-all rounded-xl"
-                    className={playerUuid === players[playerTurn].uuid ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl" : "opacity-30 cursor-not-allowed"}
+                    className={`${playerUuid === players[playerTurn].uuid} ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl" : "opacity-30 cursor-not-allowed" fixed right-[45%] top-[50%] rounded-xl -translate-y-[50%]`}
                     width={100}
                     height={100}
                 />
             </button>
-            Deck size: {deck?.getSize()}
         </div>
     )
 }

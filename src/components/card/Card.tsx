@@ -39,6 +39,8 @@ const Card = ({
         if (!card.color && players[playerTurn].uuid === player.uuid && players[playerTurn].uuid === playerUuid) { setIsHovered(value); }
     }
 
+    const className="w-32"
+
     const playCardOnClick = (
         cardIndex: number,
         card: Cards,
@@ -49,7 +51,6 @@ const Card = ({
         nmbCardsToDraw: number,
         specialColor?: string
     ) => {
-        console.log("playCardOnClick", deck);
 
         socket.emit("playCard", {
             deck,
@@ -80,7 +81,8 @@ const Card = ({
                 : isCurrentPlayerTurn
                     ? "opacity-100 cursor-not-allowed"
                     : "opacity-30 cursor-not-allowed"
-                }`} onMouseEnter={() => handleHover(true)}
+            }`} 
+            onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
             onClick={() =>
                 playCardOnClick(
@@ -95,7 +97,7 @@ const Card = ({
             }
         >
             {isHovered && <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} />}
-            {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}
+            {player.uuid === playerUuid ? <CardDisplay card={card} className={className}/> : <CardBack />}
         </button >
     )
 }
