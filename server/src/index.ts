@@ -158,7 +158,7 @@ io.on("connection", async (socket) => {
             socket: existingPlayer ? existingPlayer.socket : p.socket,
           };
         });
-        g.playerTurn = playerTurn;
+        g.playerTurn = playerTurn2;
         g.deck = deckGame;
         g.pit = pitGame;
       }

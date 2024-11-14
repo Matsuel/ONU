@@ -121,7 +121,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
                     const existingPlayer = g.players.find((gp) => gp.uuid === p.uuid);
                     return Object.assign(Object.assign({}, p), { socket: existingPlayer ? existingPlayer.socket : p.socket });
                 });
-                g.playerTurn = playerTurn;
+                g.playerTurn = playerTurn2;
                 g.deck = deckGame;
                 g.pit = pitGame;
             }
