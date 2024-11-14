@@ -2,23 +2,13 @@ import { LinkedList } from "../linkedArray";
 import { Stack } from "../stack";
 import { Cards, Player } from "../type";
 
-/**
- * Plays a card from the player's hand to the pit.
- * @param player - The player who plays the card.
- * @param cardIndex - The index of the played card in the player's hand.
- * @param pit - Pit that will be emptied
- * @param setPit - setPit set the pit after removing cards from it
- * @param player - The player to check for a win
- * @param setPlayers - same as deck
- *
- * @returns returns true if the card has been played otherwise returns false
- */
 export const playCard = (
   player: Player,
   cardIndex: number,
   pit: Stack<Cards>,
   players: Player[]
 ) => {
+
   // console.log("playCard", player);
   const cardPlayed = player.cards[cardIndex];
 
@@ -41,15 +31,6 @@ export const playCard = (
   return { player, newPit, updatedPlayers };
 };
 
-/**
- * Checks if it is the specified player's turn.
- *
- * @param player - The player to check.
- * @param players - Array of player
- * @param playerTurn index of the playing player
- *
- * @returns True if it is the player's turn; otherwise, false.
- */
 export const isPlayerTurn = (
   player: Player,
   players: Player[],
@@ -62,14 +43,6 @@ export const isPlayerTurn = (
   }
 };
 
-/**
- * Checks if card1 is playable on card2
- *
- * @param card1 - The played card from a player
- * @param card2 - The pit's card
- *
- * @returns True if card is playable otherwise False
- **/
 export function isCardPlayable(card1: Cards, card2: Cards): boolean {
   console.log(card1, card2);
   // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
@@ -96,13 +69,6 @@ export function isCardPlayable(card1: Cards, card2: Cards): boolean {
   return isJoker || isSameColor || isSameNumber || isSameSpecial;
 }
 
-/**
- * Advances the turn to the next player.
- * @param players - Array of all the players
- * @param playerTurn - Current player turn
- * @param nmbSkip - Nmb of turn skip if not passed is one
- * @param isTurnDirectionClockwise  - checks the turn direction
- */
 export const getNextPlayerIndex = (
   players: Player[],
   playerTurn: number,
@@ -124,17 +90,6 @@ export const getNextPlayerIndex = (
   }
 };
 
-/**
- * plays a special card from player's hand to pit
- *
- * @param card - The played card from a player
- * @param playerTurn - The index of the current playing player
- * @param players - An array of all the playrers of type Player
- * @param isTurnDirectionClockwise - Checks if the next player will be on left or right
- * @param colorChangeRef - ref in which the colors are displayed on a colorChange card
- * @param nmbCardToDraw - nmb of cards to draw
- * @param deck - The pit where the cards are placed
- **/
 export const useSpecialCardEffect = (
   card: Cards,
   playerTurn: number,
@@ -182,7 +137,7 @@ export const addCardsToPlayer = (
   const cardsToAdd = Array.from({ length: nmbCardsToDraw }, () => deck.removeHead());
   console.log("cardsToAdd", deck.getSize());
   console.log("cardsToAdd", cardsToAdd);
-  let updatedPlayers = players.map((p, index) => {
+  const updatedPlayers = players.map((p, index) => {
     if (index === playerTurn) {
       return {
         ...p,

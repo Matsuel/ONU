@@ -2,6 +2,7 @@ import DeckProvider from "@/providers/DeckProvider";
 import GameProvider from "@/providers/GameProvider";
 import PitProvider from "@/providers/PitProvider";
 import PlayersProvider from "@/providers/PlayersProvider";
+import "dotenv/config";
 import "@/styles/globals.css";
 import { AppProps } from "next/app";
 import io from "socket.io-client";
@@ -23,4 +24,4 @@ export default function App({
     );
 }
 
-export const socket = io("http://localhost:8000");
+export const socket = io(`http://${process.env.NEXT_PUBLIC_HOST}:${process.env.NEXT_PUBLIC_PORT}`);
