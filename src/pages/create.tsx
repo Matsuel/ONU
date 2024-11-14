@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import {
-  emitCreateGame,
-  emitStartGame,
-  onCreateGame,
-  onStartGame,
-} from "@/utils/socketEvents";
+import Title from "@/components/Title";
+import CreateOption from "@/components/CreateOption";
 
 export default function Create() {
+<<<<<<< HEAD
   const [uuid, setUuid] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
@@ -59,6 +55,12 @@ export default function Create() {
           {error && <p>{error}</p>}
         </div>
       )}
+=======
+  return (
+    <div style={{backgroundImage: `url(/Home/background.png)`}} className="min-h-screen">
+      <Title title="Création de partie" />
+      <CreateOption />
+>>>>>>> lytzeer
     </div>
   );
 }

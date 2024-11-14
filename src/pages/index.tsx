@@ -1,19 +1,13 @@
-import Link from 'next/link'
 import React from 'react'
+import Title from '@/components/Title'
+import HomeOptions from '@/components/HomeOptions'
 
 
 export default function Home() {
     return (
-        <div>
-            <h1>Home</h1>
-
-            <Link href="/join">
-                Rejoindre une partie
-            </Link>
-
-            <Link href="/create">
-                Créer une partie
-            </Link>
+        <div style={{backgroundImage: `url(/Home/background.png)`}} className='min-h-screen'>
+            <Title title='ONU' />
+            <HomeOptions />
         </div>
     )
 }
