@@ -28,8 +28,6 @@ const Players = ({
                             card={card}
                             cardIndex={cardIndex}
                             player={player}
-                            players={players}
-                            playerTurn={playerTurn}
                             uuid={uuid}
                         />
                     ))}

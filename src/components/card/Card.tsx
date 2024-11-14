@@ -7,13 +7,13 @@ import CardDisplay from "./CardDisplay"
 import { PitContext } from "@/providers/PitProvider"
 import { DeckContext } from "@/providers/DeckProvider"
 import { GameContext } from "@/providers/GameProvider"
+import { PlayersContext } from "@/providers/PlayersProvider"
+import { colors, colorsCards } from "@/constantes/colors"
 
 interface CardProps {
     card: Cards
     cardIndex: number
     player: Player
-    players: Player[]
-    playerTurn: number
     uuid: string
 }
 
@@ -21,18 +21,15 @@ const Card = ({
     card,
     cardIndex,
     player,
-    players,
-    playerTurn,
     uuid
 }: CardProps) => {
 
     const { pit } = useContext(PitContext)
     const { deck } = useContext(DeckContext)
     const { isTurnDirectionClockwise, nmbCardsToDraw } = useContext(GameContext)
+    const { playerTurn, players } = useContext(PlayersContext)
 
     const [isHovered, setIsHovered] = useState(false)
-    const colors = ["red", "green", "blue", "yellow"]
-    const colorsCards = { "red": "r", "green": "g", "blue": "b", "yellow": "y" }
 
     const handleHover = (value: boolean) => {
         if (!card.color && players[playerTurn].uuid === player.uuid) { setIsHovered(value); }

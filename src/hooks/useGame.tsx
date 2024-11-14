@@ -1,0 +1,36 @@
+import { socket } from '@/pages/_app';
+import { PlayersContext } from '@/providers/PlayersProvider';
+import { useRouter } from 'next/router';
+import { useContext, useEffect } from 'react'
+import { LinkedList } from '../../structs/linkedArray';
+import Cards from '../../interface/cards';
+import { DeckContext } from '@/providers/DeckProvider';
+import { PitContext } from '@/providers/PitProvider';
+import { Stack } from '../../structs/stack';
+import { LoadingContext } from '@/providers/LoadingProvider';
+import Player from '../../interface/player';
+
+const useGame = () => {
+
+    const router = useRouter()
+    const { setPlayerTurn, setPlayers, setTimer } = useContext(PlayersContext)
+    const { setLoading } = useContext(LoadingContext)
+    const { setDeck } = useContext(DeckContext)
+    const { setPit } = useContext(PitContext)
+
+
+    useEffect(() => {
+        socket.on("getGame", (data) => {
+            setPlayerTurn(data.game.playerTurn);
+            setTimer(30);
+            const newDeck = new LinkedList<Cards>();
+            newDeck.fromJSON(data.game.deck);
+            setPit(new Stack(data.game.pit.stack));
+            setDeck(newDeck);
+            setPlayers(data.game.players as Player[]);
+            setLoading(false);
+        });
+    }, [router]);
+}
+
+export default useGame
