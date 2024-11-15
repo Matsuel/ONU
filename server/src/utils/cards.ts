@@ -44,7 +44,6 @@ export const isPlayerTurn = (
 };
 
 export function isCardPlayable(card1: Cards, card2: Cards): boolean {
-  console.log(card1, card2);
   // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
   //   return card1.special === "plus2" || card1.special == "plus4";
   // } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
@@ -98,6 +97,7 @@ export const useSpecialCardEffect = (
   nmbCardsToDraw: number,
   deck: LinkedList<Cards>
 ) => {
+  console.log("useSpecialCardEffect", isTurnDirectionClockwise);
   switch (card.special) {
     case "skip":
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
@@ -109,15 +109,15 @@ export const useSpecialCardEffect = (
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
     case "plus4":
-      console.log("plus4", card);
       nmbCardsToDraw = nmbCardsToDraw + 4;
       const playerToTake4Cards = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       players = addCardsToPlayer(players, playerToTake4Cards, nmbCardsToDraw, deck);
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
     case "rev":
+      console.log("reverse", "sens actuel", isTurnDirectionClockwise, "sense inverse", !isTurnDirectionClockwise);
       isTurnDirectionClockwise = !isTurnDirectionClockwise;
-      playerTurn = getNextPlayerIndex(players, playerTurn, 1, !isTurnDirectionClockwise)
+      playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
     case "changecolor":
       playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
@@ -133,10 +133,7 @@ export const addCardsToPlayer = (
   nmbCardsToDraw: number,
   deck: LinkedList<Cards>
 ): Player[] => {
-  console.log("addCardsToPlayer", deck);
   const cardsToAdd = Array.from({ length: nmbCardsToDraw }, () => deck.removeHead());
-  console.log("cardsToAdd", deck.getSize());
-  console.log("cardsToAdd", cardsToAdd);
   const updatedPlayers = players.map((p, index) => {
     if (index === playerTurn) {
       return {

@@ -19,4 +19,6 @@ export interface Game {
     deck: LinkedList<Cards>,
     players: Player[];
     uuid: string;
+    isTurnDirectionClockwise: boolean;
+    nmbCardsToDraw: number;
 }

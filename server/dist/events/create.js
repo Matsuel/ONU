@@ -35,6 +35,8 @@ const create = (data, socket, games) => __awaiter(void 0, void 0, void 0, functi
         deck: deck,
         players: [{ uuid: socket.id, name: username, cards: [], socket: socket }],
         uuid: crypto_1.default.randomUUID(),
+        isTurnDirectionClockwise: true,
+        nmbCardsToDraw: 0,
     };
     games.push(game);
     socket.emit("create", { uuid: game.uuid, playerUuid: game.players[0].uuid });

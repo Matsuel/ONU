@@ -6,7 +6,6 @@ const getGame = async (
   socket: Socket,
   games: Game[]
 ): Promise<void> => {
-  console.log(data);
   const { id, uuid } = data;
   const game = games.find(
     (g) => g.uuid === id && g.players.find((p) => p.uuid === uuid)

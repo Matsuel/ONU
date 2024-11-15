@@ -9,11 +9,13 @@ import { PitContext } from '@/providers/PitProvider';
 import { Stack } from '@/structs/stack';
 import { LoadingContext } from '@/providers/LoadingProvider';
 import Player from '@/interface/player';
+import { GameContext } from '@/providers/GameProvider';
 
 const useGame = () => {
 
     const router = useRouter()
     const { setPlayerTurn, setPlayers, setTimer } = useContext(PlayersContext)
+    const { setIsTurnDirectionClockwise, setNmbCardsToDraw } = useContext(GameContext)
     const { setLoading } = useContext(LoadingContext)
     const { setDeck } = useContext(DeckContext)
     const { setPit } = useContext(PitContext)
@@ -21,6 +23,8 @@ const useGame = () => {
 
     useEffect(() => {
         socket.on("getGame", (data) => {
+            setIsTurnDirectionClockwise(data.game.isTurnDirectionClockwise);
+            setNmbCardsToDraw(data.game.nmbCardsToDraw);
             setPlayerTurn(data.game.playerTurn);
             setTimer(30);
             const newDeck = new LinkedList<Cards>();

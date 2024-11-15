@@ -84,7 +84,7 @@ io.on("connection", async (socket) => {
         });
       }
       game.players.forEach((p) => {
-        p.socket.emit("getGame", { game: { players: players3, playerTurn: playerTurn2, deck: deckGame, pit: pit2 } });
+        p.socket.emit("getGame", { game: { players: players3, playerTurn: playerTurn2, deck: deckGame, pit: pit2, isTurnDirectionClockwise: isTurnDirectionClockwise2, nmbCardsToDraw: nmbCardsToDraw2 } });
       });
       games.forEach((g) => {
         if (g.uuid === uuid) {
@@ -99,6 +99,8 @@ io.on("connection", async (socket) => {
           g.playerTurn = playerTurn;
           g.deck = deckGame;
           g.pit = pit2;
+          g.isTurnDirectionClockwise = isTurnDirectionClockwise;
+          g.nmbCardsToDraw = nmbCardsToDraw;
         }
       });
     } else {
@@ -115,7 +117,7 @@ io.on("connection", async (socket) => {
         });
       }
       game.players.forEach((p) => {
-        p.socket.emit("getGame", { game: { players: players2, playerTurn, deck: deckGame, pit: pit2 } });
+        p.socket.emit("getGame", { game: { players: players2, playerTurn, deck: deckGame, pit: pit2, isTurnDirectionClockwise, nmbCardsToDraw } });
       });
       games.forEach((g) => {
         if (g.uuid === uuid) {
@@ -130,6 +132,8 @@ io.on("connection", async (socket) => {
           g.playerTurn = playerTurn;
           g.deck = deckGame;
           g.pit = pit2;
+          g.isTurnDirectionClockwise = isTurnDirectionClockwise;
+          g.nmbCardsToDraw = nmbCardsToDraw;
         }
       });
     }
@@ -137,16 +141,14 @@ io.on("connection", async (socket) => {
 
   socket.on("drawCard", (data) => {
     const { uuid, pit, deck, players, playerTurn } = data;
-    console.log("drawCard before", players);
     const deckGame = new LinkedList<Cards>();
     deckGame.fromJSON(deck);
     const pitGame = new Stack(pit.stack) as Stack<Cards>;
     const updatedPlayers = addCardsToPlayer(players, playerTurn, 1, deckGame);
-    console.log("drawCard", updatedPlayers);
     const playerTurn2 = getNextPlayerIndex(players, playerTurn, 1, true);
     const game = games.find((g) => g.uuid === uuid) as Game;
     game.players.forEach((p) => {
-      p.socket.emit("getGame", { game: { players: updatedPlayers, playerTurn: playerTurn2, deck: deckGame, pit: pitGame } });
+      p.socket.emit("getGame", { game: { players: updatedPlayers, playerTurn: playerTurn2, deck: deckGame, pit: pitGame, isTurnDirectionClockwise: game.isTurnDirectionClockwise, nmbCardsToDraw: game.nmbCardsToDraw } });
     });
     games.forEach((g) => {
       if (g.uuid === uuid) {
@@ -161,6 +163,8 @@ io.on("connection", async (socket) => {
         g.playerTurn = playerTurn2;
         g.deck = deckGame;
         g.pit = pitGame;
+        g.isTurnDirectionClockwise = game.isTurnDirectionClockwise;
+        g.nmbCardsToDraw = game.nmbCardsToDraw;
       }
     });
   });

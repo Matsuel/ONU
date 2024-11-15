@@ -30,6 +30,8 @@ const create = async (
     deck: deck,
     players: [{ uuid: socket.id, name: username, cards: [], socket: socket }],
     uuid: crypto.randomUUID(),
+    isTurnDirectionClockwise: true,
+    nmbCardsToDraw: 0,
   };
   games.push(game);
   socket.emit("create", { uuid: game.uuid, playerUuid: game.players[0].uuid });
