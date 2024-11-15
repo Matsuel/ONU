@@ -3,7 +3,6 @@ import CardDisplay from "@/components/card/CardDisplay"
 import { PitContext } from "@/providers/PitProvider"
 
 const Pit = () => {
-
     const { pit } = useContext(PitContext)
 
     return (
@@ -14,8 +13,6 @@ const Pit = () => {
                 />
 
             )}
-            {JSON.stringify(pit?.peek(), null, 2)}
-            Pit size: {pit?.getSize() || 0}
         </div>
     )
 }

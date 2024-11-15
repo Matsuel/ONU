@@ -34,7 +34,7 @@ const useTimer = ({
             return () => clearInterval(interval);
         }
 
-    }, [playerTurn, players, uuid, id, deck, pit]);
+    }, [playerTurn, players, uuid, id, deck, pit, setTimer]);
 }
 
 export default useTimer
