@@ -31,12 +31,11 @@ const Deck = ({
                     }
                 }}
             >
-                {playerUuid === players[playerTurn].uuid && <p>Draw a card</p>}
+                {playerUuid === players[playerTurn].uuid}
                 <Image
                     src="/Cards/back.png"
                     alt="pit"
-                    // className="w-24 hover:border-4 border-white transition-all rounded-xl"
-                    className={`${playerUuid === players[playerTurn].uuid} ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl" : "opacity-30 cursor-not-allowed" fixed right-[45%] top-[50%] rounded-xl -translate-y-[50%]`}
+                    className={`${playerUuid === players[playerTurn].uuid} ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl" : "opacity-30 cursor-not-allowed"`}
                     width={100}
                     height={100}
                 />

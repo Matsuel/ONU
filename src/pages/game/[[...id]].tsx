@@ -53,19 +53,23 @@ export default function Game() {
     return (
         <div className="flex flex-col bg-black w-screen min-h-screen text-white">
             {players[playerTurn].uuid === uuid && (
-                <div className="bg-white text-black">
+                <div className="bg-white text-black fixed">
                     <h1>{timer}</h1>
                 </div>
             )}
+
             <Players
                 uuid={id[0] as string}
             />
 
-            <Deck
-                uuid={id[0] as string}
-            />
+            <div className="fixed flex flex-row ga-x-5 left-[50%] -translate-x-[50%] top-[50%] -translate-y-[50%]">
+                <Deck
+                    uuid={id[0] as string}
+                />
 
-            <Pit />
+                <Pit />
+            </div>
+
         </div>
     );
 }

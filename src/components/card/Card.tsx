@@ -97,7 +97,7 @@ const Card = ({
             }
         >
             {isHovered && <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} />}
-            {player.uuid === playerUuid ? <CardDisplay card={card} className={className}/> : <CardBack />}
+            {player.uuid === playerUuid ? <CardDisplay card={card}/> : <CardBack />}
         </button >
     )
 }

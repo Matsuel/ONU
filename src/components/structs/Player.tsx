@@ -36,7 +36,6 @@ const PLayerDivPlacement = ({ player, index, uuid }: PLayerDivPlacementProps) =>
 
     return  (
         <div key={index} className={className}>
-            <p>{player.name}</p>
             {player.cards.map((card: Cards, cardIndex: number) => (
                 <Card
                     key={cardIndex}
