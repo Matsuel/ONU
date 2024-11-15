@@ -13,9 +13,9 @@ const EndGame = ({
     const router = useRouter()
 
     return (
-        <div className='absolute w-full h-full flex justify-center items-center bg-transparent'>
+        <div className='absolute z-50 w-full h-full flex justify-center items-center bg-black opacity-70'>
 
-            <div className='w-[50%] h-auto bg-white rounded-xl'>
+            <div className='w-[50%] h-auto bg-black rounded-xl'>
                 <h4 className='text-2xl text-center'>Partie terminée</h4>
 
                 <p className='text-2xl text-center'>Le gagnant est {winner}</p>
