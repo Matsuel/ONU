@@ -24,11 +24,6 @@ const ColorModal = ({
     player
 }: ColorModalProps) => {
 
-    const { pit } = useContext(PitContext)
-    const { deck } = useContext(DeckContext)
-    const { playerTurn, players } = useContext(PlayersContext)
-    const { isTurnDirectionClockwise, nmbCardsToDraw } = useContext(GameContext)
-
     return (
         <div className="absolute w-full h-full flex-row flex-wrap top-[50%] left-[50%] transform-gpu -translate-x-1/2 -translate-y-1/2">
             {colors.map((color, index) => (
@@ -39,16 +34,10 @@ const ColorModal = ({
                     onClick={() => {
                         setIsHovered(false)
                         socket.emit("playCard", {
-                            deck,
                             uuid,
                             cardIndex,
                             card,
                             player,
-                            pit,
-                            players,
-                            playerTurn,
-                            isTurnDirectionClockwise,
-                            nmbCardsToDraw,
                             specialColor: colorsCards[color as keyof typeof colorsCards]
                         });
                     }}

@@ -8,8 +8,6 @@ export const playCard = (
   pit: Stack<Cards>,
   players: Player[]
 ) => {
-
-  // console.log("playCard", player);
   const cardPlayed = player.cards[cardIndex];
 
   const newPit = new Stack<Cards>([...pit.getItems(), cardPlayed]);
@@ -25,8 +23,6 @@ export const playCard = (
   });
 
   player = updatedPlayers.find((p) => p.uuid === player.uuid) as Player;
-  // console.log("updatedPlayers", player);
-  // hasPlayerWon(player, setPlayers);
 
   return { player, newPit, updatedPlayers };
 };
@@ -44,11 +40,6 @@ export const isPlayerTurn = (
 };
 
 export function isCardPlayable(card1: Cards, card2: Cards): boolean {
-  // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
-  //   return card1.special === "plus2" || card1.special == "plus4";
-  // } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
-  //   return card1.special === "plus4";
-  // }
 
   const isJoker = card1.special === "changecolor" || card1.special === "plus4";
 
@@ -97,7 +88,6 @@ export const useSpecialCardEffect = (
   nmbCardsToDraw: number,
   deck: LinkedList<Cards>
 ) => {
-  console.log("useSpecialCardEffect", isTurnDirectionClockwise);
   switch (card.special) {
     case "skip":
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
@@ -115,7 +105,6 @@ export const useSpecialCardEffect = (
       playerTurn = getNextPlayerIndex(players, playerTurn, 2, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
     case "rev":
-      console.log("reverse", "sens actuel", isTurnDirectionClockwise, "sense inverse", !isTurnDirectionClockwise);
       isTurnDirectionClockwise = !isTurnDirectionClockwise;
       playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
       return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };

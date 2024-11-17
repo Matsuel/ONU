@@ -1,14 +1,11 @@
 import { LinkedList } from "./linkedArray";
 import { Stack } from "./stack";
 import { Cards, Game, Player } from "./type";
-import { addCardsToPlayer, getNextPlayerIndex, isCardPlayable, isPlayerTurn, playCard, useSpecialCardEffect } from "./utils/cards";
+import { addCardsToPlayer, getNextPlayerIndex, playCard, useSpecialCardEffect } from "./utils/cards";
 import { initServer } from "./utils/initServer";
 import loadEvents from "./utils/loadEvents";
 
 const { io } = initServer();
-
-// Utiliser une db pour stocker les parties
-// Mettre toutes les evenements pour le jeu ici
 
 const games = [] as Game[];
 
@@ -17,79 +14,46 @@ io.on("connection", async (socket) => {
 
   socket.on("playCard", (data) => {
     let {
-      deck,
       uuid,
       cardIndex,
       card,
       player,
-      pit,
-      players,
-      playerTurn,
-      isTurnDirectionClockwise,
-      nmbCardsToDraw,
       specialColor,
     } = data;
+    const game = games.find((g) => g.uuid === uuid) as Game;
     if (card.special !== undefined && (specialColor === undefined && card.color === undefined)) return
     if (specialColor) {
       card.color = specialColor;
       player.cards[cardIndex].color = specialColor;
     }
-    const pitGame = new Stack(pit.stack) as Stack<Cards>;
-    const deckGame = new LinkedList<Cards>();
-    deckGame.fromJSON(deck);
-    if (!pitGame) {
-      console.error("Pit cannot be null");
-      return;
-    }
-
-    if (!deckGame) {
-      console.error("Deck cannot be null");
-      return;
-    }
-
-    if (!isPlayerTurn(player, players, playerTurn)) {
-      console.error(`${player.name}: can't play, not your turn`);
-      return false;
-    }
-
-    if (!isCardPlayable(card, pitGame.peek() as Cards)) {
-      console.error(
-        `${JSON.stringify(card)} not playable on ${JSON.stringify(pitGame.peek())}`
-      );
-      return false;
-    }
 
     if (card.special !== undefined) {
       let {
         newPit: pit2,
-        player: player2,
-        updatedPlayers: players2,
-      } = playCard(player, cardIndex, pitGame, players);
-      const { isTurnDirectionClockwise: isTurnDirectionClockwise2, nmbCardsToDraw: nmbCardsToDraw2, playerTurn: playerTurn2, players: players3 }
+        updatedPlayers,
+      } = playCard(player, cardIndex, game.pit, game.players);
+      const { playerTurn: playerTurn2, players: players3 }
         = useSpecialCardEffect(
           card,
-          playerTurn,
-          players2,
-          isTurnDirectionClockwise,
-          nmbCardsToDraw,
-          deckGame
+          game.playerTurn,
+          updatedPlayers,
+          game.isTurnDirectionClockwise,
+          game.nmbCardsToDraw,
+          game.deck,
         );
-      playerTurn = playerTurn2;
-      isTurnDirectionClockwise = isTurnDirectionClockwise2;
-      nmbCardsToDraw = nmbCardsToDraw2;
-      const game = games.find((g) => g.uuid === uuid) as Game;
+      const playerTurn = playerTurn2;
       if (checkIfPlayerHasWon(players3)) {
         game.players.forEach((p) => {
           p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players3), ended: true });
         });
       }
       game.players.forEach((p) => {
-        p.socket.emit("getGame", { game: { players: players3, playerTurn: playerTurn2, deck: deckGame, pit: pit2, isTurnDirectionClockwise: isTurnDirectionClockwise2, nmbCardsToDraw: nmbCardsToDraw2 } });
+        p.socket.emit("getGame", { game: { players: players3.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: game.deck, pit: pit2 } });
       });
       games.forEach((g) => {
         if (g.uuid === uuid) {
 
-          g.players = players2.map((p) => {
+          g.players = players3.map((p) => {
             const existingPlayer = g.players.find((gp) => gp.uuid === p.uuid);
             return {
               ...p,
@@ -97,27 +61,25 @@ io.on("connection", async (socket) => {
             };
           });
           g.playerTurn = playerTurn;
-          g.deck = deckGame;
+          g.deck = game.deck;
           g.pit = pit2;
-          g.isTurnDirectionClockwise = isTurnDirectionClockwise;
-          g.nmbCardsToDraw = nmbCardsToDraw;
+          g.isTurnDirectionClockwise = game.isTurnDirectionClockwise;
+          g.nmbCardsToDraw = game.nmbCardsToDraw;
         }
       });
     } else {
       let {
         newPit: pit2,
-        player: player2,
         updatedPlayers: players2,
-      } = playCard(player, cardIndex, pitGame, players);
-      playerTurn = getNextPlayerIndex(players, playerTurn, 1, isTurnDirectionClockwise)
-      const game = games.find((g) => g.uuid === uuid) as Game;
+      } = playCard(player, cardIndex, game.pit, game.players);
+      const playerTurn = getNextPlayerIndex(game.players, game.playerTurn, 1, game.isTurnDirectionClockwise)
       if (checkIfPlayerHasWon(players2)) {
         game.players.forEach((p) => {
           p.socket.emit("gameOver", { winner: checkIfPlayerHasWon(players2), ended: true });
         });
       }
       game.players.forEach((p) => {
-        p.socket.emit("getGame", { game: { players: players2, playerTurn, deck: deckGame, pit: pit2, isTurnDirectionClockwise, nmbCardsToDraw } });
+        p.socket.emit("getGame", { game: { players: players2.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn, deck: game.deck, pit: pit2 } });
       });
       games.forEach((g) => {
         if (g.uuid === uuid) {
@@ -130,10 +92,10 @@ io.on("connection", async (socket) => {
             };
           });
           g.playerTurn = playerTurn;
-          g.deck = deckGame;
+          g.deck = game.deck;
           g.pit = pit2;
-          g.isTurnDirectionClockwise = isTurnDirectionClockwise;
-          g.nmbCardsToDraw = nmbCardsToDraw;
+          g.isTurnDirectionClockwise = game.isTurnDirectionClockwise;
+          g.nmbCardsToDraw = game.nmbCardsToDraw;
         }
       });
     }
@@ -148,7 +110,7 @@ io.on("connection", async (socket) => {
     const playerTurn2 = getNextPlayerIndex(players, playerTurn, 1, true);
     const game = games.find((g) => g.uuid === uuid) as Game;
     game.players.forEach((p) => {
-      p.socket.emit("getGame", { game: { players: updatedPlayers, playerTurn: playerTurn2, deck: deckGame, pit: pitGame, isTurnDirectionClockwise: game.isTurnDirectionClockwise, nmbCardsToDraw: game.nmbCardsToDraw } });
+      p.socket.emit("getGame", { game: { players: updatedPlayers.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: deckGame, pit: pitGame } });
     });
     games.forEach((g) => {
       if (g.uuid === uuid) {
@@ -172,7 +134,6 @@ io.on("connection", async (socket) => {
 
 const checkIfPlayerHasWon = (players: Player[]) => {
   for (const player of players) {
-    console.log(player.cards, player.name);
     if (player.cards.length === 0) {
       return player;
     }

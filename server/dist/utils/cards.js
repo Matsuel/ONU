@@ -4,7 +4,6 @@ exports.addCardsToPlayer = exports.useSpecialCardEffect = exports.getNextPlayerI
 exports.isCardPlayable = isCardPlayable;
 const stack_1 = require("../stack");
 const playCard = (player, cardIndex, pit, players) => {
-    // console.log("playCard", player);
     const cardPlayed = player.cards[cardIndex];
     const newPit = new stack_1.Stack([...pit.getItems(), cardPlayed]);
     const updatedPlayers = players.map((p) => {
@@ -14,8 +13,6 @@ const playCard = (player, cardIndex, pit, players) => {
         return p;
     });
     player = updatedPlayers.find((p) => p.uuid === player.uuid);
-    // console.log("updatedPlayers", player);
-    // hasPlayerWon(player, setPlayers);
     return { player, newPit, updatedPlayers };
 };
 exports.playCard = playCard;
@@ -29,11 +26,6 @@ const isPlayerTurn = (player, players, playerTurn) => {
 };
 exports.isPlayerTurn = isPlayerTurn;
 function isCardPlayable(card1, card2) {
-    // if (card2.special === "plus2" && !card2.isOverOneHandOld) {
-    //   return card1.special === "plus2" || card1.special == "plus4";
-    // } else if (card2.special === "plus4" && !card2.isOverOneHandOld) {
-    //   return card1.special === "plus4";
-    // }
     const isJoker = card1.special === "changecolor" || card1.special === "plus4";
     const isSameColor = card1.color !== undefined &&
         card2.color !== undefined &&
@@ -66,7 +58,6 @@ const getNextPlayerIndex = (players, playerTurn, nmbSkip, isTurnDirectionClockwi
 };
 exports.getNextPlayerIndex = getNextPlayerIndex;
 const useSpecialCardEffect = (card, playerTurn, players, isTurnDirectionClockwise, nmbCardsToDraw, deck) => {
-    console.log("useSpecialCardEffect", isTurnDirectionClockwise);
     switch (card.special) {
         case "skip":
             playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
@@ -84,7 +75,6 @@ const useSpecialCardEffect = (card, playerTurn, players, isTurnDirectionClockwis
             playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 2, isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
         case "rev":
-            console.log("reverse", "sens actuel", isTurnDirectionClockwise, "sense inverse", !isTurnDirectionClockwise);
             isTurnDirectionClockwise = !isTurnDirectionClockwise;
             playerTurn = (0, exports.getNextPlayerIndex)(players, playerTurn, 1, isTurnDirectionClockwise);
             return { playerTurn, players, nmbCardsToDraw, isTurnDirectionClockwise };
