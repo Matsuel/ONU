@@ -111,7 +111,7 @@ io.on("connection", (socket) => __awaiter(void 0, void 0, void 0, function* () {
 const checkIfPlayerHasWon = (players) => {
     for (const player of players) {
         if (player.cards.length === 0) {
-            return player;
+            return { uuid: player.uuid, name: player.name };
         }
     }
     return null;

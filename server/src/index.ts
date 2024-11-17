@@ -135,7 +135,7 @@ io.on("connection", async (socket) => {
 const checkIfPlayerHasWon = (players: Player[]) => {
   for (const player of players) {
     if (player.cards.length === 0) {
-      return player;
+      return { uuid: player.uuid, name: player.name };
     }
   }
   return null;
