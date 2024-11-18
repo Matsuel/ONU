@@ -9,6 +9,7 @@ import { PitContext } from '@/providers/PitProvider';
 import { Stack } from '@/structs/stack';
 import { LoadingContext } from '@/providers/LoadingProvider';
 import Player from '@/interface/player';
+import { GameContext } from '@/providers/GameProvider';
 
 const useGame = () => {
 
@@ -17,6 +18,9 @@ const useGame = () => {
     const { setLoading } = useContext(LoadingContext)
     const { setDeck } = useContext(DeckContext)
     const { setPit } = useContext(PitContext)
+    const { setEnded, uuid } = useContext(GameContext)
+
+    const { id } = router.query
 
 
     useEffect(() => {
@@ -31,6 +35,14 @@ const useGame = () => {
             setLoading(false);
         });
     }, [router, setDeck, setPlayerTurn, setPlayers, setPit, setLoading, setTimer]);
+
+    useEffect(() => {
+        if (id) {
+            setLoading(true);
+            setEnded(false);
+            socket.emit("getGame", { id: id[0] as string, uuid });
+        }
+    }, [router, setLoading, setEnded, id, uuid]);
 }
 
 export default useGame

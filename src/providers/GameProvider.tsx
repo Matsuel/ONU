@@ -6,6 +6,8 @@ interface GameContextType {
     setUuid: React.Dispatch<React.SetStateAction<string>>;
     ended: boolean;
     setEnded: React.Dispatch<React.SetStateAction<boolean>>;
+    winner: string;
+    setWinner: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const GameContext = createContext({} as GameContextType)
@@ -15,10 +17,11 @@ const GameProvider = ({
 }: ProviderProps) => {
     const [uuid, setUuid] = useState("");
     const [ended, setEnded] = useState(false);
+    const [winner, setWinner] = useState("");
 
 
     return (
-        <GameContext.Provider value={{ uuid, setUuid, ended, setEnded }}>
+        <GameContext.Provider value={{ uuid, setUuid, ended, setEnded, winner, setWinner }}>
             {children}
         </GameContext.Provider>
     )
