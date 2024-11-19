@@ -17,14 +17,15 @@ const Deck = ({
     const { pit, setPit } = useContext(PitContext);
     const { deck, setDeck } = useContext(DeckContext)
     const { playerTurn, players } = useContext(PlayersContext);
-    const { nmbCardsToDraw, uuid: playerUuid } = useContext(GameContext);
+    const { uuid: playerUuid } = useContext(GameContext);
 
     return (
         <div>
             <button
                 className="flex flex-col"
                 onClick={() => {
-                    drawCard(deck, pit, players, playerTurn, nmbCardsToDraw, uuid);
+                    if (playerUuid !== players[playerTurn].uuid) return;
+                    drawCard(deck, pit, players, playerTurn, uuid);
 
                     if (deck?.getSize() === 1) {
                         getPitsCardsToDeck(pit, setPit, setDeck);

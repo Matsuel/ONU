@@ -29,7 +29,6 @@ const drawCard = (
     pit: Stack<Cards> | null,
     players: Player[],
     playerTurn: number,
-    nmbCardsToDraw: number,
     uuid: string
 ) => {
 
@@ -40,11 +39,6 @@ const drawCard = (
 
     if (!pit) {
         console.error("Pit is null");
-        return;
-    }
-
-    if (deck.getSize() === 0 || deck.getSize() < nmbCardsToDraw) {
-        console.error("Deck is empty, can’t draw a card from it.");
         return;
     }
 

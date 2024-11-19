@@ -24,7 +24,7 @@ const useTimer = ({
             const interval = setInterval(() => {
                 setTimer((prev) => {
                     if (prev === 0) {
-                        drawCard(deck, pit, players, playerTurn, 1, id);
+                        drawCard(deck, pit, players, playerTurn, id);
                         clearInterval(interval);
                         return 30;
                     }
