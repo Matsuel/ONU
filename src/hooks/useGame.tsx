@@ -42,6 +42,10 @@ const useGame = () => {
             setEnded(false);
             socket.emit("getGame", { id: id[0] as string, uuid });
         }
+
+        return () => {
+            socket.off("getGame");
+        }
     }, [router, setLoading, setEnded, id, uuid]);
 }
 
