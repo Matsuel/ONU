@@ -1,5 +1,5 @@
+import { Cards } from "@/types";
 import Image from "next/image";
-import Cards from "../../interface/cards"
 
 interface CardDisplayProps {
     card: Cards | null,

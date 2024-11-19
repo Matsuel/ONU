@@ -1,12 +1,7 @@
 import { colors, colorsCards } from '@/constantes/colors';
-import Cards from '@/interface/cards';
-import Player from '@/interface/player';
 import { socket } from '@/pages/_app';
-import { DeckContext } from '@/providers/DeckProvider';
-import { GameContext } from '@/providers/GameProvider';
-import { PitContext } from '@/providers/PitProvider';
-import { PlayersContext } from '@/providers/PlayersProvider';
-import React, { useContext } from 'react'
+import { Cards, Player } from '@/types';
+import React from 'react'
 
 interface ColorModalProps {
     setIsHovered: React.Dispatch<React.SetStateAction<boolean>>

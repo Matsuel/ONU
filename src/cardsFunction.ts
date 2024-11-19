@@ -1,9 +1,8 @@
-import Cards from "@/interface/cards";
 import { LinkedList } from "@/structs/linkedArray";
-import Player from "@/interface/player";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { Stack } from "@/structs/stack";
 import { socket } from "@/pages/_app";
+import { Cards, Player } from "./types";
 
 function isCardPlayable(card1: Cards, card2: Cards): boolean {
     const isJoker = card1.special === "changecolor" || card1.special === "plus4";

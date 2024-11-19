@@ -1,6 +1,5 @@
 import React, { createContext, useState } from 'react'
-import Player from '@/interface/player';
-import { ProviderProps } from '@/types';
+import { Player, ProviderProps } from '@/types';
 
 interface PlayersContextType {
     players: Player[],

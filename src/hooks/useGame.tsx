@@ -3,13 +3,12 @@ import { PlayersContext } from '@/providers/PlayersProvider';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react'
 import { LinkedList } from '@/structs/linkedArray';
-import Cards from '@/interface/cards';
 import { DeckContext } from '@/providers/DeckProvider';
 import { PitContext } from '@/providers/PitProvider';
 import { Stack } from '@/structs/stack';
 import { LoadingContext } from '@/providers/LoadingProvider';
-import Player from '@/interface/player';
 import { GameContext } from '@/providers/GameProvider';
+import { Cards, Player } from '@/types';
 
 const useGame = () => {
 

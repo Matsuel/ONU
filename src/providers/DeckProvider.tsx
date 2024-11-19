@@ -1,7 +1,6 @@
 import React, { createContext, useState } from 'react'
 import { LinkedList } from '@/structs/linkedArray'
-import Cards from '@/interface/cards'
-import { ProviderProps } from '@/types'
+import { Cards, ProviderProps } from '@/types'
 
 interface DeckContextType {
     deck: LinkedList<Cards> | null,
