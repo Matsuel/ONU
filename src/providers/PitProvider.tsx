@@ -1,13 +1,9 @@
-import React, { createContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Stack } from '@/structs/stack'
 import { Cards, ProviderProps } from '@/types'
+import PitContext from '@/contexts/PitContext';
 
-interface PitProviderType {
-    pit: Stack<Cards> | null,
-    setPit: React.Dispatch<React.SetStateAction<Stack<Cards> | null>>
-}
 
-export const PitContext = createContext({} as PitProviderType)
 
 const PitProvider = ({
     children

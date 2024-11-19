@@ -1,17 +1,8 @@
-import React, { createContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Player, ProviderProps } from '@/types';
-
-interface PlayersContextType {
-    players: Player[],
-    setPlayers: React.Dispatch<React.SetStateAction<Player[]>>,
-    playerTurn: number,
-    setPlayerTurn: React.Dispatch<React.SetStateAction<number>>,
-    timer: number,
-    setTimer: React.Dispatch<React.SetStateAction<number>>
-}
+import PlayersContext from '@/contexts/PlayersContext';
 
 
-export const PlayersContext = createContext({} as PlayersContextType)
 
 const PlayersProvider = ({
     children

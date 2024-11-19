@@ -1,13 +1,8 @@
-import React, { createContext, useState } from 'react'
+import React, { useState } from 'react'
 import { LinkedList } from '@/structs/linkedArray'
 import { Cards, ProviderProps } from '@/types'
+import DeckContext from '@/contexts/DeckContext';
 
-interface DeckContextType {
-    deck: LinkedList<Cards> | null,
-    setDeck: React.Dispatch<React.SetStateAction<LinkedList<Cards> | null>>
-}
-
-export const DeckContext = createContext({} as DeckContextType)
 
 const DeckProvider = ({
     children
