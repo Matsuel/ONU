@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Geist";
+  src: url("../pages/fonts/GeistVF.woff") format("woff");
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -17,7 +22,7 @@
 body {
   color: var(--foreground);
   background: radial-gradient(circle, #E9D017, #FF5900);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Geist", sans-serif;
 }
 
 body::before {
