@@ -1,77 +1,47 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import Title from "@/components/ui/Title";
 import Button from "@/components/ui/Button";
 
 export default function Home() {
-  const [isExiting, setIsExiting] = useState(false);
   const router = useRouter();
 
-  const handleNavigation = (path: string) => {
-    setIsExiting(true);
-
-    setTimeout(() => {
-      router.push(path);
-    }, 800);
-  };
 
   return (
-    <div className="text-white h-screen w-screen">
-      <AnimatePresence mode="wait">
-        {!isExiting && (
-          <motion.div
-            initial={{ opacity: 0, y: -100 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -100 }}
-            transition={{ duration: 0.8 }}
-          >
-            <Title title="ONU" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="flex gap-4 flex-row items-center pt-52 justify-evenly">
-        <AnimatePresence mode="wait">
-          {!isExiting && (
-            <motion.div
-              className="flex flex-col items-center gap-4"
-              initial={{ opacity: 0, x: -200 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -200 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <h2 className="text-4xl font-semibold">Rejoindre une partie</h2>
-              <Button
-                className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
-                onClick={() => handleNavigation("/join")}
-              >
-                Rejoindre une partie
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <AnimatePresence mode="wait">
-          {!isExiting && (
-            <motion.div
-              className="flex flex-col items-center gap-4"
-              initial={{ opacity: 0, x: 200 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 200 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <h2 className="text-4xl font-semibold">Créer une partie</h2>
-              <Button
-                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition"
-                onClick={() => handleNavigation("/create")}
-              >
-                Créer une partie
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+    <div className="text-white h-screen w-screen flex flex-row gap-96">
+        <div className="flex flex-col gap-7 m-4 rounded-xl bg-[#424242] bg-opacity-55 p-4 w-1/6">
+          <div className="flex flex-col gap-4">
+            <h4 className="font-bold text-2xl text-center pt-5">OPTIONS</h4>
+            <div className="border border-white mx-4"></div>
+          </div>
+          <div className="flex flex-col gap-5">
+            <Button
+              label="Créer une partie"
+              onClick={() => router.push("/create")}
+            />
+            <Button
+              label="Rejoindre une partie"
+              onClick={() => router.push("/join")}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col gap-48 items-center">
+          <Title title="ONU" />
+          <div className="flex flex-col items-center gap-10">
+            <div className="felx flex-col text-center">
+              <h2 className="font-semibold text-3xl">Bienvenue sur le jeu du UNO</h2>
+              <h3 className="font-semibold text-3xl">Sélectionnez une option pour continuer !</h3>
+            </div>
+            <Image
+              src="/Home/home_pic.png"
+              alt="Home Picture"
+              width={300}
+              height={300}
+            />
+          </div>
+        </div>
+      
     </div>
   );
 }
