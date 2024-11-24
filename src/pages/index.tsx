@@ -21,8 +21,12 @@ export default function Home() {
                 >
                     <Sidebar setPage={setPage} />
 
-                    {page === "home" && (
+                    {page === "home" ? (
                         <HomeLayout />
+                    ) : page === "join" ? (
+                        null
+                    ) : (
+                        null
                     )}
                 </motion.div>
             )}
