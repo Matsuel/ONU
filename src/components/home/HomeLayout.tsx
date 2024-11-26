@@ -8,7 +8,7 @@ const HomeLayout = () => {
 
     return (
         <motion.div
-            className="flex flex-col gap-48 items-center"
+            className="flex flex-col gap-48 items-center w-5/6"
             variants={containerVariants}
         >
             <motion.div variants={titleVariants}>

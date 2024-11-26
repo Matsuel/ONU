@@ -6,10 +6,10 @@ import Input from "@/components/ui/Input";
 const CreateGameOption = () => {
     const [username, setUsername] = useState("");
     return (
-        <div className="w-full flex flex-col items-center gap-4">
+        <div className="w-5/6 flex flex-row justify-center gap-4">
             <Input
                 autoFocus
-                className="w-[50%]"
+                className=" w-80"
                 placeholder="Nom d'utilisateur"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
