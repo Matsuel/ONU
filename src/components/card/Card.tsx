@@ -71,13 +71,14 @@ const Card = ({
                 }`}
             onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
-            onClick={() =>
+            onClick={() => {
+                setIsHovered(false)
                 playCardOnClick(
                     cardIndex,
                     card,
                     player,
                 )
-            }
+            }}
         >
             {isHovered && <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} />}
             {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}

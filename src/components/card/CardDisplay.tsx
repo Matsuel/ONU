@@ -19,7 +19,25 @@ const CardDisplay = ({
                 />
             )}
 
-            {card && card.special ? (
+            {card && card.special && card.special === "plus4" && (
+                <Image
+                    src={`/Cards/${card.special}.png`}
+                    alt="special card"
+                    width={100}
+                    height={100}
+                />
+            )}
+
+            {card && card.special && card.special === "changecolor" && (
+                <Image
+                    src={`/Cards/${card.special}.png`}
+                    alt="special card"
+                    width={100}
+                    height={100}
+                />
+            )}
+
+            {card && card.special && card.special !== "plus4" && card.special !== "changecolor" && (
                 <div>
                     {card.color ? (
                         <Image
@@ -37,7 +55,8 @@ const CardDisplay = ({
                         />
                     )}
                 </div>
-            ) : (
+            )}
+            {card && card.number && (
                 <div>
                     {card && (
                         <Image
