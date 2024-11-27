@@ -1,6 +1,6 @@
-import { GameContext } from '@/providers/GameProvider';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react'
+import GameContext from '@/contexts/GameContext';
 
 const useUuid = () => {
     const { setUuid } = useContext(GameContext)

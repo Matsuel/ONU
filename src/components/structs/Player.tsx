@@ -1,8 +1,8 @@
 import Card from "@/components/card/Card";
 import { useContext } from "react";
-import { PlayersContext } from "@/providers/PlayersProvider";
-import { GameContext } from "@/providers/GameProvider";
 import { Cards, Player } from "@/types";
+import PlayersContext from "@/contexts/PlayersContext";
+import GameContext from "@/contexts/GameContext";
 
 interface PlayersProps {
     uuid: string;

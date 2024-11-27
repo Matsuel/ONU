@@ -2,12 +2,12 @@ import React, { useContext, useState } from "react"
 import { socket } from "@/pages/_app"
 import { isCardPlayable } from "../../cardsFunction"
 import CardDisplay from "./CardDisplay"
-import { PitContext } from "@/providers/PitProvider"
-import { GameContext } from "@/providers/GameProvider"
-import { PlayersContext } from "@/providers/PlayersProvider"
 import CardBack from "./CardBack"
 import ColorModal from "./ColorModal"
 import { Cards, Player } from "@/types"
+import PitContext from "@/contexts/PitContext"
+import GameContext from "@/contexts/GameContext"
+import PlayersContext from "@/contexts/PlayersContext"
 
 interface CardProps {
     card: Cards

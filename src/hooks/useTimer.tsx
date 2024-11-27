@@ -1,8 +1,8 @@
-import { PlayersContext } from '@/providers/PlayersProvider';
 import { useContext, useEffect } from 'react'
 import { drawCard } from '@/cardsFunction';
-import { DeckContext } from '@/providers/DeckProvider';
-import { PitContext } from '@/providers/PitProvider';
+import PlayersContext from '@/contexts/PlayersContext';
+import DeckContext from '@/contexts/DeckContext';
+import PitContext from '@/contexts/PitContext';
 
 interface TimerProps {
     id: string | undefined;

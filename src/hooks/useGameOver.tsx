@@ -1,5 +1,5 @@
 import { socket } from '@/pages/_app';
-import { GameContext } from '@/providers/GameProvider';
+import GameContext from '@/contexts/GameContext';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect } from 'react'
 

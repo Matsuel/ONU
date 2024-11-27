@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { drawCard, getPitsCardsToDeck } from "@/cardsFunction";
 import Image from "next/image";
-import { PitContext } from "@/providers/PitProvider";
-import { DeckContext } from "@/providers/DeckProvider";
-import { PlayersContext } from "@/providers/PlayersProvider";
-import { GameContext } from "@/providers/GameProvider";
+import DeckContext from "@/contexts/DeckContext";
+import GameContext from "@/contexts/GameContext";
+import PitContext from "@/contexts/PitContext";
+import PlayersContext from "@/contexts/PlayersContext";
 
 interface DeckProps {
     uuid: string

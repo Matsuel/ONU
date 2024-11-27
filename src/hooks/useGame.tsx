@@ -1,14 +1,14 @@
 import { socket } from '@/pages/_app';
-import { PlayersContext } from '@/providers/PlayersProvider';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react'
 import { LinkedList } from '@/structs/linkedArray';
-import { DeckContext } from '@/providers/DeckProvider';
-import { PitContext } from '@/providers/PitProvider';
 import { Stack } from '@/structs/stack';
-import { LoadingContext } from '@/providers/LoadingProvider';
-import { GameContext } from '@/providers/GameProvider';
 import { Cards, Player } from '@/types';
+import PlayersContext from '@/contexts/PlayersContext';
+import DeckContext from '@/contexts/DeckContext';
+import PitContext from '@/contexts/PitContext';
+import LoadingContext from '@/contexts/LoadingContext';
+import GameContext from '@/contexts/GameContext';
 
 const useGame = () => {
 
@@ -24,6 +24,7 @@ const useGame = () => {
 
     useEffect(() => {
         socket.on("getGame", (data) => {
+            console.log("getGame")
             setPlayerTurn(data.game.playerTurn);
             setTimer(30);
             const newDeck = new LinkedList<Cards>();

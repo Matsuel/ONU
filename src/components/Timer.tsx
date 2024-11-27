@@ -1,6 +1,6 @@
 import useTimer from '@/hooks/useTimer';
-import { GameContext } from '@/providers/GameProvider';
-import { PlayersContext } from '@/providers/PlayersProvider';
+import GameContext from '@/contexts/GameContext';
+import PlayersContext from '@/contexts/PlayersContext';
 import { useRouter } from 'next/router';
 import React, { useContext } from 'react'
 

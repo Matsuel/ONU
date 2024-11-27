@@ -3,13 +3,13 @@ import Deck from "@/components/structs/Deck";
 import Players from "@/components/structs/Player";
 import Pit from "@/components/structs/Pit";
 import { useRouter } from "next/router";
-import { GameContext } from "@/providers/GameProvider";
-import { LoadingContext } from "@/providers/LoadingProvider";
 import useGame from "@/hooks/useGame";
 import EndGame from "@/components/EndGame";
 import useUuid from "@/hooks/useUuid";
 import useGameOver from "@/hooks/useGameOver";
 import Timer from "@/components/Timer";
+import GameContext from "@/contexts/GameContext";
+import LoadingContext from "@/contexts/LoadingContext";
 
 export default function Game() {
 
