@@ -1,6 +1,6 @@
 import React from "react";
 import Title from "@/components/ui/Title";
-import CreateOption from "@/components/createOption/CreateOption";
+import CreateOption from "@/components/home/createOption/CreateOption";
 import { motion } from 'framer-motion'
 import { containerVariants, titleVariants } from "@/constantes/home";
 

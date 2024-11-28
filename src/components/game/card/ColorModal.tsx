@@ -1,4 +1,4 @@
-import { playCardOnClick } from '@/cardsFunction';
+import { playCardOnClick } from '@/utils/cardsFunction';
 import { colors, colorsCards } from '@/constantes/colors';
 import GameContext from '@/contexts/GameContext';
 import { Cards, Player } from '@/types';

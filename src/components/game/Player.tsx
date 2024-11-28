@@ -1,4 +1,4 @@
-import Card from "@/components/card/Card";
+import Card from "@/components/game/card/Card";
 import { useContext } from "react";
 import { Cards, Player } from "@/types";
 import PlayersContext from "@/contexts/PlayersContext";

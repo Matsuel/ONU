@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { isCardPlayable, playCardOnClick } from "../../cardsFunction"
+import { isCardPlayable, playCardOnClick } from "../../../utils/cardsFunction"
 import CardDisplay from "./CardDisplay"
 import CardBack from "./CardBack"
 import ColorModal from "./ColorModal"

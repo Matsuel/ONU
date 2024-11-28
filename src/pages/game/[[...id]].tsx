@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
-import Deck from "@/components/structs/Deck";
-import Players from "@/components/structs/Player";
-import Pit from "@/components/structs/Pit";
+import Deck from "@/components/game/Deck";
+import Players from "@/components/game/Player";
+import Pit from "@/components/game/Pit";
 import { useRouter } from "next/router";
 import useGame from "@/hooks/useGame";
-import EndGame from "@/components/EndGame";
+import EndGame from "@/components/game/EndGame";
 import useUuid from "@/hooks/useUuid";
 import useGameOver from "@/hooks/useGameOver";
-import Timer from "@/components/Timer";
+import Timer from "@/components/game/Timer";
 import GameContext from "@/contexts/GameContext";
 import LoadingContext from "@/contexts/LoadingContext";
 
