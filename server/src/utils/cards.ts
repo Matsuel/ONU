@@ -2,7 +2,7 @@ import { LinkedList } from "../linkedArray";
 import { Stack } from "../stack";
 import { Cards, Player } from "../type";
 
-export const playCard = (
+export const playCardFunc = (
   player: Player,
   cardIndex: number,
   pit: Stack<Cards>,
