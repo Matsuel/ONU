@@ -24,7 +24,6 @@ const useGame = () => {
 
     useEffect(() => {
         socket.on("getGame", (data) => {
-            console.log("getGame")
             setPlayerTurn(data.game.playerTurn);
             setTimer(30);
             const newDeck = new LinkedList<Cards>();
@@ -34,17 +33,13 @@ const useGame = () => {
             setPlayers(data.game.players as Player[]);
             setLoading(false);
         });
-    }, [router, setDeck, setPlayerTurn, setPlayers, setPit, setLoading, setTimer]);
+    }, [setPlayerTurn, setTimer, setDeck, setPit, setPlayers, setLoading, router]);
 
     useEffect(() => {
         if (id) {
             setLoading(true);
             setEnded(false);
             socket.emit("getGame", { id: id[0] as string, uuid });
-        }
-
-        return () => {
-            socket.off("getGame");
         }
     }, [router, setLoading, setEnded, id, uuid]);
 }
