@@ -32,12 +32,6 @@ const Card = ({
 
     const [isHovered, setIsHovered] = useState(false)
 
-    const handleHover = (value: boolean) => {
-        if (!card.color && players[playerTurn].uuid === player.uuid && players[playerTurn].uuid === playerUuid) { setIsHovered(value); }
-    }
-
-    const className = "w-32"
-
     const playCardOnClick = (
         cardIndex: number,
         card: Cards,
@@ -61,7 +55,7 @@ const Card = ({
     return (
         <button
             key={cardIndex}
-            className={`relative transition-all rounded-xl ${isMyTurn
+            className={`transition-all rounded-xl ${isMyTurn
                 ? isPlayable
                     ? "cursor-pointer hover:border-4 border-white"
                     : "opacity-30 cursor-not-allowed"
@@ -69,9 +63,11 @@ const Card = ({
                     ? "opacity-100 cursor-not-allowed"
                     : "opacity-30 cursor-not-allowed"
                 }`}
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
             onClick={() => {
+                if (card.special === "changecolor" || card.special === "plus4") {
+                    setIsHovered(true)
+                    return
+                }
                 setIsHovered(false)
                 playCardOnClick(
                     cardIndex,
@@ -80,7 +76,7 @@ const Card = ({
                 )
             }}
         >
-            {isHovered && <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} />}
+            {isHovered ? <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} /> : null}
             {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}
         </button >
     )

@@ -1,7 +1,8 @@
 import { colors, colorsCards } from '@/constantes/colors';
+import GameContext from '@/contexts/GameContext';
 import { socket } from '@/pages/_app';
 import { Cards, Player } from '@/types';
-import React from 'react'
+import React, { useContext } from 'react'
 
 interface ColorModalProps {
     setIsHovered: React.Dispatch<React.SetStateAction<boolean>>
@@ -19,11 +20,15 @@ const ColorModal = ({
     player
 }: ColorModalProps) => {
 
+    const { uuid: playerUuid } = useContext(GameContext);
+    const isCurrentPlayerTurn = player.uuid === playerUuid;
+    const placement = isCurrentPlayerTurn ? "top-[-60px]" : "bottom-[-60px]";
+
     return (
-        <div className="absolute w-full h-full flex-row flex-wrap top-[50%] left-[50%] transform-gpu -translate-x-1/2 -translate-y-1/2">
+        <div className={`absolute z-50 w-full h-full flex-row left-[50%] transform-gpu -translate-x-1/2 ${placement}`}>
             {colors.map((color, index) => (
                 <button
-                    className="w-5 h-5 hover:border-4 border-white transition-all rounded-2xl"
+                    className="w-10 h-10 hover:border-4 border-white transition-all rounded-2xl"
                     style={{ background: color }}
                     key={index}
                     onClick={() => {

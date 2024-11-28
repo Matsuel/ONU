@@ -8,6 +8,8 @@ interface CardDisplayProps {
 const CardDisplay = ({
     card,
 }: CardDisplayProps) => {
+
+
     return (
         <div>
             {card && card.changecolor && (
@@ -56,7 +58,8 @@ const CardDisplay = ({
                     )}
                 </div>
             )}
-            {card && card.number && (
+            {card && card.number !== undefined && (
+                console.log(card, "card"),
                 <div>
                     {card && (
                         <Image
