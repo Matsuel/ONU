@@ -117,6 +117,15 @@ const changeColor = (
     displayColorsChoice(colorChangeRef);
 };
 
+export const playCardOnClick = (cardIndex: number, card: Cards, player: Player, uuid: string, specialColor?: string) =>
+    socket.emit("playCard", {
+        uuid,
+        cardIndex,
+        card,
+        player,
+        specialColor
+    });
+
 export {
     isCardPlayable,
     drawCard,

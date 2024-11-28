@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { socket } from "@/pages/_app"
-import { isCardPlayable } from "../../cardsFunction"
+import { isCardPlayable, playCardOnClick } from "../../cardsFunction"
 import CardDisplay from "./CardDisplay"
 import CardBack from "./CardBack"
 import ColorModal from "./ColorModal"
@@ -30,27 +29,11 @@ const Card = ({
     const { uuid: playerUuid } = useContext(GameContext)
     const { playerTurn } = useContext(PlayersContext)
 
-    const [isHovered, setIsHovered] = useState(false)
+    const [isSpecialClicked, setIsSpecialClicked] = useState(false)
 
     useEffect(() => {
-        setIsHovered(false)
+        setIsSpecialClicked(false)
     }, [playerTurn, pit])
-
-    const playCardOnClick = (
-        cardIndex: number,
-        card: Cards,
-        player: Player,
-        specialColor?: string
-    ) => {
-
-        socket.emit("playCard", {
-            uuid,
-            cardIndex,
-            card,
-            player,
-            specialColor
-        });
-    };
 
     const isCurrentPlayerTurn = playerIndex === playerTurn;
     const isPlayable = isCardPlayable(card, pit!.peek());
@@ -69,18 +52,19 @@ const Card = ({
                 }`}
             onClick={() => {
                 if (card.special === "changecolor" || card.special === "plus4") {
-                    setIsHovered(true)
+                    setIsSpecialClicked(true)
                     return
                 }
-                setIsHovered(false)
+                setIsSpecialClicked(false)
                 playCardOnClick(
                     cardIndex,
                     card,
                     player,
+                    uuid,
                 )
             }}
         >
-            {isHovered ? <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} /> : null}
+            {isSpecialClicked ? <ColorModal setIsSpecialClicked={setIsSpecialClicked} uuid={uuid} cardIndex={cardIndex} card={card} player={player} /> : null}
             {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}
         </button >
     )

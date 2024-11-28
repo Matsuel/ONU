@@ -1,11 +1,11 @@
+import { playCardOnClick } from '@/cardsFunction';
 import { colors, colorsCards } from '@/constantes/colors';
 import GameContext from '@/contexts/GameContext';
-import { socket } from '@/pages/_app';
 import { Cards, Player } from '@/types';
 import React, { useContext } from 'react'
 
 interface ColorModalProps {
-    setIsHovered: React.Dispatch<React.SetStateAction<boolean>>
+    setIsSpecialClicked: React.Dispatch<React.SetStateAction<boolean>>
     uuid: string
     cardIndex: number
     card: Cards
@@ -13,7 +13,7 @@ interface ColorModalProps {
 }
 
 const ColorModal = ({
-    setIsHovered,
+    setIsSpecialClicked,
     uuid,
     cardIndex,
     card,
@@ -32,14 +32,8 @@ const ColorModal = ({
                     style={{ background: color }}
                     key={index}
                     onClick={() => {
-                        setIsHovered(false)
-                        socket.emit("playCard", {
-                            uuid,
-                            cardIndex,
-                            card,
-                            player,
-                            specialColor: colorsCards[color as keyof typeof colorsCards]
-                        });
+                        setIsSpecialClicked(false)
+                        playCardOnClick(cardIndex, card, player, uuid, colorsCards[color as keyof typeof colorsCards]);
                     }}
                 ></button>
             ))}
