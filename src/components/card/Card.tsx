@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { socket } from "@/pages/_app"
 import { isCardPlayable } from "../../cardsFunction"
 import CardDisplay from "./CardDisplay"
@@ -28,9 +28,13 @@ const Card = ({
 
     const { pit } = useContext(PitContext)
     const { uuid: playerUuid } = useContext(GameContext)
-    const { playerTurn, players } = useContext(PlayersContext)
+    const { playerTurn } = useContext(PlayersContext)
 
     const [isHovered, setIsHovered] = useState(false)
+
+    useEffect(() => {
+        setIsHovered(false)
+    }, [playerTurn, pit])
 
     const playCardOnClick = (
         cardIndex: number,
