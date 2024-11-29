@@ -9,7 +9,6 @@ interface EndGameProps {
 const EndGame = ({
     winner
 }: EndGameProps) => {
-
     const router = useRouter()
 
     return (

@@ -1,7 +1,7 @@
 import PlayersContext from "@/contexts/PlayersContext";
 import { Cards, Player } from "@/types";
 import { useContext } from "react";
-import Card from "../card/Card";
+import Card from "@/components/game/card/Card";
 
 interface PLayerDivPlacementProps {
     player: Player;

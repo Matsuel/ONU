@@ -8,6 +8,8 @@ interface CardDisplayProps {
 const CardDisplay = ({
     card
 }: CardDisplayProps) => {
+
+
     return (
         <div>
             {card && card.changecolor && (
