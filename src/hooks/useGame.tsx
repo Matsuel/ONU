@@ -11,7 +11,6 @@ import LoadingContext from '@/contexts/LoadingContext';
 import GameContext from '@/contexts/GameContext';
 
 const useGame = () => {
-
     const router = useRouter()
     const { setPlayerTurn, setPlayers, setTimer } = useContext(PlayersContext)
     const { setLoading } = useContext(LoadingContext)
@@ -24,7 +23,6 @@ const useGame = () => {
 
     useEffect(() => {
         socket.on("getGame", (data) => {
-            console.log("getGame")
             setPlayerTurn(data.game.playerTurn);
             setTimer(30);
             const newDeck = new LinkedList<Cards>();

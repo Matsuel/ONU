@@ -1,7 +1,7 @@
 import { socket } from '@/pages/_app';
 import GameContext from '@/contexts/GameContext';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
 const useGameOver = () => {
 
@@ -13,7 +13,7 @@ const useGameOver = () => {
             setEnded(true);
             setWinner(data.winner);
         });
-    }, [router]);
+    }, [router, setEnded, setWinner]);
 }
 
 export default useGameOver

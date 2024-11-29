@@ -26,7 +26,7 @@ export default function Game() {
     if (!id || !uuid || loading) return <div>Loading...</div>;
 
     return (
-        <div className="flex flex-col bg-black w-screen min-h-screen text-white relative">
+        <div className="flex flex-col w-screen min-h-screen text-white relative">
 
             {ended && <EndGame winner={"m"} />}
             <Timer />

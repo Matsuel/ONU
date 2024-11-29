@@ -24,8 +24,6 @@ const Card = ({
     uuid,
     playerIndex
 }: CardProps) => {
-
-
     const { pit } = useContext(PitContext)
     const { uuid: playerUuid } = useContext(GameContext)
     const { playerTurn, players } = useContext(PlayersContext)
@@ -33,10 +31,11 @@ const Card = ({
     const [isHovered, setIsHovered] = useState(false)
 
     const handleHover = (value: boolean) => {
-        if (!card.color && players[playerTurn].uuid === player.uuid && players[playerTurn].uuid === playerUuid) { setIsHovered(value); }
+        if (!card.color && players[playerTurn].uuid 
+            === player.uuid && players[playerTurn].uuid 
+            === playerUuid) 
+        { setIsHovered(value); }
     }
-
-    const className = "w-32"
 
     const playCardOnClick = (
         cardIndex: number,
@@ -61,14 +60,11 @@ const Card = ({
     return (
         <button
             key={cardIndex}
-            className={`relative transition-all rounded-xl ${isMyTurn
-                ? isPlayable
-                    ? "cursor-pointer hover:border-4 border-white"
-                    : "opacity-30 cursor-not-allowed"
-                : isCurrentPlayerTurn
-                    ? "opacity-100 cursor-not-allowed"
-                    : "opacity-30 cursor-not-allowed"
-                }`}
+            className={`relative transition-all rounded-xl 
+            ${isMyTurn ? 
+            isPlayable ? "cursor-pointer hover:border-4 border-white" : "opacity-30 cursor-not-allowed" :
+            isCurrentPlayerTurn ? "opacity-100 cursor-not-allowed" : "opacity-30 cursor-not-allowed"
+        }`}
             onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
             onClick={() => {

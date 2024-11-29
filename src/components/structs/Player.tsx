@@ -2,7 +2,6 @@ import Card from "@/components/card/Card";
 import { useContext } from "react";
 import { Cards, Player } from "@/types";
 import PlayersContext from "@/contexts/PlayersContext";
-import GameContext from "@/contexts/GameContext";
 
 interface PlayersProps {
     uuid: string;
@@ -11,7 +10,6 @@ interface PlayersProps {
 const Players = ({
     uuid,
 }: PlayersProps) => {
-
     const { players } = useContext(PlayersContext);
 
     return (
@@ -30,11 +28,18 @@ interface PLayerDivPlacementProps {
 }
 
 const PLayerDivPlacement = ({ player, index, uuid }: PLayerDivPlacementProps) => {
-    const { uuid: playerUuid } = useContext(GameContext);
-    const className = `absolute ${playerUuid === player.uuid ? "bottom-0" : "top-0"} -translate-x-[50%] left-[50%] flex no-wrap`;
+    let className = "fixed flex justify-center ";
+    const bottomPlacement = "w-screen bottom-0";
+    const topPlacement = "w-screen top-0";
+    const leftPlacement = "h-screen flex-col left-0";
+    const rightPlacement = "h-screen flex-col right-0";
+    const playersPlacement = [bottomPlacement, topPlacement, leftPlacement, rightPlacement];
+
+    className += playersPlacement[index];
 
     return (
         <div key={index} className={className}>
+            {player.name}
             {player.cards.map((card: Cards, cardIndex: number) => (
                 <Card
                     key={cardIndex}
