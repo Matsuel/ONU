@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import { useContext, useState } from "react"
 import { socket } from "@/pages/_app"
 import { isCardPlayable } from "../../cardsFunction"
 import CardDisplay from "./CardDisplay"
@@ -14,7 +14,7 @@ interface CardProps {
     cardIndex: number
     player: Player
     uuid: string
-    playerIndex: number
+    sortedPlayers: Player[]
 }
 
 const Card = ({
@@ -22,7 +22,7 @@ const Card = ({
     cardIndex,
     player,
     uuid,
-    playerIndex
+    sortedPlayers
 }: CardProps) => {
     const { pit } = useContext(PitContext)
     const { uuid: playerUuid } = useContext(GameContext)
@@ -43,7 +43,6 @@ const Card = ({
         player: Player,
         specialColor?: string
     ) => {
-
         socket.emit("playCard", {
             uuid,
             cardIndex,
@@ -53,18 +52,27 @@ const Card = ({
         });
     };
 
-    const isCurrentPlayerTurn = playerIndex === playerTurn;
-    const isPlayable = isCardPlayable(card, pit!.peek());
-    const isMyTurn = player.uuid === playerUuid && playerIndex === playerTurn;
+    const notAllowed = "opacity-30 pointer-events-none"
+    const allowed = "opactiy-100 hover:border-4 border-white rounded-xl transition-all"
+    const isPlayable = isCardPlayable(card, pit.peek());
+    const isPlayerTurn = players[playerTurn].uuid === player.uuid;
+    const isCurrentPlayer = sortedPlayers[0].uuid === player.uuid;
+
+    let canClientClickOnCard = "";
+    if (isPlayerTurn) {
+        if (isCurrentPlayer) {
+            canClientClickOnCard = isPlayable ? allowed : notAllowed;
+        } else {
+            canClientClickOnCard = allowed + " pointer-events-none";
+        }
+    } else {
+        canClientClickOnCard = notAllowed;
+    }
 
     return (
         <button
             key={cardIndex}
-            className={`relative transition-all rounded-xl 
-            ${isMyTurn ? 
-            isPlayable ? "cursor-pointer hover:border-4 border-white" : "opacity-30 cursor-not-allowed" :
-            isCurrentPlayerTurn ? "opacity-100 cursor-not-allowed" : "opacity-30 cursor-not-allowed"
-        }`}
+            className={canClientClickOnCard}
             onMouseEnter={() => handleHover(true)}
             onMouseLeave={() => handleHover(false)}
             onClick={() => {
@@ -76,7 +84,13 @@ const Card = ({
                 )
             }}
         >
-            {isHovered && <ColorModal setIsHovered={setIsHovered} uuid={uuid} cardIndex={cardIndex} card={card} player={player} />}
+            {isHovered && <ColorModal 
+                setIsHovered={setIsHovered} 
+                uuid={uuid} 
+                cardIndex={cardIndex} 
+                card={card} 
+                player={player} 
+            />}
             {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}
         </button >
     )

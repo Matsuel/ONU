@@ -13,7 +13,6 @@ interface DeckProps {
 const Deck = ({
     uuid
 }: DeckProps) => {
-
     const { pit, setPit } = useContext(PitContext);
     const { deck, setDeck } = useContext(DeckContext)
     const { playerTurn, players } = useContext(PlayersContext);
@@ -35,7 +34,7 @@ const Deck = ({
                 <Image
                     src="/Cards/back.png"
                     alt="pit"
-                    // className={`${playerUuid === players[playerTurn].uuid ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl" : "opacity-30 cursor-not-allowed"}`}
+                    className={`${playerUuid === players[playerTurn].uuid ? "cursor-pointer hover:border-4 border-white transition-all rounded-xl" : "opacity-30 cursor-not-allowed"}`}
                     width={100}
                     height={100}
                 />

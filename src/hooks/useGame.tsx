@@ -20,7 +20,6 @@ const useGame = () => {
 
     const { id } = router.query
 
-
     useEffect(() => {
         socket.on("getGame", (data) => {
             setPlayerTurn(data.game.playerTurn);

@@ -15,51 +15,25 @@ const Players = ({
     const { uuid: playerUuid } = useContext(GameContext);
 
     const sortWithClientAtIndex0 = (players: Player[], playerUuid: string): Player[] => {
-        if (players[0].uuid === playerUuid) return players;
+        const targetIndex = players.findIndex(player => player.uuid === playerUuid);
 
-        let index = 0;
-        const sortedPlayers: Player[] = [];
-
-        for (let i = 0; i < players.length; i++) {
-            if (players[i].uuid === playerUuid) {
-                sortedPlayers.push(players[i]);
-                index = i + 1;
-                break;
-            }
+        if (targetIndex === -1) {
+            throw new Error(`Player with UUID ${playerUuid} not found`);
         }
 
-        for (let i = index; i < players.length; i++) {
-            sortedPlayers.push(players[i]);
-        }
-
-        let includes = false;
-
-        for (let i = 0; i < players.length; i++) {
-            for (let j = 0; j < sortedPlayers.length; j++) {
-                if (players[i].uuid === sortedPlayers[j].uuid) {
-                    includes = true;
-                    break;
-                }
-            }
-
-            if (!includes) {
-                sortedPlayers.push(players[i]);
-            }
-        }
-
-        if (sortedPlayers.length !== players.length) {
-            throw new Error("Length must be the same");
-        }
-
-        return sortedPlayers;
-    }
+        return [
+            players[targetIndex],
+            ...players.slice(0, targetIndex),
+            ...players.slice(targetIndex + 1)
+        ];
+    };
 
     const sortedPlayers = sortWithClientAtIndex0(players, playerUuid);
 
     return (
         <div>
             {sortedPlayers.map((player, index) => (
-                <PlayersPlacement player={player} index={index} key={index} uuid={uuid} />
+                <PlayersPlacement player={player} index={index} key={index} uuid={uuid} sortedPlayers={sortedPlayers}/>
             ))}
         </div>
     );

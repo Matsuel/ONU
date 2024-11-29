@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Deck from "@/components/structs/Deck";
 import Players from "@/components/structs/Player";
 import Pit from "@/components/structs/Pit";
@@ -12,7 +12,6 @@ import GameContext from "@/contexts/GameContext";
 import LoadingContext from "@/contexts/LoadingContext";
 
 export default function Game() {
-
     const { uuid, ended } = useContext(GameContext)
     const { loading } = useContext(LoadingContext);
 

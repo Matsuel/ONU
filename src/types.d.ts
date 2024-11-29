@@ -1,5 +1,7 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface ProviderProps {
-    children: React.ReactNode
+    children: ode
 }
 
 export interface Cards {
@@ -18,33 +20,33 @@ export interface Player {
 
 interface PlayersContextType {
     players: Player[],
-    setPlayers: React.Dispatch<React.SetStateAction<Player[]>>,
+    setPlayers: Dispatch<SetStateAction<Player[]>>,
     playerTurn: number,
-    setPlayerTurn: React.Dispatch<React.SetStateAction<number>>,
+    setPlayerTurn: Dispatch<SetStateAction<number>>,
     timer: number,
-    setTimer: React.Dispatch<React.SetStateAction<number>>
+    setTimer: Dispatch<SetStateAction<number>>
 }
 
 interface PitProviderType {
     pit: Stack<Cards> | null,
-    setPit: React.Dispatch<React.SetStateAction<Stack<Cards> | null>>
+    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>
 }
 
 interface LoadingContextType {
     loading: boolean;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 interface DeckContextType {
     deck: LinkedList<Cards> | null,
-    setDeck: React.Dispatch<React.SetStateAction<LinkedList<Cards> | null>>
+    setDeck: Dispatch<SetStateAction<LinkedList<Cards> | null>>
 }
 
 interface GameContextType {
     uuid: string;
-    setUuid: React.Dispatch<React.SetStateAction<string>>;
+    setUuid: Dispatch<SetStateAction<string>>;
     ended: boolean;
-    setEnded: React.Dispatch<React.SetStateAction<boolean>>;
+    setEnded: Dispatch<SetStateAction<boolean>>;
     winner: string;
-    setWinner: React.Dispatch<React.SetStateAction<string>>;
+    setWinner: Dispatch<SetStateAction<string>>;
 }

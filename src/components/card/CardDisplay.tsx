@@ -6,7 +6,7 @@ interface CardDisplayProps {
 }
 
 const CardDisplay = ({
-    card,
+    card
 }: CardDisplayProps) => {
     return (
         <div>

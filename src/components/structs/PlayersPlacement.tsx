@@ -7,9 +7,10 @@ interface PLayerDivPlacementProps {
     player: Player;
     index: number;
     uuid: string;
+    sortedPlayers: Player[];
 }
 
-const PlayersPlacement = ({ player, index, uuid }: PLayerDivPlacementProps) => {
+const PlayersPlacement = ({ player, index, uuid, sortedPlayers }: PLayerDivPlacementProps) => {
     const { players } = useContext(PlayersContext);
 
     let className = "fixed flex justify-center ";
@@ -38,7 +39,7 @@ const PlayersPlacement = ({ player, index, uuid }: PLayerDivPlacementProps) => {
                     cardIndex={cardIndex}
                     player={player}
                     uuid={uuid}
-                    playerIndex={index}
+                    sortedPlayers={sortedPlayers}
                 />
             ))}
         </div>
