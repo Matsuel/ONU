@@ -17,7 +17,7 @@ const PlayersPlacement = ({ player, index, uuid }: PLayerDivPlacementProps) => {
     const bottomPlacement = "w-screen bottom-0 -translate-y-[30%]";
     const topPlacement = "w-screen top-0 translate-y-[30%]";
     const leftPlacement = "h-screen left-0 -translate-x-[30%] rotate-90";
-    const rightPlacement = "h-screen right-0 translate-x-[30%] rotate-90";
+    const rightPlacement = "h-screen right-0 translate-x-[30%] -rotate-90";
 
     if (players.length === 2) {
         playersPlacement = [bottomPlacement, topPlacement]; 
