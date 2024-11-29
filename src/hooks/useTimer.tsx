@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { drawCard } from '@/cardsFunction';
+import { drawCard } from '@/utils/cardsFunction';
 import PlayersContext from '@/contexts/PlayersContext';
 import DeckContext from '@/contexts/DeckContext';
 import PitContext from '@/contexts/PitContext';

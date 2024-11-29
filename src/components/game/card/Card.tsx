@@ -1,6 +1,5 @@
-import { useContext, useState } from "react"
-import { socket } from "@/pages/_app"
-import { isCardPlayable } from "../../cardsFunction"
+import { useContext, useEffect, useState } from "react"
+import { isCardPlayable, playCardOnClick } from "../../../utils/cardsFunction"
 import CardDisplay from "./CardDisplay"
 import CardBack from "./CardBack"
 import ColorModal from "./ColorModal"
@@ -28,37 +27,19 @@ const Card = ({
     const { uuid: playerUuid } = useContext(GameContext)
     const { playerTurn, players } = useContext(PlayersContext)
 
-    const [isHovered, setIsHovered] = useState(false)
+    const [isSpecialClicked, setIsSpecialClicked] = useState(false)
 
-    const handleHover = (value: boolean) => {
-        if (!card.color && players[playerTurn].uuid 
-            === player.uuid && players[playerTurn].uuid 
-            === playerUuid) 
-        { setIsHovered(value); }
-    }
-
-    const playCardOnClick = (
-        cardIndex: number,
-        card: Cards,
-        player: Player,
-        specialColor?: string
-    ) => {
-        socket.emit("playCard", {
-            uuid,
-            cardIndex,
-            card,
-            player,
-            specialColor
-        });
-    };
+    useEffect(() => {
+        setIsSpecialClicked(false)
+    }, [playerTurn, pit])
 
     const notAllowed = "opacity-30 pointer-events-none"
     const allowed = "opactiy-100 hover:border-4 border-white rounded-xl transition-all"
     const isPlayable = isCardPlayable(card, pit.peek());
     const isPlayerTurn = players[playerTurn].uuid === player.uuid;
     const isCurrentPlayer = sortedPlayers[0].uuid === player.uuid;
-
     let canClientClickOnCard = "";
+
     if (isPlayerTurn) {
         if (isCurrentPlayer) {
             canClientClickOnCard = isPlayable ? allowed : notAllowed;
@@ -73,24 +54,21 @@ const Card = ({
         <button
             key={cardIndex}
             className={canClientClickOnCard}
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
             onClick={() => {
-                setIsHovered(false)
+                if (card.special === "changecolor" || card.special === "plus4") {
+                    setIsSpecialClicked(true)
+                    return
+                }
+                setIsSpecialClicked(false)
                 playCardOnClick(
                     cardIndex,
                     card,
                     player,
+                    uuid,
                 )
             }}
         >
-            {isHovered && <ColorModal 
-                setIsHovered={setIsHovered} 
-                uuid={uuid} 
-                cardIndex={cardIndex} 
-                card={card} 
-                player={player} 
-            />}
+            {isSpecialClicked ? <ColorModal setIsSpecialClicked={setIsSpecialClicked} uuid={uuid} cardIndex={cardIndex} card={card} player={player} /> : null}
             {player.uuid === playerUuid ? <CardDisplay card={card} /> : <CardBack />}
         </button >
     )

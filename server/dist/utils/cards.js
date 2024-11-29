@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addCardsToPlayer = exports.useSpecialCardEffect = exports.getNextPlayerIndex = exports.isPlayerTurn = exports.playCard = void 0;
+exports.addCardsToPlayer = exports.useSpecialCardEffect = exports.getNextPlayerIndex = exports.isPlayerTurn = exports.playCardFunc = void 0;
 exports.isCardPlayable = isCardPlayable;
 const stack_1 = require("../stack");
-const playCard = (player, cardIndex, pit, players) => {
+const playCardFunc = (player, cardIndex, pit, players) => {
     const cardPlayed = player.cards[cardIndex];
     const newPit = new stack_1.Stack([...pit.getItems(), cardPlayed]);
     const updatedPlayers = players.map((p) => {
@@ -15,7 +15,7 @@ const playCard = (player, cardIndex, pit, players) => {
     player = updatedPlayers.find((p) => p.uuid === player.uuid);
     return { player, newPit, updatedPlayers };
 };
-exports.playCard = playCard;
+exports.playCardFunc = playCardFunc;
 const isPlayerTurn = (player, players, playerTurn) => {
     if (player.uuid !== players[playerTurn].uuid) {
         return false;

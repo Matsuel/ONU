@@ -2,7 +2,7 @@ import { LinkedList } from "../linkedArray";
 import { Stack } from "../stack";
 import { Cards, Player } from "../type";
 
-export const playCard = (
+export const playCardFunc = (
     player: Player,
     cardIndex: number,
     pit: Stack<Cards>,
@@ -65,19 +65,19 @@ export const getNextPlayerIndex = (
     nmbSkip: number,
     isTurnDirectionClockwise: boolean
 ): number => {
-    if (isTurnDirectionClockwise) {
-        if (playerTurn + nmbSkip > players.length - 1) {
-            return playerTurn + nmbSkip - players.length;
-        } else {
-            return playerTurn + nmbSkip;
-        }
+  if (isTurnDirectionClockwise) {
+    if (playerTurn + nmbSkip > players.length - 1) {
+      return playerTurn + nmbSkip - players.length;
     } else {
-        if (playerTurn - nmbSkip < 0) {
-            return playerTurn - nmbSkip + players.length;
-        } else {
-            return playerTurn - nmbSkip;
-        }
+      return playerTurn + nmbSkip;
     }
+  } else {
+    if (playerTurn - nmbSkip < 0) {
+      return playerTurn - nmbSkip + players.length;
+    } else {
+      return playerTurn - nmbSkip;
+    }
+  }
 };
 
 export const useSpecialCardEffect = (

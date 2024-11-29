@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { drawCard, getPitsCardsToDeck } from "@/cardsFunction";
+import { drawCard, getPitsCardsToDeck } from "@/utils/cardsFunction";
 import Image from "next/image";
 import DeckContext from "@/contexts/DeckContext";
 import GameContext from "@/contexts/GameContext";

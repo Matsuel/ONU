@@ -1,10 +1,10 @@
-import { isCardPlayable } from "@/cardsFunction";
+import { isCardPlayable } from "@/utils/cardsFunction";
 import Cards from "@/interface/cards";
 
 describe('Actions', () => {
     test('isCardPlayable: should return true or false depending on cards', () => {
-        let card1: Cards = { number: 3, color: 'g'};
-        let card2: Cards = { number: 4, color: 'g'};
+        let card1: Cards = { number: 3, color: 'g' };
+        let card2: Cards = { number: 4, color: 'g' };
 
         expect(isCardPlayable(card1, card2)).toBe(true);
 

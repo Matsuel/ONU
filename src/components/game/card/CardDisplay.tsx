@@ -56,7 +56,8 @@ const CardDisplay = ({
                     )}
                 </div>
             )}
-            {card && card.number && (
+            {card && card.number !== undefined && (
+                console.log(card, "card"),
                 <div>
                     {card && (
                         <Image

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { onCreateGame, onStartGame } from "@/utils/socketEvents";
 import { useRouter } from "next/router";
-import CreateGameOption from "@/components/createOption/Game";
-import CreateUuidOption from "@/components/createOption/Uuid";
+import CreateGameOption from "@/components/home/createOption/Game";
+import CreateUuidOption from "@/components/home/createOption/Uuid";
 
 const CreateOption = () => {
     const router = useRouter();

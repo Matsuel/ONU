@@ -2,7 +2,7 @@ import { LinkedList } from "@/structs/linkedArray";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { Stack } from "@/structs/stack";
 import { socket } from "@/pages/_app";
-import { Cards, Player } from "./types";
+import { Cards, Player } from "../types";
 
 function isCardPlayable(card1: Cards, card2: Cards): boolean {
     const isJoker = card1.special === "changecolor" || card1.special === "plus4";
@@ -91,35 +91,17 @@ const displayColorsChoice = (
     colorChangeRef.current.classList.toggle("flex");
 };
 
-const changeColor = (
-    newColor: "r" | "y" | "b" | "g",
-    pit: Stack<Cards> | null,
-    setPit: Dispatch<SetStateAction<Stack<Cards> | null>>,
-    colorChangeRef: MutableRefObject<HTMLElement | null>
-) => {
-
-    if (!pit) {
-        console.error("Pit is null");
-        return;
-    }
-
-    const updatedCard = pit.peek();
-    pit.shift();
-
-    const newCard: Cards = {
-        special: updatedCard.special,
-        color: newColor,
-        changecolor: true,
-    };
-    const updatedPit = new Stack<Cards>([...pit.getItems(), newCard]);
-
-    setPit(updatedPit);
-    displayColorsChoice(colorChangeRef);
-};
+export const playCardOnClick = (cardIndex: number, card: Cards, player: Player, uuid: string, specialColor?: string) =>
+    socket.emit("playCard", {
+        uuid,
+        cardIndex,
+        card,
+        player,
+        specialColor
+    });
 
 export {
     isCardPlayable,
     drawCard,
     getPitsCardsToDeck,
-    changeColor,
 };
