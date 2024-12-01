@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import Title from '@/components/ui/Title'
 import { motion } from 'framer-motion'
 import { containerVariants, imageVariants, titleVariants } from '@/constantes/home'
