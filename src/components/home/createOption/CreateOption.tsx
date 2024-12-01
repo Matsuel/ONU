@@ -7,11 +7,14 @@ import CreateUuidOption from "@/components/home/createOption/Uuid";
 const CreateOption = () => {
     const router = useRouter();
     const [uuid, setUuid] = useState("");
+    const [pin, setPin] = useState(0);
 
 
     useEffect(() => {
         onCreateGame((msg) => {
+            console.log("onCreateGame", msg);
             setUuid(msg.uuid);
+            setPin(msg.pin);
             sessionStorage.setItem("uuid", msg.playerUuid);
         });
 
@@ -30,7 +33,7 @@ const CreateOption = () => {
             {uuid === "" ? (
                 <CreateGameOption />
             ) : (
-                <CreateUuidOption uuid={uuid} />
+                <CreateUuidOption uuid={uuid} pin={pin} />
             )}
         </div>
     );

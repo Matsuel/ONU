@@ -32,9 +32,10 @@ const create = async (
     uuid: crypto.randomUUID(),
     isTurnDirectionClockwise: true,
     nmbCardsToDraw: 0,
+    pin: Math.floor(100000 + Math.random() * 900000),
   };
   games.push(game);
-  socket.emit("create", { uuid: game.uuid, playerUuid: game.players[0].uuid });
+  socket.emit("create", { uuid: game.uuid, pin: game.pin, playerUuid: game.players[0].uuid });
 };
 
 export default create;

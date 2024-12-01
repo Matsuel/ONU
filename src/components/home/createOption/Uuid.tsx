@@ -9,13 +9,14 @@ import { useRouter } from "next/router";
 
 interface CreateUuidOptionProps {
     uuid: string;
+    pin: number;
 }
 
-const CreateUuidOption = ({ uuid }: CreateUuidOptionProps) => {
+const CreateUuidOption = ({ uuid, pin }: CreateUuidOptionProps) => {
     const router = useRouter();
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(uuid);
+        navigator.clipboard.writeText(pin.toString());
     };
 
     useEffect(() => {
@@ -30,7 +31,7 @@ const CreateUuidOption = ({ uuid }: CreateUuidOptionProps) => {
     }, [router]);
     return (
         <div className="flex flex-col items-center">
-            <p className="text-white font-bold">uuid: {uuid}</p>
+            <p className="text-white font-bold">Pin de la partie: {pin}</p>
             <div className="flex gap-4">
                 <Button label="Copier le code de la partie" onClick={copyToClipboard} />
                 <Button label="Commencer la partie" onClick={() => emitStartGame(uuid)} />

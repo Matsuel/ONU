@@ -9,8 +9,6 @@ const Loader = () => {
 
     const { loadingTime } = useLoadingTime()
 
-
-
     return (
         <div className="w-full h-full min-h-screen max-h-screen flex flex-col justify-center items-center">
             <div role="status">

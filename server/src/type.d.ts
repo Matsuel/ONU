@@ -21,4 +21,5 @@ export interface Game {
     uuid: string;
     isTurnDirectionClockwise: boolean;
     nmbCardsToDraw: number;
+    pin: number;
 }
