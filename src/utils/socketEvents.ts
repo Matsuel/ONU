@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { socket } from "@/pages/_app";
 import { GameCreationStatus } from "@/types";
 

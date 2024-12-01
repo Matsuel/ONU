@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "concurrently \"node ./server/dist/index.js\" \"next dev\"",
-    "start": "concurrently \"npm run build\" \"node ./server/dist/index.js\" \"next start\"",
+    "start": "concurrently \"npx tsc ./server/src/index.ts\" \"node ./server/dist/index.js\" \"next start\"",
     "lint": "next lint"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18",
+    "sharp": "^0.33.5",
     "socket.io-client": "^4.8.1",
     "tailwind-merge": "^2.5.4",
     "uuid": "^10.0.0"

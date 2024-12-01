@@ -26,7 +26,7 @@ const Loader = () => {
                     onClick={() => router.replace('/')}
                     className="mt-8"
                 >
-                    Retourner à l'accueil
+                    Retourner à l&#39;accueil
                 </Button>
             )}
         </div>

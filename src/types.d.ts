@@ -5,6 +5,7 @@ export interface GameCreationStatus {
     message: string,
     status: string,
     playerUuid: string,
+    pin: number,
 }
 
 export interface ProviderProps {
