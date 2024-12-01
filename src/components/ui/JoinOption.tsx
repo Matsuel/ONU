@@ -58,6 +58,7 @@ const JoinOption = () => {
                     onChange={(e) => setUuid(e.target.value)}
                     value={uuid}
                     className="text-white w-80"
+                    autoFocus
                 />
                 <div className=" flex flex-row gap-4 w-52">
                     <Button

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Title from '@/components/ui/Title'
 import { motion } from 'framer-motion'
 import { containerVariants, imageVariants, titleVariants } from '@/constantes/home'
+import TabTitle from '../game/TabTitle'
 
 const HomeLayout = () => {
 
@@ -11,6 +12,7 @@ const HomeLayout = () => {
             className="flex flex-col gap-48 items-center w-5/6"
             variants={containerVariants}
         >
+            <TabTitle title="ONU" />
             <motion.div variants={titleVariants}>
                 <Title title="ONU" />
             </motion.div>
