@@ -5,6 +5,7 @@ import {
 } from "@/utils/socketEvents";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import PinNumber from "@/components/ui/PinNumber";
 
 
 interface CreateUuidOptionProps {
@@ -31,7 +32,7 @@ const CreateUuidOption = ({ uuid, pin }: CreateUuidOptionProps) => {
     }, [router]);
     return (
         <div className="flex flex-col items-center">
-            <p className="text-white font-bold">Pin de la partie: {pin}</p>
+            <PinNumber pin={pin} />
             <div className="flex gap-4">
                 <Button label="Copier le code de la partie" onClick={copyToClipboard} />
                 <Button label="Commencer la partie" onClick={() => emitStartGame(uuid)} />
