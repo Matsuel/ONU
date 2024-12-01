@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { createServer } from "https";
+import { createServer } from "http";
 import express from "express";
 import { Server } from "socket.io";
 import cors from "cors";
@@ -23,11 +23,10 @@ export const initServer = (): {
         },
     });
 
-    const port = process.env.NEXT_PUBLIC_PORT;
+    const port = process.env.NEXT_PUBLIC_PORT 
     server.listen(port, () => {
-        console.log(`Server running on port ${port}`);
+        console.log(`Server running on https://localhost:${port}`);
     });
 
     return { io };
 };
-
