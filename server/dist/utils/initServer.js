@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initServer = void 0;
 require("dotenv/config");
-const https_1 = require("https");
+const http_1 = require("http");
 const express_1 = __importDefault(require("express"));
 const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
@@ -15,7 +15,7 @@ const initServer = () => {
         origin: "*",
         methods: ["GET", "POST"],
     }));
-    const server = (0, https_1.createServer)(app);
+    const server = (0, http_1.createServer)(app);
     const io = new socket_io_1.Server(server, {
         cors: {
             origin: "*",
@@ -24,7 +24,7 @@ const initServer = () => {
     });
     const port = process.env.NEXT_PUBLIC_PORT;
     server.listen(port, () => {
-        console.log(`Server running on port ${port}`);
+        console.log(`Server running on https://localhost:${port}`);
     });
     return { io };
 };
