@@ -1,9 +1,10 @@
-### ONU
+# ONU
+
+## Installation
 
 ```
 docker compose build
-
-then
-
 docker compose up
 ```
+
+`Absolutly not inspired by the game 'UNO'`
