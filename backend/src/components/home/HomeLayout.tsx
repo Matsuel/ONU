@@ -4,6 +4,7 @@ import Title from '@/components/ui/Title'
 import { motion } from 'framer-motion'
 import { containerVariants, imageVariants, titleVariants } from '@/constantes/home'
 import TabTitle from '../game/TabTitle'
+import CardDisplay from '../game/card/CardDisplay'
 
 const HomeLayout = () => {
 
@@ -24,17 +25,13 @@ const HomeLayout = () => {
                     <h2 className="font-semibold text-3xl">
                         Bienvenue sur le jeu du UNO
                     </h2>
-                    <h3 className="font-semibold text-3xl">
-                        Sélectionnez une option pour continuer !
-                    </h3>
                 </motion.div>
-                <motion.div variants={imageVariants}>
-                    <Image
-                        src="/Home/home_pic.png"
-                        alt="Home Picture"
-                        width={300}
-                        height={300}
-                    />
+                <motion.div variants={imageVariants} className='flex flex-row gap-1'>
+                    <CardDisplay card={{'color': 'g','number': 0}}/>
+                    <CardDisplay card={{'color': 'r','special': 'rev'}}/>
+                    <CardDisplay card={{'special': 'plus4'}}/>
+                    <CardDisplay card={{'color': 'b','number': 8}}/>
+                    <CardDisplay card={{'special': 'changecolor'}}/>
                 </motion.div>
             </div>
         </motion.div>
