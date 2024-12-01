@@ -29,16 +29,17 @@ export default function Game() {
         <div className="flex flex-col w-screen min-h-screen text-white relative">
 
             {ended && <EndGame winner={"m"} />}
-            <Timer />
 
             <Players
                 uuid={id[0] as string}
             />
 
-            <div className="fixed flex flex-row ga-x-5 left-[50%] -translate-x-[50%] top-[50%] -translate-y-[50%]">
+            <div className="fixed flex flex-row ga-x-5 gap-5 left-[50%] -translate-x-[50%] top-[50%] -translate-y-[50%]">
                 <Deck
                     uuid={id[0] as string}
                 />
+
+                <Timer />
 
                 <Pit />
             </div>
