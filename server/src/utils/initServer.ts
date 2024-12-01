@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { createServer } from "http";
+import { createServer } from "https";
 import express from "express";
 import { Server } from "socket.io";
 import cors from "cors";
@@ -10,7 +10,7 @@ export const initServer = (): {
     const app = express();
 
     app.use(cors({
-        origin: "https://onu.alexandrebel.me", 
+        origin: "*", 
         methods: ["GET", "POST"], 
     }));
 
@@ -18,12 +18,12 @@ export const initServer = (): {
 
     const io = new Server(server, {
         cors: {
-            origin: "https://onu.alexandrebel.me", 
+            origin: "*", 
             methods: ["GET", "POST"],
         },
     });
 
-    const port = process.env.NEXT_PUBLIC_PORT || 8000;
+    const port = process.env.NEXT_PUBLIC_PORT;
     server.listen(port, () => {
         console.log(`Server running on port ${port}`);
     });
