@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   server:
     build:
@@ -5,6 +7,10 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "8000:8000"
+    networks:
+      - app_network
+    environment:
+      - BACKEND_URL=http://backend:3000 # Use the service name "backend" as the hostname
 
   backend:
     build:
@@ -12,3 +18,10 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - "3000:3000"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+

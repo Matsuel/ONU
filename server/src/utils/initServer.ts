@@ -8,18 +8,26 @@ export const initServer = (): {
     io: Server;
 } => {
     const app = express();
-    app.use(cors());
+
+    app.use(cors({
+        origin: "https://onu.alexandrebel.me", 
+        methods: ["GET", "POST"], 
+    }));
+
     const server = createServer(app);
+
     const io = new Server(server, {
         cors: {
-            origin: "*",
+            origin: "https://onu.alexandrebel.me", 
+            methods: ["GET", "POST"],
         },
     });
 
-    const port = process.env.NEXT_PUBLIC_PORT;
+    const port = process.env.NEXT_PUBLIC_PORT || 8000;
     server.listen(port, () => {
         console.log(`Server running on port ${port}`);
     });
 
     return { io };
 };
+
