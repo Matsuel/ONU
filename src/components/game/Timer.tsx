@@ -14,12 +14,10 @@ const Timer = () => {
     useTimer({ id: id ? id[0] : undefined, uuid });
 
     return (
-        <div className="w-10 flex items-center justify-center">
-            {players[playerTurn].uuid === uuid && (
-                <h1 className={`text-white text-4xl font-semibold ${timer <= 10 && "text-[#ff0000]"}`}>
-                    {timer}
-                </h1>
-            )}
+        <div className="w-10 flex flex-col items-center justify-center">
+            <h1 className={`text-white text-4xl font-semibold ${timer <= 10 && "text-[#ff0000]"} ${players[playerTurn].uuid !== uuid && "text-transparent"}`}>
+                {timer}
+            </h1>
         </div>
     )
 }
