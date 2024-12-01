@@ -10,6 +10,7 @@ import useGameOver from "@/hooks/useGameOver";
 import Timer from "@/components/game/Timer";
 import GameContext from "@/contexts/GameContext";
 import LoadingContext from "@/contexts/LoadingContext";
+import Loader from "@/components/ui/Loader";
 
 export default function Game() {
     const { uuid, ended } = useContext(GameContext)
@@ -22,7 +23,7 @@ export default function Game() {
     useUuid();
     useGameOver();
 
-    if (!id || !uuid || loading) return <div>Loading...</div>;
+    if (!id || !uuid || loading) return <Loader />;
 
     return (
         <div className="flex flex-col w-screen min-h-screen text-white relative">
