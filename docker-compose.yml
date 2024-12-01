@@ -1,0 +1,14 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
