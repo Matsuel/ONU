@@ -10,7 +10,13 @@ interface PLayerDivPlacementProps {
     sortedPlayers: Player[];
 }
 
-const PlayersPlacement = ({ player, index, uuid, sortedPlayers }: PLayerDivPlacementProps) => {
+const PlayersPlacement = ({
+    player,
+    index,
+    uuid,
+    sortedPlayers
+}: PLayerDivPlacementProps) => {
+
     const { players } = useContext(PlayersContext);
 
     let className = "fixed flex justify-center ";
@@ -21,12 +27,12 @@ const PlayersPlacement = ({ player, index, uuid, sortedPlayers }: PLayerDivPlace
     const rightPlacement = "h-screen right-0 translate-x-[30%] -rotate-90";
 
     if (players.length === 2) {
-        playersPlacement = [bottomPlacement, topPlacement]; 
+        playersPlacement = [bottomPlacement, topPlacement];
     } else if (players.length === 3) {
         playersPlacement = [bottomPlacement, leftPlacement, topPlacement];
     } else if (players.length === 4) {
         playersPlacement = [bottomPlacement, leftPlacement, topPlacement, rightPlacement];
-    }    
+    }
 
     className += playersPlacement[index];
 

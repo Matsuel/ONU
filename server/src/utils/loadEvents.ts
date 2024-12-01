@@ -13,7 +13,6 @@ const loadEvents = async (socket: Socket, games: any) => {
           .match(/\(([^)]+)\)/)[1]
           .split(",")
           .map((arg: string) => arg.trim());
-        console.log("Event:", event, "Args:", args);
         socket.on(event, (data: any) => {
           eventFunction.default(data, socket, games);
         });

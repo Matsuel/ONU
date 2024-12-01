@@ -37,8 +37,9 @@ const create = (data, socket, games) => __awaiter(void 0, void 0, void 0, functi
         uuid: crypto_1.default.randomUUID(),
         isTurnDirectionClockwise: true,
         nmbCardsToDraw: 0,
+        pin: Math.floor(100000 + Math.random() * 900000),
     };
     games.push(game);
-    socket.emit("create", { uuid: game.uuid, playerUuid: game.players[0].uuid });
+    socket.emit("create", { uuid: game.uuid, pin: game.pin, playerUuid: game.players[0].uuid });
 });
 exports.default = create;

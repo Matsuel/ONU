@@ -11,9 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const join = (data, socket, games) => __awaiter(void 0, void 0, void 0, function* () {
     const { uuid, username } = data;
-    console.log("join", uuid);
-    console.log("join", username);
-    const game = games.find((g) => g.uuid === uuid);
+    console.log("join", uuid, username);
+    const game = games.find((g) => g.pin.toString() === uuid.toString());
     if (game) {
         // Check if player already exists
         const player = game.players.find((p) => p.name === username);

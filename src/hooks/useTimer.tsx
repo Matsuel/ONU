@@ -17,7 +17,6 @@ const useTimer = ({
     const { players, playerTurn, setTimer } = useContext(PlayersContext);
     const { deck } = useContext(DeckContext);
     const { pit } = useContext(PitContext);
-    return;
 
     useEffect(() => {
         if (!uuid || players.length === 0 || !id) return;

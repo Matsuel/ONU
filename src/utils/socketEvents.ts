@@ -1,5 +1,7 @@
+//@ts-nocheck
 import { socket } from "@/pages/_app";
 import { GameCreationStatus } from "@/types";
+
 
 export const emitCreateGame = (username: string) => {
     socket.emit("create", { username });

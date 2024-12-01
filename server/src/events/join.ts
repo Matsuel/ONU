@@ -7,9 +7,8 @@ const join = async (
   games: Game[]
 ): Promise<void> => {
   const { uuid, username } = data;
-  console.log("join", uuid);
-  console.log("join", username);
-  const game = games.find((g) => g.uuid === uuid);
+  console.log("join", uuid, username);
+  const game = games.find((g) => g.pin.toString() === uuid.toString());
   if (game) {
     // Check if player already exists
     const player = game.players.find((p) => p.name === username);

@@ -42,7 +42,6 @@ const loadEvents = (socket, games) => __awaiter(void 0, void 0, void 0, function
                 .match(/\(([^)]+)\)/)[1]
                 .split(",")
                 .map((arg) => arg.trim());
-            console.log("Event:", event, "Args:", args);
             socket.on(event, (data) => {
                 eventFunction.default(data, socket, games);
             });
