@@ -1,10 +1,16 @@
 import Head from 'next/head'
 import React from 'react'
 
-const TabTitle = () => {
+interface TabTitleProps {
+    title: string
+}
+
+const TabTitle = ({
+    title
+}: TabTitleProps) => {
     return (
         <Head>
-            <title>ONU Game</title>
+            <title>{title}</title>
         </Head>
     )
 }

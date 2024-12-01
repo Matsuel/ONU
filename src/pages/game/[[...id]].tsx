@@ -7,10 +7,11 @@ import useGame from "@/hooks/useGame";
 import EndGame from "@/components/game/EndGame";
 import useUuid from "@/hooks/useUuid";
 import useGameOver from "@/hooks/useGameOver";
-import Timer from "@/components/game/Timer";
 import GameContext from "@/contexts/GameContext";
 import LoadingContext from "@/contexts/LoadingContext";
 import Loader from "@/components/ui/Loader";
+import GameInfos from "@/components/game/GameInfos";
+import TabTitle from "@/components/game/TabTitle";
 
 export default function Game() {
     const { uuid, ended } = useContext(GameContext)
@@ -27,6 +28,7 @@ export default function Game() {
 
     return (
         <div className="flex flex-col w-screen min-h-screen text-white relative">
+            <TabTitle title="Partie" />
 
             {ended && <EndGame winner={"m"} />}
 
@@ -39,7 +41,7 @@ export default function Game() {
                     uuid={id[0] as string}
                 />
 
-                <Timer />
+                <GameInfos />
 
                 <Pit />
             </div>

@@ -3,7 +3,6 @@ import "@/styles/globals.css";
 import { AppProps } from "next/app";
 import io from "socket.io-client";
 import Providers from "@/providers";
-import TabTitle from "@/components/game/TabTitle";
 
 export default function App({
     Component,
@@ -12,7 +11,6 @@ export default function App({
 
     return (
         <Providers>
-            <TabTitle />
             <Component {...pageProps} />
         </Providers>
     );
