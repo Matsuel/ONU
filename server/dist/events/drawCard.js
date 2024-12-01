@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const linkedArray_1 = require("../linkedArray");
 const stack_1 = require("../stack");
 const cards_1 = require("../utils/cards");
-const drawCard = (data, socket, games) => __awaiter(void 0, void 0, void 0, function* () {
+const drawCard = (data, games) => __awaiter(void 0, void 0, void 0, function* () {
     const { uuid, pit, deck, players, playerTurn } = data;
     const deckGame = new linkedArray_1.LinkedList();
     deckGame.fromJSON(deck);
