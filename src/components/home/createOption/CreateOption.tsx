@@ -12,7 +12,6 @@ const CreateOption = () => {
 
     useEffect(() => {
         onCreateGame((msg) => {
-            console.log("onCreateGame", msg);
             setUuid(msg.uuid);
             setPin(msg.pin);
             sessionStorage.setItem("uuid", msg.playerUuid);

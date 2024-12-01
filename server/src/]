@@ -1,6 +1,4 @@
-import { Socket } from 'socket.io';
-import { LinkedList } from './linkedArray';
-import { Stack } from './stack';
+import { Socket } from "socket.io";
 
 export interface Cards {
     color?: 'r' | 'g' | 'b' | 'y',
