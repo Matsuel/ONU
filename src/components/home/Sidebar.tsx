@@ -27,7 +27,7 @@ const Sidebar = ({
                 <div className="border border-white mx-4"></div>
             </div>
             <div className="flex flex-col gap-5">
-                {homeLinks.map((link, index) => (
+                {homeLinks.map((link) => (
                     <Button
                         key={link.title}
                         label={link.title}

@@ -1,5 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 
+export interface GameCreationStatus {
+    uuid: string,
+    message: string,
+    status: string,
+    playerUuid: string,
+}
+
 export interface ProviderProps {
     children: ode
 }

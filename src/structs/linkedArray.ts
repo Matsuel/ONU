@@ -1,3 +1,8 @@
+type LinkedNodeJSON<T> = {
+    elem: T;
+    next: LinkedNodeJSON<T> | null;
+}
+
 class LinkedNode<T> {
     private elem: T;
     public next: LinkedNode<T> | null;
@@ -38,8 +43,8 @@ export class LinkedList<T> {
         this.len++;
     }
 
-    public fromJSON(json: { head: { elem: T; next: any } | null; len: number }): void {
-        this.head = null; // Clear any existing elements in the list
+    public fromJSON(json: { head: LinkedNodeJSON<T> | null; len: number }): void {
+        this.head = null; 
         this.len = 0;
 
         let current = json.head;
@@ -48,16 +53,14 @@ export class LinkedList<T> {
             current = current.next;
         }
 
-        // Set the length based on the provided JSON
         this.len = json.len;
     }
 
     public getHead(): T {
         if (this.head !== null) {
             return this.head.getElement();
-        } else {
-            throw new Error(`${this.constructor.name} has no head.`);
-        }
+        } 
+        throw new Error(`${this.constructor.name} has no head.`);
     }
 
     public traverse(): T[] {
@@ -88,4 +91,47 @@ export class LinkedList<T> {
         this.len--;
         return removedHead.getElement();
     }
+
+    public fillDeck(): void {
+        const colors = ['r', 'g', 'b', 'y'];
+        const coloredSpecialCards = ['plus2', 'skip', 'rev'];
+        const specialCards = ['plus4', 'changecolor'];
+
+        const newDeck: T[] = [];
+
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < colors.length; j++) {
+                newDeck.push({ color: colors[j], number: i } as T);
+
+                if (i !== 0) {
+                    newDeck.push({ color: colors[j], number: i } as T);
+                }
+            }
+        }
+
+        for (let i = 0; i < coloredSpecialCards.length; i++) {
+            for (let j = 0; j < colors.length; j++) {
+                newDeck.push({ color: colors[j], special: coloredSpecialCards[i] } as T);
+                newDeck.push({ color: colors[j], special: coloredSpecialCards[i] } as T);
+            }
+        }
+
+        for (let i = 0; i < specialCards.length; i++) {
+            for (let j = 0; j < 4; j++) {
+                newDeck.push({ special: specialCards[i] } as T);
+            }
+        }
+
+        for (let i = newDeck.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const temp = newDeck[i];
+            newDeck[i] = newDeck[j];
+            newDeck[j] = temp;
+        }
+
+        newDeck.forEach(element => {
+            this.append(element);
+        });
+    }
 }
+

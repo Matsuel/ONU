@@ -5,12 +5,11 @@ import { useRouter } from "next/router";
 import Trash from "@/assets/Trash";
 import Clipboard from "@/assets/Clipboard";
 import Input from "./Input";
-import Title from "@/components/ui/Title";
+import { GameCreationStatus } from "@/types";
 
 const JoinOption = () => {
     const [username, setUsername] = useState("");
     const [uuid, setUuid] = useState("");
-    const [gameUuid, setGameUuid] = useState("");
 
     const [message, setMessage] = useState("");
     const router = useRouter();
@@ -26,19 +25,17 @@ const JoinOption = () => {
     };
 
     useEffect(() => {
-        onJoinGame((msg) => {
+        onJoinGame((msg: GameCreationStatus) => {
             if (msg.status) {
                 setMessage(msg.uuid);
-                setGameUuid(msg.uuid);
                 sessionStorage.setItem("uuid", msg.playerUuid);
             } else {
                 setMessage(msg.message);
             }
         });
 
-        onStartGame((msg) => {
+        onStartGame((msg: GameCreationStatus) => {
             if (msg.uuid) {
-                setGameUuid(msg.uuid);
                 router.push({ pathname: `/game/${msg.uuid}` });
             } else {
                 console.error("Game not found");

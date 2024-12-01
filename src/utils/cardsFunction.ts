@@ -1,5 +1,5 @@
 import { LinkedList } from "@/structs/linkedArray";
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Stack } from "@/structs/stack";
 import { socket } from "@/pages/_app";
 import { Cards, Player } from "../types";
@@ -77,18 +77,6 @@ const getPitsCardsToDeck = (
     setDeck(updatedDeck);
 
     socket.emit("getPitsCardsToDeck", { pit, deck: updatedDeck });
-};
-
-const displayColorsChoice = (
-    colorChangeRef: MutableRefObject<HTMLElement | null>
-) => {
-    if (colorChangeRef.current === null) {
-        console.error("colorChangeRef is null");
-        return;
-    }
-
-    colorChangeRef.current.classList.toggle("hidden");
-    colorChangeRef.current.classList.toggle("flex");
 };
 
 export const playCardOnClick = (cardIndex: number, card: Cards, player: Player, uuid: string, specialColor?: string) =>
