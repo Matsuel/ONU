@@ -9,6 +9,20 @@ import BackgroundLayout from "@/components/home/BackgroundLayout";
 export default function Home() {
     const [isExiting, setIsExiting] = useState(false);
     const [page, setPage] = useState<"home" | "join" | "create">("home");
+    const metadata = {
+        "home": {
+            title: "ONU",
+            subtitle: "Bienvenue sur le jeu du UNO"
+        },
+        "join": {
+            title: "Rejoindre une partie",
+            subtitle: "Entrez le code de la partie"
+        },
+        "create": {
+            title: "Créer une partie",
+            subtitle: "Entrez votre nom"
+        }
+    };
 
     const handleNavigation = (page: "home" | "join" | "create") => {
         setIsExiting(true);
@@ -20,7 +34,7 @@ export default function Home() {
 
 
     return (
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" >
             {!isExiting && (
                 <motion.div
                     className="text-white h-screen w-screen flex flex-row"
@@ -29,7 +43,7 @@ export default function Home() {
                     animate="visible"
                     exit="exit"
                 >
-                    <BackgroundLayout title="ONU" subtitle="Bienvenue sur le jeu du UNO">
+                    <BackgroundLayout title={metadata[page].title} subtitle={metadata[page].subtitle}>
                         {page === "home" ? (
                             <HomeLayout handleNavigation={handleNavigation} />
                         ) : page === "join" ? (
@@ -39,7 +53,8 @@ export default function Home() {
                         )}
                     </BackgroundLayout>
                 </motion.div>
-            )}
-        </AnimatePresence>
+            )
+            }
+        </AnimatePresence >
     );
 }
