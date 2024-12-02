@@ -10,6 +10,13 @@ const initServer = () => {
         cors: {
             origin: "onu.alexandrebel.me",
             methods: ["GET", "POST"],
+            credentials: true,
+            allowedHeaders: [
+                "Access-Control-Allow-Origin",
+                "Access-Control-Allow-Methods",
+                "Access-Control-Allow-Headers",
+                "Access-Control-Allow-Credentials"
+            ]
         },
     });
     const port = process.env.NEXT_PUBLIC_PORT;
