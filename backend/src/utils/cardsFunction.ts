@@ -88,6 +88,24 @@ export const playCardOnClick = (cardIndex: number, card: Cards, player: Player, 
         specialColor
     });
 
+
+export const cardToImage = (card: Cards | null) => {
+    const fileExtension = ".svg";
+    let cardImageName = "";
+    if (card && card.changecolor) {
+        cardImageName = card.special + fileExtension;
+    } else if (card && card.special && card.special === "plus4") {
+        cardImageName = card.special + fileExtension;
+    } else if (card && card.special && card.special === "changecolor") {
+        cardImageName = card.special + fileExtension;
+    } else if (card && card.special && card.special !== "plus4" && card.special !== "changecolor") {
+        cardImageName = card.special + card.color + fileExtension;
+    } else if (card && card.color !== undefined && card.number !== undefined) {
+        cardImageName = card.number + card.color + fileExtension;
+    }
+    return cardImageName;
+}
+
 export {
     isCardPlayable,
     drawCard,

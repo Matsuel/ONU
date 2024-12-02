@@ -14,7 +14,7 @@ const Button = ({
         <button
             {...props}
             className={cn(
-                "border border-white p-4 rounded-full bg-transparent hover:bg-white hover:bg-opacity-10 transition-all duration-300",
+                "border border-white p-4 rounded-xl bg-transparent hover:bg-white hover:bg-opacity-10 transition-all duration-300",
                 className
             )}
         >
