@@ -7,10 +7,10 @@ export const divPlacement = (
     let className = "fixed flex justify-center ";
 
     let playersPlacement = [""];
-    const bottomPlacement = "w-screen bottom-0 -translate-y-[25%]";
-    const topPlacement = "w-screen top-0 translate-y-[25%]";
-    const leftPlacement = "h-screen left-0 -translate-x-[45%] rotate-90";
-    const rightPlacement = "h-screen right-0 translate-x-[45%] -rotate-90";
+    const bottomPlacement = "w-screen bottom-0 -translate-y-[25%] ";
+    const topPlacement = "w-screen top-0 translate-y-[25%] ";
+    const leftPlacement = "h-screen left-0 -translate-x-[45%] rotate-90 ";
+    const rightPlacement = "h-screen right-0 translate-x-[45%] -rotate-90 ";
 
     if (players.length === 2) {
         playersPlacement = [bottomPlacement, topPlacement];
