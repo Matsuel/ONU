@@ -4,9 +4,9 @@ import React from 'react'
 const CardBack = () => {
     return (
         <Image
-            src="/Cards/back.png"
+            src="/Cards/back.svg"
             alt="back card"
-            className='w-24 cursor-not-allowed'
+            className='w-25 cursor-not-allowed'
             width={100}
             height={100}
         />
