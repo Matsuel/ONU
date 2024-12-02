@@ -6,10 +6,10 @@ const http_1 = require("http");
 const socket_io_1 = require("socket.io");
 const initServer = () => {
     const server = (0, http_1.createServer)();
-    const io = new socket_io_1.Server();
+    const io = new socket_io_1.Server(server);
     const port = process.env.NEXT_PUBLIC_PORT;
     server.listen(port, () => {
-        console.log(`Server running on https://localhost:${port}`);
+        console.log(`Server running on http://localhost:${port}`);
     });
     return { io };
 };
