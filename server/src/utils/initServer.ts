@@ -10,23 +10,25 @@ export const initServer = (): {
     const app = express();
 
     app.use(cors({
-        origin: "*", 
-        methods: ["GET", "POST"], 
+        origin: "*",  
+        methods: ["GET", "POST", "OPTIONS"],  
+        allowedHeaders: ["DNT", "User-Agent", "X-Requested-With", "If-Modified-Since", "Cache-Control", "Content-Type", "Range"],  
     }));
 
     const server = createServer(app);
 
     const io = new Server(server, {
         cors: {
-            origin: "*", 
-            methods: ["GET", "POST"],
+            origin: "*",  
+            methods: ["GET", "POST", "OPTIONS"],  
         },
     });
 
-    const port = process.env.NEXT_PUBLIC_PORT 
+    const port = process.env.NEXT_PUBLIC_PORT;
     server.listen(port, () => {
         console.log(`Server running on https://localhost:${port}`);
     });
 
     return { io };
 };
+
