@@ -1,16 +1,22 @@
 import React from 'react'
 import Title from '@/components/ui/Title'
 import { motion } from 'framer-motion'
-import { containerVariants, imageVariants, titleVariants } from '@/constantes/home'
+import { containerVariants, titleVariants } from '@/constantes/home'
 import TabTitle from '../game/TabTitle'
 import Button from '../ui/Button'
 
-const HomeLayout = () => {
+interface Props {
+    handleNavigation: (page: "home" | "join" | "create") => void
+}
+
+const HomeLayout = ({
+    handleNavigation
+}: Props) => {
 
     return (
         <motion.div
             className="flex flex-col pl-24 w-full bg-no-repeat bg-right bg-contain"
-            style={{backgroundImage: "url('/Home/cards.png')"}}
+            style={{ backgroundImage: "url('/Home/cards.png')" }}
             variants={containerVariants}
         >
             <TabTitle title="ONU" />
@@ -33,8 +39,8 @@ const HomeLayout = () => {
             >
                 <h3 className='font-bold text-2xl'>OPTIONS</h3>
                 <div className="flex flex-col gap-6">
-                    <Button label="Rejoindre une partie" className="w-1/4" />
-                    <Button label="Créer une partie" className="w-1/4" />
+                    <Button label="Rejoindre une partie" className="w-1/4" onClick={() => handleNavigation("join")} />
+                    <Button label="Créer une partie" className="w-1/4" onClick={() => handleNavigation("create")} />
                 </div>
             </motion.div>
         </motion.div>

@@ -31,7 +31,7 @@ export default function Home() {
                 >
 
                     {page === "home" ? (
-                        <HomeLayout />
+                        <HomeLayout handleNavigation={handleNavigation} />
                     ) : page === "join" ? (
                         <Join />
                     ) : (
