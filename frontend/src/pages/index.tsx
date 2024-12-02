@@ -4,6 +4,7 @@ import HomeLayout from "@/components/home/HomeLayout";
 import { containerVariants } from "@/constantes/home";
 import Create from "@/components/home/Create";
 import Join from "@/components/home/Join";
+import BackgroundLayout from "@/components/home/BackgroundLayout";
 
 export default function Home() {
     const [isExiting, setIsExiting] = useState(false);
@@ -28,14 +29,15 @@ export default function Home() {
                     animate="visible"
                     exit="exit"
                 >
-
-                    {page === "home" ? (
-                        <HomeLayout handleNavigation={handleNavigation} />
-                    ) : page === "join" ? (
-                        <Join />
-                    ) : (
-                        <Create />
-                    )}
+                    <BackgroundLayout title="ONU" subtitle="Bienvenue sur le jeu du UNO">
+                        {page === "home" ? (
+                            <HomeLayout handleNavigation={handleNavigation} />
+                        ) : page === "join" ? (
+                            <Join />
+                        ) : (
+                            <Create />
+                        )}
+                    </BackgroundLayout>
                 </motion.div>
             )}
         </AnimatePresence>
