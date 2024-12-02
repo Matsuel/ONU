@@ -48,7 +48,7 @@ const JoinOption = () => {
     }, [router]);
 
     return (
-        <div className="flex flex-col gap-4 w-full pt-36">
+        <div className="flex flex-col gap-4 w-full pt-24">
             {gameUuid && <PinNumber pin={gameUuid} />}
             {message && <p className="flex">{message}</p>}
             <div className="flex flex-row items-end gap-8">
