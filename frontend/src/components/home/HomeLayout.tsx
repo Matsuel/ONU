@@ -1,9 +1,8 @@
 import React from 'react'
 import Title from '@/components/ui/Title'
 import { motion } from 'framer-motion'
-import { containerVariants, imageVariants, titleVariants } from '@/constantes/home'
+import { containerVariants, titleVariants } from '@/constantes/home'
 import TabTitle from '../game/TabTitle'
-import CardDisplay from '../game/card/CardDisplay'
 import CardsRow from '../game/card/CardsRow'
 
 const HomeLayout = () => {
