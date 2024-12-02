@@ -1,5 +1,7 @@
 # ONU
 
+A simple card game made with Next.js, Socket.io, and Typescript.
+
 ## Installation
 
 ```
