@@ -7,7 +7,7 @@ export const initServer = (): {
 } => {
     const server = createServer();
 
-    const io = new Server();
+    const io = new Server(server);
 
     const port = process.env.NEXT_PUBLIC_PORT
     server.listen(port, () => {
