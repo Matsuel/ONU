@@ -27,7 +27,7 @@ const EndGame = ({
 
                 <div className='flex flex-row justify-center mt-10'>
                     <Button onClick={() => router.replace('/')}>
-                        Retourner à l'accueil
+                        Retourner à l&apos;accueil
                     </Button>
                 </div>
 
