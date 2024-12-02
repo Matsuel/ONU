@@ -29,7 +29,6 @@ export default function Home() {
                     animate="visible"
                     exit="exit"
                 >
-                    <Sidebar setPage={handleNavigation} />
 
                     {page === "home" ? (
                         <HomeLayout />
