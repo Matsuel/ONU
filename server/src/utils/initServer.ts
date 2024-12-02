@@ -10,7 +10,7 @@ export const initServer = (): {
     const app = express();
 
     app.use(cors({
-        origin: "*",  
+        origin: "onu.alexandrebel.me",  
         methods: ["GET", "POST", "OPTIONS"],  
         allowedHeaders: ["DNT", "User-Agent", "X-Requested-With", "If-Modified-Since", "Cache-Control", "Content-Type", "Range"],  
     }));
@@ -19,7 +19,7 @@ export const initServer = (): {
 
     const io = new Server(server, {
         cors: {
-            origin: "*",  
+            origin: "onu.alexandrebel.me",  
             methods: ["GET", "POST", "OPTIONS"],  
         },
     });
