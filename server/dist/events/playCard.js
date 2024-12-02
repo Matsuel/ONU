@@ -22,7 +22,7 @@ const playCard = (data, socket, games) => __awaiter(void 0, void 0, void 0, func
     }
     if (card.special !== undefined) {
         let { newPit: pit2, updatedPlayers, } = (0, cards_1.playCardFunc)(player, cardIndex, game.pit, game.players);
-        const { playerTurn: playerTurn2, players: players3 } = (0, cards_1.useSpecialCardEffect)(card, game.playerTurn, updatedPlayers, game.isTurnDirectionClockwise, game.nmbCardsToDraw, game.deck);
+        const { playerTurn: playerTurn2, players: players3, isTurnDirectionClockwise } = (0, cards_1.useSpecialCardEffect)(card, game.playerTurn, updatedPlayers, game.isTurnDirectionClockwise, game.nmbCardsToDraw, game.deck);
         const playerTurn = playerTurn2;
         if ((0, game_1.checkIfPlayerHasWon)(players3)) {
             game.players.forEach((p) => {
@@ -30,7 +30,7 @@ const playCard = (data, socket, games) => __awaiter(void 0, void 0, void 0, func
             });
         }
         game.players.forEach((p) => {
-            p.socket.emit("getGame", { game: { players: players3.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: game.deck, pit: pit2, isTurnDirectionClockwise: game.isTurnDirectionClockwise } });
+            p.socket.emit("getGame", { game: { players: players3.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: game.deck, pit: pit2, isTurnDirectionClockwise: isTurnDirectionClockwise } });
         });
         games.forEach((g) => {
             if (g.uuid === uuid) {
@@ -41,7 +41,7 @@ const playCard = (data, socket, games) => __awaiter(void 0, void 0, void 0, func
                 g.playerTurn = playerTurn;
                 g.deck = game.deck;
                 g.pit = pit2;
-                g.isTurnDirectionClockwise = game.isTurnDirectionClockwise;
+                g.isTurnDirectionClockwise = isTurnDirectionClockwise;
                 g.nmbCardsToDraw = game.nmbCardsToDraw;
             }
         });

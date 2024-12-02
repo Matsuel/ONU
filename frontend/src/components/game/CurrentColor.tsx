@@ -17,8 +17,8 @@ const CurrentColor = () => {
                     <Image
                         src={`/Game/${isClockWise ? "clockwise" : "notclockwise"}.svg`}
                         className='rotate-[-45deg]'
-                        width={20}
-                        height={20}
+                        width={30}
+                        height={30}
                         alt="clockwise"
                     />
                 </div>

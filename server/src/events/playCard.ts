@@ -27,7 +27,7 @@ const playCard = async (
             newPit: pit2,
             updatedPlayers,
         } = playCardFunc(player, cardIndex, game.pit, game.players);
-        const { playerTurn: playerTurn2, players: players3 }
+        const { playerTurn: playerTurn2, players: players3, isTurnDirectionClockwise }
             = useSpecialCardEffect(
                 card,
                 game.playerTurn,
@@ -43,7 +43,7 @@ const playCard = async (
             });
         }
         game.players.forEach((p) => {
-            p.socket.emit("getGame", { game: { players: players3.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: game.deck, pit: pit2, isTurnDirectionClockwise: game.isTurnDirectionClockwise } });
+            p.socket.emit("getGame", { game: { players: players3.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: game.deck, pit: pit2, isTurnDirectionClockwise: isTurnDirectionClockwise } });
         });
         games.forEach((g) => {
             if (g.uuid === uuid) {
@@ -58,7 +58,7 @@ const playCard = async (
                 g.playerTurn = playerTurn;
                 g.deck = game.deck;
                 g.pit = pit2;
-                g.isTurnDirectionClockwise = game.isTurnDirectionClockwise;
+                g.isTurnDirectionClockwise = isTurnDirectionClockwise;
                 g.nmbCardsToDraw = game.nmbCardsToDraw;
             }
         });
