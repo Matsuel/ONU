@@ -1,3 +1,4 @@
+import { Socket } from "socket.io";
 import { LinkedList } from "../linkedArray";
 import { Stack } from "../stack";
 import { Cards, Game } from "../type";
@@ -5,8 +6,10 @@ import { addCardsToPlayer, getNextPlayerIndex } from "../utils/cards";
 
 const drawCard = async (
     data: any,
+    socket: Socket,
     games: Game[]
 ) => {
+    socket;
     const { uuid, pit, deck, players, playerTurn } = data;
     const deckGame = new LinkedList<Cards>();
 
