@@ -16,4 +16,4 @@ export default function App({
     );
 }
 
-export const socket = io(`https://server.onu.alexandrebel.me`);
+export const socket = io(`https://${process.env.NEXT_PUBLIC_HOST}`);
