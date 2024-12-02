@@ -1,15 +1,29 @@
 import "dotenv/config";
 import { createServer } from "http";
+import express from "express";
 import { Server } from "socket.io";
+import cors from "cors";
 
 export const initServer = (): {
     io: Server;
 } => {
-    const server = createServer();
+    const app = express();
 
-    const io = new Server(server);
+    app.use(cors({
+        origin: "*",
+        methods: ["GET", "POST"],
+    }));
 
-    const port = process.env.NEXT_PUBLIC_PORT 
+    const server = createServer(app);
+
+    const io = new Server(server, {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST"],
+        },
+    });
+
+    const port = process.env.NEXT_PUBLIC_PORT
     server.listen(port, () => {
         console.log(`Server running on https://localhost:${port}`);
     });

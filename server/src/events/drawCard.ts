@@ -21,7 +21,7 @@ const drawCard = async (
     const game = games.find((g) => g.uuid === uuid) as Game;
 
     game.players.forEach((p) => {
-        p.socket.emit("getGame", { game: { players: updatedPlayers.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: deckGame, pit: pitGame } });
+        p.socket.emit("getGame", { game: { players: updatedPlayers.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: deckGame, pit: pitGame, isTurnDirectionClockwise: game.isTurnDirectionClockwise } });
     });
 
     games.forEach((g) => {

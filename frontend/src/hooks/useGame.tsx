@@ -16,12 +16,14 @@ const useGame = () => {
     const { setLoading } = useContext(LoadingContext)
     const { setDeck } = useContext(DeckContext)
     const { setPit } = useContext(PitContext)
-    const { setEnded, uuid } = useContext(GameContext)
+    const { setEnded, uuid, setIsClockWise } = useContext(GameContext)
 
     const { id } = router.query
 
     useEffect(() => {
         socket.on("getGame", (data) => {
+            console.log(data);
+            setIsClockWise(data.game.isTurnDirectionClockwise);
             setPlayerTurn(data.game.playerTurn);
             setTimer(30);
             const newDeck = new LinkedList<Cards>();

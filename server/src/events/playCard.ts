@@ -43,7 +43,7 @@ const playCard = async (
             });
         }
         game.players.forEach((p) => {
-            p.socket.emit("getGame", { game: { players: players3.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: game.deck, pit: pit2 } });
+            p.socket.emit("getGame", { game: { players: players3.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: game.deck, pit: pit2, isTurnDirectionClockwise: game.isTurnDirectionClockwise } });
         });
         games.forEach((g) => {
             if (g.uuid === uuid) {
@@ -74,7 +74,7 @@ const playCard = async (
             });
         }
         game.players.forEach((p) => {
-            p.socket.emit("getGame", { game: { players: players2.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn, deck: game.deck, pit: pit2 } });
+            p.socket.emit("getGame", { game: { players: players2.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn, deck: game.deck, pit: pit2, isTurnDirectionClockwise: game.isTurnDirectionClockwise } });
         });
         games.forEach((g) => {
             if (g.uuid === uuid) {

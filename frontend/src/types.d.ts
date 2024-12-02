@@ -57,4 +57,6 @@ interface GameContextType {
     setEnded: Dispatch<SetStateAction<boolean>>;
     winner: string;
     setWinner: Dispatch<SetStateAction<string>>;
+    isClockWise: boolean;
+    setIsClockWise: Dispatch<SetStateAction<boolean>>;
 }

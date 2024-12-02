@@ -22,7 +22,7 @@ const drawCard = (data, socket, games) => __awaiter(void 0, void 0, void 0, func
     const playerTurn2 = (0, cards_1.getNextPlayerIndex)(players, playerTurn, 1, true);
     const game = games.find((g) => g.uuid === uuid);
     game.players.forEach((p) => {
-        p.socket.emit("getGame", { game: { players: updatedPlayers.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: deckGame, pit: pitGame } });
+        p.socket.emit("getGame", { game: { players: updatedPlayers.map(({ uuid, name, cards }) => ({ uuid, name, cards })), playerTurn: playerTurn2, deck: deckGame, pit: pitGame, isTurnDirectionClockwise: game.isTurnDirectionClockwise } });
     });
     games.forEach((g) => {
         if (g.uuid === uuid) {
