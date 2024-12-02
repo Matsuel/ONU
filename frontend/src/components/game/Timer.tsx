@@ -15,7 +15,7 @@ const Timer = () => {
 
     return (
         <div className="w-10 flex flex-col items-center justify-center">
-            <h1 className={`${players[playerTurn].uuid !== uuid ? "text-transparent" : "text-white"} text-4xl font-semibold ${timer <= 10 && "text-[#ff0000]"}`}>
+            <h1 className={`${players[playerTurn].uuid !== uuid ? "text-white" : "text-white"} text-4xl font-semibold ${timer <= 10 && "text-[#ff0000]"}`}>
                 {timer}
             </h1>
         </div>

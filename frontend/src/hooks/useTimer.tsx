@@ -20,19 +20,20 @@ const useTimer = ({
 
     useEffect(() => {
         if (!uuid || players.length === 0 || !id) return;
-        if (players[playerTurn].uuid === uuid) {
-            const interval = setInterval(() => {
-                setTimer((prev) => {
-                    if (prev === 0) {
-                        drawCard(deck, pit, players, playerTurn, id);
-                        clearInterval(interval);
-                        return 30;
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
-            return () => clearInterval(interval);
-        }
+        const interval = setInterval(() => {
+            setTimer((prev) => {
+                if (prev === 0 && players[playerTurn].uuid === uuid) {
+                    drawCard(deck, pit, players, playerTurn, id);
+                    clearInterval(interval);
+                    return 30;
+                }
+                if (prev === 0) {
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+        return () => clearInterval(interval);
 
     }, [playerTurn, players, uuid, id, deck, pit, setTimer]);
 }
