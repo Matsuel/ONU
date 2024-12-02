@@ -33,8 +33,8 @@ const Card = ({
         setIsSpecialClicked(false)
     }, [playerTurn, pit])
 
-    const notAllowed = "opacity-30 pointer-events-none"
-    const allowed = "opactiy-100 hover:border-4 border-white rounded-xl transition-all"
+    const notAllowed = "opacity-30 pointer-events-none border-4 border-transparent"
+    const allowed = "opactiy-100 border-4 border-transparent hover:border-white rounded-xl transition-all"
     const isPlayable = isCardPlayable(card, pit.peek());
     const isPlayerTurn = players[playerTurn].uuid === player.uuid;
     const isCurrentPlayer = sortedPlayers[0].uuid === player.uuid;
