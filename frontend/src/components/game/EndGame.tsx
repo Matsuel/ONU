@@ -2,9 +2,6 @@ import React from 'react'
 import Button from '../ui/Button'
 import { useRouter } from 'next/router'
 import TabTitle from './TabTitle'
-import CardDisplay from './card/CardDisplay'
-import { motion } from 'framer-motion'
-import { imageVariants } from '@/constantes/home'
 import CardsRow from './card/CardsRow'
 
 interface EndGameProps {
