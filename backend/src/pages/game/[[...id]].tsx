@@ -14,7 +14,7 @@ import GameInfos from "@/components/game/GameInfos";
 import TabTitle from "@/components/game/TabTitle";
 
 export default function Game() {
-    const { uuid, ended } = useContext(GameContext)
+    const { uuid, ended, winner } = useContext(GameContext)
     const { loading } = useContext(LoadingContext);
 
     const router = useRouter();
@@ -26,11 +26,11 @@ export default function Game() {
 
     if (!id || !uuid || loading) return <Loader />;
 
+    if (ended && winner) return <EndGame winner={winner} />;
+
     return (
         <div className="flex flex-col w-screen min-h-screen text-white relative">
             <TabTitle title="Partie" />
-
-            {ended && <EndGame winner={"m"} />}
 
             <Players
                 uuid={id[0] as string}
