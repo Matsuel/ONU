@@ -16,4 +16,4 @@ export default function App({
     );
 }
 
-export const socket = io(`http://localhost:8000`);
+export const socket = io(`https://server.onu.alexandrebel.me`);
