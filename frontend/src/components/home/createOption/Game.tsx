@@ -6,7 +6,7 @@ import Input from "@/components/ui/Input";
 const CreateGameOption = () => {
     const [username, setUsername] = useState("");
     return (
-        <div className="w-5/6 flex flex-row justify-center gap-4">
+        <div className=" flex flex-row gap-4">
             <Input
                 autoFocus
                 className=" w-80"

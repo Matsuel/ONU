@@ -15,11 +15,11 @@ export default function Home() {
             subtitle: "Bienvenue sur le jeu du UNO"
         },
         "join": {
-            title: "Rejoindre une partie",
+            title: "Rejoindre",
             subtitle: "Entrez le code de la partie"
         },
         "create": {
-            title: "Créer une partie",
+            title: "Créer",
             subtitle: "Entrez votre nom"
         }
     };
@@ -47,9 +47,9 @@ export default function Home() {
                         {page === "home" ? (
                             <HomeLayout handleNavigation={handleNavigation} />
                         ) : page === "join" ? (
-                            <Join />
+                            <Join handleNavigation={handleNavigation}/>
                         ) : (
-                            <Create />
+                            <Create handleNavigation={handleNavigation}/>
                         )}
                     </BackgroundLayout>
                 </motion.div>

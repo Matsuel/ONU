@@ -13,7 +13,7 @@ const HomeLayout = ({
 
     return (
         <motion.div
-            className="flex flex-col pl-24 w-full bg-no-repeat"
+            className="flex flex-col w-full bg-no-repeat"
             variants={containerVariants}
         >
             <motion.div

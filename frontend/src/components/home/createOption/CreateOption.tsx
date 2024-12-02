@@ -28,7 +28,7 @@ const CreateOption = () => {
 
 
     return (
-        <div className='flex justify-center gap-4 pt-64'>
+        <div className='flex gap-4 pt-36'>
             {uuid === "" ? (
                 <CreateGameOption />
             ) : (
