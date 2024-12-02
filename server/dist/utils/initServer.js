@@ -12,14 +12,14 @@ const cors_1 = __importDefault(require("cors"));
 const initServer = () => {
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)({
-        origin: "*",
+        origin: "onu.alexandrebel.me",
         methods: ["GET", "POST", "OPTIONS"],
         allowedHeaders: ["DNT", "User-Agent", "X-Requested-With", "If-Modified-Since", "Cache-Control", "Content-Type", "Range"],
     }));
     const server = (0, http_1.createServer)(app);
     const io = new socket_io_1.Server(server, {
         cors: {
-            origin: "*",
+            origin: "onu.alexandrebel.me",
             methods: ["GET", "POST", "OPTIONS"],
         },
     });
