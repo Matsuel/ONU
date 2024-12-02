@@ -2,7 +2,6 @@ import PlayersContext from "@/contexts/PlayersContext";
 import { Cards, Player } from "@/types";
 import { useContext } from "react";
 import Card from "@/components/game/card/Card";
-import { divPlacement } from "@/utils/divPlacement";
 
 interface PLayerDivPlacementProps {
     player: Player;
@@ -17,7 +16,6 @@ const PlayersPlacement = ({
     uuid,
     sortedPlayers
 }: PLayerDivPlacementProps) => {
-
     const { players } = useContext(PlayersContext);
 
     let className = "fixed flex justify-center ";
