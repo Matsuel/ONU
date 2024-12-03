@@ -14,7 +14,7 @@ const EndGame = ({
     const router = useRouter()
 
     return (
-        <div className='absolute z-50 w-full h-full flex justify-center items-center bg-black2'>
+        <div className='absolute z-50 w-full h-full flex justify-center items-center bg-black2 text-white'>
 
             <TabTitle title='Fin de partie' />
 
