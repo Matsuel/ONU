@@ -60,3 +60,10 @@ interface GameContextType {
     isClockWise: boolean;
     setIsClockWise: Dispatch<SetStateAction<boolean>>;
 }
+
+interface PlayerInLobbyType {
+    statue: boolean;
+    uuid: string;
+    playerUuid: string;
+    playersName: string[];
+}

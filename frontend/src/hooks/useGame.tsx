@@ -22,7 +22,6 @@ const useGame = () => {
 
     useEffect(() => {
         socket.on("getGame", (data) => {
-            console.log(data);
             setIsClockWise(data.game.isTurnDirectionClockwise);
             setPlayerTurn(data.game.playerTurn);
             setTimer(30);
@@ -33,7 +32,7 @@ const useGame = () => {
             setPlayers(data.game.players as Player[]);
             setLoading(false);
         });
-    }, [setPlayerTurn, setTimer, setDeck, setPit, setPlayers, setLoading, router]);
+    }, [setPlayerTurn, setTimer, setDeck, setPit, setPlayers, setLoading, router, setIsClockWise]);
 
     useEffect(() => {
         if (id) {
